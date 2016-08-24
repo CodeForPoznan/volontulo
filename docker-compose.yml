@@ -1,0 +1,7 @@
+volontulo:
+  build: .
+  ports:
+    - 8000:8000
+  volumes:
+    - .:/app
+    - /app/apps/volontulo/node_modules
