@@ -1,12 +1,13 @@
 {% extends "common/col1.html" %}
 {% load main_image %}
+{% load staticfiles %}
 
 {% block title %}Volontulo - podejmij pracę jako wolontariusz{% endblock %}
 
 {% block name %}home-page{% endblock %}
 
 {% block content-heading %}
-    <img class="img-responsive center-block" src="/static/volontulo/img/volontulo_baner.png" />
+    <img class="img-responsive center-block" src="{% static 'volontulo/img/volontulo_baner.png' %}" />
 {% endblock %}
 {% block content %}
     {% if offers %}
