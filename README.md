@@ -1,8 +1,8 @@
 # volontulo
 
-[![Join the chat at https://gitter.im/stxnext-csr/volontulo](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stxnext-csr/volontulo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Build Status](https://travis-ci.org/stxnext-csr/volontulo.svg)](https://travis-ci.org/stxnext-csr/volontulo)
-[![codecov.io](http://codecov.io/github/stxnext-csr/volontulo/coverage.svg?branch=master)](http://codecov.io/github/stxnext-csr/volontulo?branch=master)
+[![Join the chat at https://gitter.im/CodeForPoznan/volontulo](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/CodeForPoznan/volontulo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.org/CodeForPoznan/volontulo.svg)](https://travis-ci.org/CodeForPoznan/volontulo)
+[![codecov.io](http://codecov.io/github/CodeForPoznan/volontulo/coverage.svg?branch=master)](http://codecov.io/github/CodeForPoznan/volontulo?branch=master)
 
 ![Volontulo logo](/apps/volontulo/frontend/img/volo_logo.png)
 
