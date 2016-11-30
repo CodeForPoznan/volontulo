@@ -11,6 +11,7 @@ RUN apt-get install -y python3-pip \
                        libjpeg62-dev \
                        libfreetype6 \
                        libfreetype6-dev \
+                       libpq-dev \
                        wget
 
 ENV NVM_DIR /usr/local/nvm
@@ -28,15 +29,13 @@ ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 WORKDIR /app
 
 RUN pip3 install --upgrade pip
-RUN pip3 install -r requirements/dev.txt
+RUN pip3 install -r requirements/docker.txt
 RUN cp etc/local_config.yaml.sample local_config.yaml
 RUN sed '/^secret_key/ d' local_config.yaml > tmp.yaml && mv tmp.yaml local_config.yaml
 
 ENV SECRET_KEY=a63eb5ef-3b25-4595-846a-5d97d99486f0
 
 RUN echo "secret_key: $SECRET_KEY" >> local_config.yaml
-RUN python3 manage.py migrate --settings=volontulo_org.settings.dev
-RUN python3 manage.py loaddata initial/data.json --settings=volontulo_org.settings.dev
 
 WORKDIR /app/apps/volontulo
 
@@ -46,5 +45,3 @@ RUN node node_modules/.bin/gulp build
 WORKDIR /app
 
 EXPOSE 8000
-
-ENTRYPOINT python3 manage.py runserver --settings=volontulo_org.settings.dev 0.0.0.0:8000

@@ -1,7 +1,17 @@
 volontulo:
   build: .
+  entrypoint: bash docker-entrypoint.sh
   ports:
     - 8000:8000
+  links:
+    - db:db
   volumes:
     - .:/app
     - /app/apps/volontulo/node_modules
+
+db:
+  image: postgres
+  environment:
+    POSTGRES_PASSWORD: volontulo
+    POSTGRES_USER: volontulo
+    POSTGRES_DB: volontulo
