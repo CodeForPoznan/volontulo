@@ -17,11 +17,14 @@ RUN apt-get install -y python3-pip \
 ENV NVM_DIR /usr/local/nvm
 ENV NODE_VERSION 4.2.0
 
-RUN wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.31.4/install.sh | bash && \
+RUN wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash && \
     source $NVM_DIR/nvm.sh && \
     nvm install $NODE_VERSION && \
     nvm alias default $NODE_VERSION && \
     nvm use default
+
+RUN wget -qO /usr/bin/wait-for-it https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh
+RUN chmod a+x /usr/bin/wait-for-it
 
 ENV NODE_PATH $NVM_DIR/versions/node/v$NODE_VERSION/lib/node_modules
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
@@ -30,6 +33,8 @@ WORKDIR /app
 
 RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements/docker.txt
+
+
 RUN cp etc/local_config.yaml.sample local_config.yaml
 RUN sed '/^secret_key/ d' local_config.yaml > tmp.yaml && mv tmp.yaml local_config.yaml
 

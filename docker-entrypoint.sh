@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-sleep 5  # waits for another container to be ready
+wait-for-it db:5432
 
 python3 manage.py migrate --settings=volontulo_org.settings.docker
 python3 manage.py loaddata initial/data.json --settings=volontulo_org.settings.docker
