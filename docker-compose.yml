@@ -1,5 +1,6 @@
 volontulo:
-  build: .
+  image: codeforpoznan/volontulo
+  # build: .
   entrypoint: bash docker-entrypoint.sh
   ports:
     - 8000:8000
