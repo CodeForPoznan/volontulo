@@ -9,5 +9,8 @@
     "gulp-sass": "^2.0.4",
     "gulp-iconify": "~0.4.0"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "scripts": {
+    "build": "./node_modules/.bin/gulp build"
+  }
 }
