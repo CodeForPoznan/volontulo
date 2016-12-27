@@ -1,5 +1,7 @@
 volontulo:
   image: codeforpoznan/volontulo
+  # If You want to build image locally,
+  # comment line above and uncomment line below:
   # build: .
   entrypoint: bash docker-entrypoint.sh
   ports:
