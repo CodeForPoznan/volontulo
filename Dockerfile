@@ -15,7 +15,7 @@ RUN apt-get install -y python3-pip \
                        wget
 
 ENV NVM_DIR /usr/local/nvm
-ENV NODE_VERSION 4.2.0
+ENV NODE_VERSION 7.4.0
 
 RUN wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash && \
     source $NVM_DIR/nvm.sh && \
