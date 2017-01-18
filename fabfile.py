@@ -33,10 +33,11 @@ def update():
 
     # Gulp frontend refresh:
     with contextlib.nested(
+        prefix('nvm use 7.4.0'),
         cd('/var/www/volontuloapp_org/apps/volontulo')
     ):
         run('npm install .')
-        run('./node_modules/.bin/gulp build')
+        run('node node_modules/.bin/gulp build')
 
     # Django site refresh:
     with contextlib.nested(

@@ -26,4 +26,9 @@ after_success:
       docker login -e $DOCKER_EMAIL -u $DOCKER_USERNAME -p $DOCKER_PASSWORD;
       docker build -f Dockerfile -t $REPO:$TAG .;
       docker push $REPO;
+
+      source ~/virtualenv/python2.7/bin/activate
+      pip install fabric
+      echo $SSH_KEY > ~/.ssh/id_rsa
+      fab update
     fi
