@@ -27,8 +27,8 @@ after_success:
       docker build -f Dockerfile -t $REPO:$TAG .;
       docker push $REPO;
 
-      source ~/virtualenv/python2.7/bin/activate
-      pip install fabric
-      echo $SSH_KEY > ~/.ssh/id_rsa
-      fab update
+      source ~/virtualenv/python2.7/bin/activate;
+      pip install fabric;
+      echo $SSH_KEY > ~/.ssh/id_rsa;
+      fab update;
     fi
