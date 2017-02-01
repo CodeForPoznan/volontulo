@@ -29,6 +29,5 @@ after_success:
 
       source ~/virtualenv/python2.7/bin/activate;
       pip install fabric;
-      echo $SSH_KEY > ~/.ssh/id_rsa;
-      fab update;
+      fab -p $SSH_PASS update;
     fi
