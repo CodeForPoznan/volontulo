@@ -29,5 +29,5 @@ after_success:
 
       source ~/virtualenv/python2.7/bin/activate;
       pip install fabric;
-      fab -p $SSH_PASS update;
+      fab -p $SSH_PASSWORD update;
     fi
