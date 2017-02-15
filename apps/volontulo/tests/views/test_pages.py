@@ -88,7 +88,7 @@ class TestPages(TestCase):
         response = self.client.get('/o-nas')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'pages/about-us.html')
-        self.assertContains(response, u'KIM JESTEŚMY?')
+        self.assertContains(response, u'Kim jesteśmy?')
 
     def test_office_subpage(self):
         u"""Test office subpage."""
