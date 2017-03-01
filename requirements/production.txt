@@ -1,5 +1,0 @@
--r base.txt  # includes base.txt requirements file
-
-psycopg2==2.6
-
-# Extra content goes here:

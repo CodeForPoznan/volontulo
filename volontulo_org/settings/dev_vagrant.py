@@ -1,5 +1,5 @@
 """
-Docker-based Development Settings Module
+Vagrant Development Settings Module
 """
 
 from .dev import *
@@ -11,7 +11,7 @@ DATABASES = {
         'NAME': 'volontulo',
         'USER': 'volontulo',
         'PASSWORD': 'volontulo',
-        'HOST': 'db',
+        'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }

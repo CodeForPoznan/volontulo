@@ -32,7 +32,7 @@ ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 WORKDIR /app
 
 RUN pip3 install --upgrade pip
-RUN pip3 install -r requirements/docker.txt
+RUN pip3 install -r requirements/dev.txt
 
 
 RUN cp etc/local_config.yaml.sample local_config.yaml
