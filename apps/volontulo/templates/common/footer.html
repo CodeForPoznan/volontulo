@@ -13,11 +13,13 @@
             </ul>
         </div>
         <div class="col-xs-12 col-sm-4">
-            <h3 class="nav-title">Organizacje</h3>
+            <h3 class="nav-title">Strefa organizacji i instytucji</h3>
             <ul class="nav-list list-unstyled">
-                <li><a href="{% url 'organizations_list' %}">Lista organizacji</a></li>
-                <li><a href="{% url 'organizations_create' %}">Załóż organizację</a></li>
-                <li><a href="{% url 'offers_create' %}">Tworzenie oferty</a></li>
+                <li><a href="{% url 'register' %}">Załóż konto</a></li>
+                <li><a href="{% url 'offers_create' %}">Dodaj nową ofertę</a></li>
+                <li><a href="{% url 'organizations_list' %}">Lista organizacji i instytucji</a></li>
+                <li><a href="{% url 'static_page' 'faq-organizations' %}">FAQ dla organizacji i instytucji</a></li>
+                <li><a href="{% url 'office' %}">Przyjdź na dyżur</a></li>
             </ul>
         </div>
         <div class="col-xs-12 col-sm-4">
