@@ -483,13 +483,12 @@ class OffersJoin(View):
 
             offer.volunteers.add(user)
             offer.save()
-
             send_mail(
                 request,
                 'offer_application',
                 [
-                    user.email,
-                    request.POST.get('email'),
+                    up.user.email
+                    for up in offer.organization.userprofiles.all()
                 ],
                 dict(
                     email=request.POST.get('email'),
