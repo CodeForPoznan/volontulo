@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-u"""
+"""
 .. module:: organizations
 """
 
@@ -22,7 +22,7 @@ from apps.volontulo.utils import correct_slug
 
 
 def organizations_list(request):
-    u"""View responsible for listing all organizations.
+    """View responsible for listing all organizations.
 
     :param request: WSGIRequest instance
     """
@@ -35,12 +35,12 @@ def organizations_list(request):
 
 
 class OrganizationsCreate(View):
-    u"""Class view supporting creation of new organization."""
+    """Class view supporting creation of new organization."""
 
     @staticmethod
     @login_required
     def get(request):
-        u"""Method responsible for rendering form for new organization."""
+        """Method responsible for rendering form for new organization."""
         return render(
             request,
             "organizations/organization_form.html",
@@ -50,7 +50,7 @@ class OrganizationsCreate(View):
     @staticmethod
     @login_required
     def post(request):
-        u"""Method responsible for saving new organization."""
+        """Method responsible for saving new organization."""
         if not (
                 request.POST.get('name') and
                 request.POST.get('address') and
@@ -58,7 +58,7 @@ class OrganizationsCreate(View):
         ):
             messages.error(
                 request,
-                u"Należy wypełnić wszystkie pola formularza."
+                "Należy wypełnić wszystkie pola formularza."
             )
             return render(
                 request,
@@ -75,7 +75,7 @@ class OrganizationsCreate(View):
         request.user.userprofile.organizations.add(organization)
         messages.success(
             request,
-            u"Organizacja została dodana."
+            "Organizacja została dodana."
         )
         return redirect(
             'organization_view',
@@ -87,7 +87,7 @@ class OrganizationsCreate(View):
 @correct_slug(Organization, 'organization_form', 'name')
 @login_required
 def organization_form(request, slug, id_):  # pylint: disable=unused-argument
-    u"""View responsible for editing organization.
+    """View responsible for editing organization.
 
     Edition will only work, if logged user has been registered as organization.
     """
@@ -99,7 +99,7 @@ def organization_form(request, slug, id_):  # pylint: disable=unused-argument
     ):
         messages.error(
             request,
-            u'Nie masz uprawnień do edycji tej organizacji.'
+            'Nie masz uprawnień do edycji tej organizacji.'
         )
         return redirect(
             reverse(
@@ -126,7 +126,7 @@ def organization_form(request, slug, id_):  # pylint: disable=unused-argument
             org.save()
             messages.success(
                 request,
-                u'Oferta została dodana/zmieniona.'
+                'Oferta została dodana/zmieniona.'
             )
             return redirect(
                 reverse(
@@ -137,7 +137,7 @@ def organization_form(request, slug, id_):  # pylint: disable=unused-argument
         else:
             messages.error(
                 request,
-                u"Należy wypełnić wszystkie pola formularza."
+                "Należy wypełnić wszystkie pola formularza."
             )
 
     return render(
@@ -149,7 +149,7 @@ def organization_form(request, slug, id_):  # pylint: disable=unused-argument
 
 @correct_slug(Organization, 'organization_view', 'name')
 def organization_view(request, slug, id_):  # pylint: disable=unused-argument
-    u"""View responsible for viewing organization."""
+    """View responsible for viewing organization."""
     org = get_object_or_404(Organization, id=id_)
     offers = Offer.objects.filter(organization_id=id_)
     allow_contact = True
@@ -166,22 +166,17 @@ def organization_view(request, slug, id_):  # pylint: disable=unused-argument
     if request.method == 'POST':
         form = VolounteerToOrganizationContactForm(request.POST)
         if form.is_valid():
-            # send email to first organization user (I assume it's main user)
-            profile = Organization.objects.get(id=id_).userprofiles.all()[0]
             send_mail(
                 request,
                 'volunteer_to_organisation',
-                [
-                    profile.user.email,
-                    request.POST.get('email'),
-                ],
+                [up.user.email for up in org.userprofiles.all()],
                 {k: v for k, v in request.POST.items()},
             )
-            messages.success(request, u'Email został wysłany.')
+            messages.success(request, 'Email został wysłany.')
         else:
             messages.error(
                 request,
-                u"Formularz zawiera nieprawidłowe dane: {}".format(form.errors)
+                "Formularz zawiera nieprawidłowe dane: {}".format(form.errors)
             )
             return render(
                 request,
