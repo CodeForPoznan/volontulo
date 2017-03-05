@@ -29,7 +29,7 @@ def update():
     ):
         run('git checkout master')
         run('git pull')
-        run('pip install -r requirements/production.txt')
+        run('pip install -r requirements/base.txt')
 
     # Gulp frontend refresh:
     with contextlib.nested(
