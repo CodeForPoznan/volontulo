@@ -487,8 +487,8 @@ class OffersJoin(View):
                 request,
                 'offer_application',
                 [
-                    up.user.email
-                    for up in offer.organization.userprofiles.all()
+                    userprofile.user.email
+                    for userprofile in offer.organization.userprofiles.all()
                 ],
                 dict(
                     email=request.POST.get('email'),
