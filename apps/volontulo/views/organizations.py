@@ -169,14 +169,17 @@ def organization_view(request, slug, id_):  # pylint: disable=unused-argument
             send_mail(
                 request,
                 'volunteer_to_organisation',
-                [up.user.email for up in org.userprofiles.all()],
+                [
+                    userprofile.user.email
+                    for userprofile in org.userprofiles.all()
+                ],
                 {k: v for k, v in request.POST.items()},
             )
             messages.success(request, 'Email został wysłany.')
         else:
             messages.error(
                 request,
-                "Formularz zawiera nieprawidłowe dane: {}".format(form.errors)
+                "Formularz zawiera nieprawidłowe dane: {0}".format(form.errors)
             )
             return render(
                 request,
