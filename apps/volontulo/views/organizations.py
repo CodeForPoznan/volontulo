@@ -179,7 +179,7 @@ def organization_view(request, slug, id_):  # pylint: disable=unused-argument
         else:
             messages.error(
                 request,
-                "Formularz zawiera nieprawidłowe dane: {0}".format(form.errors)
+                "Formularz zawiera nieprawidłowe dane: {errors}".format(errors=form.errors)
             )
             return render(
                 request,
