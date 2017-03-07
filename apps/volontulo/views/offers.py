@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-u"""
+"""
 .. module:: offers
 """
 
@@ -24,11 +24,11 @@ from apps.volontulo.views import logged_as_admin
 
 
 class OffersList(View):
-    u"""View that handle list of offers."""
+    """View that handle list of offers."""
 
     @staticmethod
     def get(request):
-        u"""It's used for volunteers to show active ones and for admins to show
+        """It's used for volunteers to show active ones and for admins to show
         all of them.
 
         :param request: WSGIRequest instance
@@ -44,7 +44,7 @@ class OffersList(View):
 
     @staticmethod
     def post(request):
-        u"""Method responsible for rendering form for new offer.
+        """Method responsible for rendering form for new offer.
 
         :param request: WSGIRequest instance
         """
@@ -55,23 +55,23 @@ class OffersList(View):
             offer = get_object_or_404(Offer, id=request.POST.get('offer_id'))
             offer.publish()
             messages.success(request,
-                             u"Aktywowałeś ofertę '%s'" % offer.title)
+                             "Aktywowałeś ofertę '%s'" % offer.title)
         return redirect('offers_list')
 
 
 class OffersCreate(View):
-    u"""Class view supporting creation of new offer."""
+    """Class view supporting creation of new offer."""
 
     @staticmethod
     def get(request):
-        u"""Method responsible for rendering form for new offer.
+        """Method responsible for rendering form for new offer.
 
         :param request: WSGIRequest instance
         """
         if request.user.userprofile.is_administrator:
             messages.info(
                 request,
-                u"Administrator nie może tworzyć nowych ofert."
+                "Administrator nie może tworzyć nowych ofert."
             )
             return redirect('offers_list')
 
@@ -80,9 +80,9 @@ class OffersCreate(View):
         if not organizations.exists():
             messages.info(
                 request,
-                u"Nie masz jeszcze żadnej założonej organizacji"
-                u" na volontuloapp.org. Aby założyć organizację,"
-                u" <a href='{}'>kliknij tu.</a>".format(
+                "Nie masz jeszcze żadnej założonej organizacji"
+                " na volontuloapp.org. Aby założyć organizację,"
+                " <a href='{}'>kliknij tu.</a>".format(
                     reverse('organizations_create')
                 )
             )
@@ -100,7 +100,7 @@ class OffersCreate(View):
 
     @staticmethod
     def post(request):
-        u"""Method responsible for saving new offer.
+        """Method responsible for saving new offer.
 
         :param request: WSGIRequest instance
         """
@@ -116,7 +116,7 @@ class OffersCreate(View):
                 ['administrators@volontuloapp.org'],
                 {'offer': offer}
             )
-            messages.success(request, u"Dziękujemy za dodanie oferty.")
+            messages.success(request, "Dziękujemy za dodanie oferty.")
             return redirect(
                 'offers_view',
                 slug=slugify(offer.title),
@@ -124,7 +124,7 @@ class OffersCreate(View):
             )
         messages.error(
             request,
-            u"Formularz zawiera niepoprawnie wypełnione pola <br />{0}".format(
+            "Formularz zawiera niepoprawnie wypełnione pola <br />{0}".format(
                 '<br />'.join(form.errors)),
         )
         return render(
@@ -139,11 +139,11 @@ class OffersCreate(View):
 
 
 class OffersReorder(View):
-    u"""Class view supporting change of a offer."""
+    """Class view supporting change of a offer."""
 
     @staticmethod
     def get(request, id_):
-        u"""Display offer list with weights GET request.
+        """Display offer list with weights GET request.
 
         :param request: WSGIRequest instance
         :param id_:
@@ -155,7 +155,7 @@ class OffersReorder(View):
 
     @staticmethod
     def post(request, id_):
-        u"""Display offer list with weights GET request.
+        """Display offer list with weights GET request.
 
         :param request:
         :param id_: Integer newly created offer id
@@ -173,16 +173,16 @@ class OffersReorder(View):
 
             messages.success(
                 request,
-                u"Uporządkowano oferty."
+                "Uporządkowano oferty."
             )
         return redirect('offers_list')
 
 
 class OffersEdit(View):
-    u"""Class view supporting change of a offer."""
+    """Class view supporting change of a offer."""
 
     def dispatch(self, request, *args, **kwargs):
-        u"""Dispatch method overriden to check offer edit permission"""
+        """Dispatch method overriden to check offer edit permission"""
         try:
             is_edit_allowed = request.user.userprofile.can_edit_offer(
                 offer_id=kwargs['id_'])
@@ -195,7 +195,7 @@ class OffersEdit(View):
     @staticmethod
     @correct_slug(Offer, 'offers_edit', 'title')
     def get(request, slug, id_):  # pylint: disable=unused-argument
-        u"""Method responsible for rendering form for offer to be changed.
+        """Method responsible for rendering form for offer to be changed.
 
         :param request: WSGIRequest instance
         :param slug: string Offer title slugified
@@ -223,7 +223,7 @@ class OffersEdit(View):
 
     @staticmethod
     def post(request, slug, id_):  # pylint: disable=unused-argument
-        u"""Method resposible for saving changed offer.
+        """Method resposible for saving changed offer.
 
         :param request: WSGIRequest instance
         :param slug: string Offer title slugified
@@ -238,11 +238,11 @@ class OffersEdit(View):
                     request.user.userprofile,
                     form.cleaned_data['is_main']
                 )
-                messages.success(request, u"Dodano zdjęcie do galerii.")
+                messages.success(request, "Dodano zdjęcie do galerii.")
             else:
                 messages.error(
                     request,
-                    u"Problem w trakcie dodawania grafiki: {}".format(
+                    "Problem w trakcie dodawania grafiki: {}".format(
                         '<br />'.join(form.errors)
                     )
                 )
@@ -279,11 +279,11 @@ class OffersEdit(View):
             offer.unpublish()
             offer.save()
             save_history(request, offer, action=CHANGE)
-            messages.success(request, u"Oferta została zmieniona.")
+            messages.success(request, "Oferta została zmieniona.")
         else:
             messages.error(
                 request,
-                u"Formularz zawiera niepoprawnie wypełnione pola: {}".format(
+                "Formularz zawiera niepoprawnie wypełnione pola: {}".format(
                     '<br />'.join(form.errors)
                 )
             )
@@ -350,12 +350,12 @@ class OffersAccept(View):
 
 
 class OffersView(View):
-    u"""Class view supporting offer preview."""
+    """Class view supporting offer preview."""
 
     @staticmethod
     @correct_slug(Offer, 'offers_view', 'title')
     def get(request, slug, id_):
-        u"""View responsible for showing details of particular offer."""
+        """View responsible for showing details of particular offer."""
         offer = get_object_or_404(Offer, id=id_)
         try:
             main_image = OfferImage.objects.get(offer=offer, is_main=True)
@@ -382,7 +382,7 @@ class OffersView(View):
 
     @staticmethod
     def post(request, slug, id_):
-        u"""View responsible for submitting volunteers awarding."""
+        """View responsible for submitting volunteers awarding."""
         offer = get_object_or_404(Offer, id=id_)
         post_data = request.POST
         if post_data.get('csrfmiddlewaretoken'):
@@ -477,7 +477,7 @@ class OffersJoin(View):
             if has_applied:
                 messages.error(
                     request,
-                    u'Już wyraziłeś chęć uczestnictwa w tej ofercie.'
+                    'Już wyraziłeś chęć uczestnictwa w tej ofercie.'
                 )
                 return redirect('offers_list')
 
@@ -500,7 +500,7 @@ class OffersJoin(View):
             )
             messages.success(
                 request,
-                u'Zgłoszenie chęci uczestnictwa zostało wysłane.'
+                'Zgłoszenie chęci uczestnictwa zostało wysłane.'
             )
             return redirect(
                 'offers_view',
@@ -511,7 +511,7 @@ class OffersJoin(View):
             errors = '<br />'.join(form.errors)
             messages.error(
                 request,
-                u'Formularz zawiera nieprawidłowe dane' + errors
+                'Formularz zawiera nieprawidłowe dane' + errors
             )
             volunteer_user = UserProfile()
             if request.user.is_authenticated():
@@ -528,11 +528,11 @@ class OffersJoin(View):
 
 
 class OffersArchived(View):
-    u"""Class based view to list archived offers."""
+    """Class based view to list archived offers."""
 
     @staticmethod
     def get(request):
-        u"""GET request for offer archive page.
+        """GET request for offer archive page.
 
         :param request: WSGIRequest instance
         """
