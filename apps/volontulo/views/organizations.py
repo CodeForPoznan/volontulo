@@ -99,7 +99,7 @@ def organization_form(request, slug, id_):  # pylint: disable=unused-argument
     ):
         messages.error(
             request,
-            'Nie masz uprawnień do edycji tej organizacji.'
+            "Nie masz uprawnień do edycji tej organizacji."
         )
         return redirect(
             reverse(
@@ -126,7 +126,7 @@ def organization_form(request, slug, id_):  # pylint: disable=unused-argument
             org.save()
             messages.success(
                 request,
-                'Oferta została dodana/zmieniona.'
+                "Oferta została dodana/zmieniona."
             )
             return redirect(
                 reverse(
@@ -175,7 +175,7 @@ def organization_view(request, slug, id_):  # pylint: disable=unused-argument
                 ],
                 {k: v for k, v in request.POST.items()},
             )
-            messages.success(request, 'Email został wysłany.')
+            messages.success(request, "Email został wysłany.")
         else:
             messages.error(
                 request,
