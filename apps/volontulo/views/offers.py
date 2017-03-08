@@ -243,7 +243,7 @@ class OffersEdit(View):
                 messages.error(
                     request,
                     "Problem w trakcie dodawania grafiki: {}".format(
-                        '<br />'.join(form.errors)
+                        "<br />".join(form.errors)
                     )
                 )
 
@@ -284,7 +284,7 @@ class OffersEdit(View):
             messages.error(
                 request,
                 "Formularz zawiera niepoprawnie wypełnione pola: {}".format(
-                    '<br />'.join(form.errors)
+                    "<br />".join(form.errors)
                 )
             )
 
@@ -321,7 +321,7 @@ class OffersDelete(View):
                 request.user.userprofile.is_administrator
         ):
             offer.reject()
-            messages.info(request, 'Oferta została odrzucona.')
+            messages.info(request, "Oferta została odrzucona.")
             return redirect('homepage')
         else:
             return HttpResponseForbidden()
@@ -343,7 +343,7 @@ class OffersAccept(View):
                 request.user.userprofile.is_administrator
         ):
             offer.publish()
-            messages.info(request, 'Oferta została zaakceptowana.')
+            messages.info(request, "Oferta została zaakceptowana.")
             return redirect('homepage')
         else:
             return HttpResponseForbidden()
@@ -414,7 +414,7 @@ class OffersJoin(View):
             if has_applied:
                 messages.error(
                     request,
-                    'Już wyraziłeś chęć uczestnictwa w tej ofercie.'
+                    "Już wyraziłeś chęć uczestnictwa w tej ofercie."
                 )
                 return redirect('offers_list')
 
@@ -458,7 +458,7 @@ class OffersJoin(View):
                 if user:
                     messages.info(
                         request,
-                        'Zaloguj się, aby zapisać się do oferty.'
+                        "Zaloguj się, aby zapisać się do oferty."
                     )
                     return redirect(
                         reverse('login') + '?next={}'.format(request.path)
@@ -466,7 +466,7 @@ class OffersJoin(View):
                 else:
                     messages.info(
                         request,
-                        'Zarejestruj się, aby zapisać się do oferty.'
+                        "Zarejestruj się, aby zapisać się do oferty."
                     )
                     return redirect('register')
 
@@ -477,7 +477,7 @@ class OffersJoin(View):
             if has_applied:
                 messages.error(
                     request,
-                    'Już wyraziłeś chęć uczestnictwa w tej ofercie.'
+                    "Już wyraziłeś chęć uczestnictwa w tej ofercie."
                 )
                 return redirect('offers_list')
 
@@ -500,7 +500,7 @@ class OffersJoin(View):
             )
             messages.success(
                 request,
-                'Zgłoszenie chęci uczestnictwa zostało wysłane.'
+                "Zgłoszenie chęci uczestnictwa zostało wysłane."
             )
             return redirect(
                 'offers_view',
@@ -508,10 +508,10 @@ class OffersJoin(View):
                 id_=offer.id,
             )
         else:
-            errors = '<br />'.join(form.errors)
+            errors = "<br />".join(form.errors)
             messages.error(
                 request,
-                'Formularz zawiera nieprawidłowe dane' + errors
+                "Formularz zawiera nieprawidłowe dane" + errors
             )
             volunteer_user = UserProfile()
             if request.user.is_authenticated():
