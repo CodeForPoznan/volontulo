@@ -63,6 +63,7 @@ target/
 .idea/
 
 # npm and gulp
+.nvm/
 apps/volontulo/node_modules/
 apps/volontulo/static/
 media
