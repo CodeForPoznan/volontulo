@@ -3,8 +3,8 @@ volontulo:
   # If You want to build image locally,
   # comment line above and uncomment line below:
   # build: .
-  # entrypoint: bash docker-entrypoint.sh
-  entrypoint: tail -f /dev/null
+  entrypoint: bash docker-entrypoint.sh
+  # entrypoint: tail -f /dev/null
   ports:
     - 8000:8000
   links:
