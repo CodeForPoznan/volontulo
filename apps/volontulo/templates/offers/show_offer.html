@@ -7,7 +7,9 @@
 
 {% block content-heading %}
 <div class="heading-wrapper">
-    <img class="img-responsive center-block" src="{{ MEDIA_URL }}{{ main_image|default:'' }}" alt="{{ offer.title|safe }}" />
+    {% if main_image %}
+        <img class="img-responsive center-block" src="{{ MEDIA_URL }}{{ main_image }}" alt="{{ offer.title|safe }}" />
+    {% endif %}
     <div class="panels">
         <div class="offer-title">
             <h2 class="title">{{ offer.title }}</h2>
