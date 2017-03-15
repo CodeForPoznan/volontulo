@@ -51,6 +51,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'bootstrap3',
     'cookielaw',
+    'rest_framework',
+
     'apps.volontulo',
 )
 
@@ -98,6 +100,12 @@ DATABASES = {
         'HOST': LOCAL_CONFIG['db_host'],
         'PORT': LOCAL_CONFIG['db_port'],
     }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+    ],
 }
 
 # Internationalization
