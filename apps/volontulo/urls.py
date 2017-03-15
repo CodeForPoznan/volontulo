@@ -18,7 +18,9 @@ from apps.volontulo.views import pages as pages_views
 
 
 router = DefaultRouter()
-router.register(r'offers', api_views.OfferViewSet)
+router.register(r'offers', api_views.OfferViewSet, base_name='offer')
+router.register(r'organizations', api_views.OrganizationViewSet)
+router.register(r'users', api_views.UserViewSet)
 
 
 handler404 = 'apps.volontulo.views.page_not_found'

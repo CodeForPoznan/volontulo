@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-u"""
+"""
 .. module:: main_image
 """
 
@@ -12,7 +12,7 @@ register = template.Library()
 
 @register.filter(name='main_image')
 def main_image(images):
-    u"""Get main or first image from all offer images.
+    """Get main or first image from all offer images.
 
     :param images: list Offer images
     """
