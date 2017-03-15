@@ -6,7 +6,9 @@
 
 {% block content-heading %}
 <div class="heading-wrapper">
-    <img class="img-responsive center-block" src="{{ MEDIA_URL }}{{ main_image|default:'' }}" alt="{{ offer.title|safe }}" />
+    {% if main_image %}
+        <img class="img-responsive center-block" src="{{ MEDIA_URL }}{{ main_image }}" alt="{{ offer.title|safe }}" />
+    {% endif %}
     {% if user.is_administrator %}
         <a href="{% url 'offers_edit' offer.title|slugify offer.id %}" class="btn btn-primary">Edytuj ofertę</a>
     {% endif %}
