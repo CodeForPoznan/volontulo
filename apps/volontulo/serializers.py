@@ -33,7 +33,7 @@ class OfferSerializer(serializers.HyperlinkedModelSerializer):
         )
 
     def get_image(self, obj):
-        """Return main image's url for an offer."""
+        """Returns main image's url for an offer."""
         image = (
             obj.images.filter(is_main=True).first() or
             obj.images.first()
@@ -42,7 +42,9 @@ class OfferSerializer(serializers.HyperlinkedModelSerializer):
             location=image.path.url
         ) if image else None
 
-    def get_slug(self, obj):
+    @staticmethod
+    def get_slug(obj):
+        """Returns slugified title."""
         return slugify(obj.title)
 
 
@@ -61,7 +63,9 @@ class OrganizationSerializer(serializers.HyperlinkedModelSerializer):
             'url',
         )
 
-    def get_slug(self, obj):
+    @staticmethod
+    def get_slug(obj):
+        """Returns slugified name."""
         return slugify(obj.name)
 
 
