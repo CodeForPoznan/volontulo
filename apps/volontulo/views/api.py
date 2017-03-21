@@ -4,7 +4,6 @@
 .. module:: api
 """
 
-from django.contrib.auth import models as auth_models
 from rest_framework import viewsets
 
 from apps.volontulo import models
@@ -34,11 +33,3 @@ class OrganizationViewSet(viewsets.ModelViewSet):
     queryset = models.Organization.objects.all()
     serializer_class = serializers.OrganizationSerializer
     permission_classes = (permissions.OrganizationPermission,)
-
-
-class UserViewSet(viewsets.ModelViewSet):
-
-    """REST API users' viewset."""
-
-    queryset = auth_models.User.objects.all()
-    serializer_class = serializers.UserSerializer
