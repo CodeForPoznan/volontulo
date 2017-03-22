@@ -50,7 +50,7 @@ class TestAdminUserOrganizationsCreateAPIView(_TestOrganizationsCreateAPIView):
 class TestOrganizationUserOrganizationsCreateAPIView(
         _TestOrganizationsCreateAPIView):
 
-    """Tests for REST API's create organization view for user with organization."""
+    """Tests for API's create organization view for user with organization."""
 
     def setUp(self):
         """Set up each test."""

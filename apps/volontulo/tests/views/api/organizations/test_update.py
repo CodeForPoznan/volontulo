@@ -50,7 +50,7 @@ class TestAdminUserOrganizationsUpdateAPIView(_TestOrganizationsUpdateAPIView):
 class TestOrganizationUserOrganizationsUpdateAPIView(
         _TestOrganizationsUpdateAPIView):
 
-    """Tests for REST API's update organization view for user with organization."""
+    """Tests for API's update organization view for user with organization."""
 
     def setUp(self):
         """Set up each test."""

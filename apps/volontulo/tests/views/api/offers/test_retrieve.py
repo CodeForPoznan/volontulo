@@ -4,11 +4,8 @@
 .. module:: test_retrieve
 """
 
-from io import BytesIO
-
 from rest_framework import status
 from rest_framework.test import APITestCase
-from djangorestframework_camel_case.parser import CamelCaseJSONParser
 
 from apps.volontulo.models import Offer
 from apps.volontulo.tests.views.offers.commons import TestOffersCommons
@@ -50,8 +47,7 @@ class TestAdminUserOffersRetrieveAPIView(_TestOffersRetrieveAPIView):
         offer = Offer.objects.first()
         response = self.client.get('/api/offers/{}/'.format(offer.id))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self._test_offer_retrieve_fields(
-            CamelCaseJSONParser().parse(BytesIO(response.content)))
+        self._test_offer_retrieve_fields(response.data)
 
 
 class TestOrganizationUserOffersRetrieveAPIView(_TestOffersRetrieveAPIView):
