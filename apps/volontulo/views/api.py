@@ -14,7 +14,7 @@ from apps.volontulo.views import logged_as_admin
 
 class OfferViewSet(viewsets.ModelViewSet):
 
-    """REST API offers' viewset."""
+    """REST API offers viewset."""
 
     serializer_class = serializers.OfferSerializer
     permission_classes = (permissions.OfferPermission,)
@@ -28,7 +28,7 @@ class OfferViewSet(viewsets.ModelViewSet):
 
 class OrganizationViewSet(viewsets.ModelViewSet):
 
-    """REST API organizations' viewset."""
+    """REST API organizations viewset."""
 
     queryset = models.Organization.objects.all()
     serializer_class = serializers.OrganizationSerializer
