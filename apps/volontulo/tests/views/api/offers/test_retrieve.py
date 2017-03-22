@@ -10,6 +10,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from djangorestframework_camel_case.parser import CamelCaseJSONParser
 
+from apps.volontulo.models import Offer
 from apps.volontulo.tests.views.offers.commons import TestOffersCommons
 
 
@@ -46,8 +47,8 @@ class TestAdminUserOffersRetrieveAPIView(_TestOffersRetrieveAPIView):
         Because we set up only 2 unpublished offers, offer will be visible only
         for admin user.
         """
-        response = self.client.get('/api/offers/1/')
-
+        offer = Offer.objects.first()
+        response = self.client.get('/api/offers/{}/'.format(offer.id))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self._test_offer_retrieve_fields(
             CamelCaseJSONParser().parse(BytesIO(response.content)))

@@ -221,7 +221,7 @@ class Offer(models.Model):
 
 
 class UserProfile(models.Model):
-    """Model that handles users' profiles."""
+    """Model that handles users profiles."""
 
     user = models.OneToOneField(User)
     organizations = models.ManyToManyField(
