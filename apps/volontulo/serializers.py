@@ -67,15 +67,3 @@ class OrganizationSerializer(serializers.HyperlinkedModelSerializer):
     def get_slug(obj):
         """Returns slugified name."""
         return slugify(obj.name)
-
-
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-
-    """REST API users' serializer."""
-
-    class Meta:
-        model = auth_models.User
-        fields = (
-            'email',
-            'url',
-        )
