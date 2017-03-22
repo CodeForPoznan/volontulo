@@ -9,7 +9,7 @@ from rest_framework import permissions
 
 class OfferPermission(permissions.BasePermission):
 
-    """REST API offers' permissions."""
+    """REST API offers permissions."""
 
     def has_permission(self, request, view):
         """We are accepting only safe methods for now."""
@@ -18,7 +18,7 @@ class OfferPermission(permissions.BasePermission):
 
 class OrganizationPermission(permissions.BasePermission):
 
-    """REST API organizations' permissions."""
+    """REST API organizations permissions."""
 
     def has_permission(self, request, view):
         """We are accepting only safe methods for now."""
