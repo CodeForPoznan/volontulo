@@ -33,7 +33,7 @@ class TestOrganizationUserOrganizationsDestroyAPIView(
         TestOffersCommons,
         APITestCase):
 
-    """Tests for REST API's destroy organization view for user with organization."""
+    """Tests for API's destroy organization view for user with organization."""
 
     def setUp(self):
         """Set up each test."""

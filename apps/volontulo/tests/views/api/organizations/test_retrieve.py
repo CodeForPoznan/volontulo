@@ -49,7 +49,7 @@ class TestAdminUserOrganizationsRetrieveAPIView(
 class TestOrganizationUserOrganizationsRetrieveAPIView(
         _TestOrganizationsRetrieveAPIView):
 
-    """Tests for API's retrieve organization view for user with organization."""
+    """Tests for API's read organization view for user with organization."""
 
     def setUp(self):
         """Set up each test."""
