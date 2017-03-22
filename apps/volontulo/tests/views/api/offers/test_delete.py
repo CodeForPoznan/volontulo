@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-.. module:: test_destroy
+.. module:: test_delete
 """
 
 from rest_framework import status
@@ -10,17 +10,17 @@ from rest_framework.test import APITestCase
 from apps.volontulo.tests.views.offers.commons import TestOffersCommons
 
 
-class TestAdminUserOffersDestroyAPIView(TestOffersCommons, APITestCase):
+class TestAdminUserOffersDeleteAPIView(TestOffersCommons, APITestCase):
 
-    """Tests for REST API's destroy offer view for admin user."""
+    """Tests for REST API's delete offer view for admin user."""
 
     def setUp(self):
         """Set up each test."""
-        super(TestAdminUserOffersDestroyAPIView, self).setUp()
+        super(TestAdminUserOffersDeleteAPIView, self).setUp()
         self.client.login(username='admin@example.com', password='123admin')
 
-    def test_offer_destroy_status(self):
-        """Test offer's destroy status for admin user.
+    def test_offer_delete_status(self):
+        """Test offer's delete status for admin user.
 
         API for now is read-only.
         """
@@ -29,20 +29,20 @@ class TestAdminUserOffersDestroyAPIView(TestOffersCommons, APITestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
 
-class TestOrganizationUserOffersDestroyAPIView(TestOffersCommons, APITestCase):
+class TestOrganizationUserOffersDeleteAPIView(TestOffersCommons, APITestCase):
 
-    """Tests for REST API's destroy offer view for user with organization."""
+    """Tests for REST API's delete offer view for user with organization."""
 
     def setUp(self):
         """Set up each test."""
-        super(TestOrganizationUserOffersDestroyAPIView, self).setUp()
+        super(TestOrganizationUserOffersDeleteAPIView, self).setUp()
         self.client.login(
             username='cls.organization@example.com',
             password='123org'
         )
 
-    def test_offer_destroy_status(self):
-        """Test offer's destroy status for user with organization.
+    def test_offer_delete_status(self):
+        """Test offer's delete status for user with organization.
 
         API for now is read-only.
         """
@@ -51,20 +51,20 @@ class TestOrganizationUserOffersDestroyAPIView(TestOffersCommons, APITestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
 
-class TestRegularUserOffersDestroyAPIView(TestOffersCommons, APITestCase):
+class TestRegularUserOffersDeleteAPIView(TestOffersCommons, APITestCase):
 
-    """Tests for REST API's destroy offer view for regular user."""
+    """Tests for REST API's delete offer view for regular user."""
 
     def setUp(self):
         """Set up each test."""
-        super(TestRegularUserOffersDestroyAPIView, self).setUp()
+        super(TestRegularUserOffersDeleteAPIView, self).setUp()
         self.client.login(
             username='volunteer@example.com',
             password='123volunteer'
         )
 
-    def test_offer_destroy_status(self):
-        """Test offer's destroy status for regular user.
+    def test_offer_delete_status(self):
+        """Test offer's delete status for regular user.
 
         API for now is read-only.
         """
@@ -73,12 +73,12 @@ class TestRegularUserOffersDestroyAPIView(TestOffersCommons, APITestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
 
-class TestAnonymousUserOffersDestroyAPIView(TestOffersCommons, APITestCase):
+class TestAnonymousUserOffersDeleteAPIView(TestOffersCommons, APITestCase):
 
-    """Tests for REST API's destroy offer view for anonymous user."""
+    """Tests for REST API's delete offer view for anonymous user."""
 
-    def test_offer_update_status(self):
-        """Test offer's destroy status for anonymous user.
+    def test_offer_delete_status(self):
+        """Test offer's delete status for anonymous user.
 
         API for now is read-only.
         """

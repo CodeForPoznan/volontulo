@@ -235,7 +235,6 @@ class OffersEdit(View):
             if form.is_valid():
                 offer.save_offer_image(
                     form.save(commit=False),
-                    request.user.userprofile,
                     form.cleaned_data['is_main']
                 )
                 messages.success(request, "Dodano zdjęcie do galerii.")

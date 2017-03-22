@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-.. module:: test_retrieve
+.. module:: test_read
 """
 
 from rest_framework import status
@@ -11,12 +11,12 @@ from apps.volontulo.models import Organization
 from apps.volontulo.tests.views.offers.commons import TestOffersCommons
 
 
-class _TestOrganizationsRetrieveAPIView(TestOffersCommons, APITestCase):
+class _TestOrganizationsReadAPIView(TestOffersCommons, APITestCase):
 
-    """Tests for REST API's retrieve organization view."""
+    """Tests for REST API's read organization view."""
 
-    def _test_organization_retrieve_fields(self, organization):
-        """Test retrieve's fields of organizations REST API endpoint."""
+    def _test_organization_read_fields(self, organization):
+        """Test read's fields of organizations REST API endpoint."""
         self.assertIsInstance(organization.pop('id'), int)
         self.assertIsInstance(organization.pop('name'), str)
         self.assertIsInstance(organization.pop('slug'), str)
@@ -24,18 +24,17 @@ class _TestOrganizationsRetrieveAPIView(TestOffersCommons, APITestCase):
         self.assertEqual(len(organization), 0)
 
 
-class TestAdminUserOrganizationsRetrieveAPIView(
-        _TestOrganizationsRetrieveAPIView):
+class TestAdminUserOrganizationsReadAPIView(_TestOrganizationsReadAPIView):
 
-    """Tests for REST API's retrieve organization view for admin user."""
+    """Tests for REST API's read organization view for admin user."""
 
     def setUp(self):
         """Set up each test."""
-        super(TestAdminUserOrganizationsRetrieveAPIView, self).setUp()
+        super(TestAdminUserOrganizationsReadAPIView, self).setUp()
         self.client.login(username='admin@example.com', password='123admin')
 
-    def test_organization_retrieve_status(self):
-        """Test organization's retrieve status for admin user.
+    def test_organization_read_status(self):
+        """Test organization's read status for admin user.
 
         Organizations are readable for everyone.
         """
@@ -43,24 +42,24 @@ class TestAdminUserOrganizationsRetrieveAPIView(
         response = self.client.get(
             '/api/organizations/{}/'.format(organization.id))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self._test_organization_retrieve_fields(response.data)
+        self._test_organization_read_fields(response.data)
 
 
-class TestOrganizationUserOrganizationsRetrieveAPIView(
-        _TestOrganizationsRetrieveAPIView):
+class TestOrganizationUserOrganizationsReadAPIView(
+        _TestOrganizationsReadAPIView):
 
     """Tests for API's read organization view for user with organization."""
 
     def setUp(self):
         """Set up each test."""
-        super(TestOrganizationUserOrganizationsRetrieveAPIView, self).setUp()
+        super(TestOrganizationUserOrganizationsReadAPIView, self).setUp()
         self.client.login(
             username='cls.organization@example.com',
             password='123org'
         )
 
-    def test_organization_retrieve_status(self):
-        """Test organization's retrieve status for user with organization.
+    def test_organization_read_status(self):
+        """Test organization's read status for user with organization.
 
         Organizations are readable for everyone.
         """
@@ -68,24 +67,23 @@ class TestOrganizationUserOrganizationsRetrieveAPIView(
         response = self.client.get(
             '/api/organizations/{}/'.format(organization.id))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self._test_organization_retrieve_fields(response.data)
+        self._test_organization_read_fields(response.data)
 
 
-class TestRegularUserOrganizationsRetrieveAPIView(
-        _TestOrganizationsRetrieveAPIView):
+class TestRegularUserOrganizationsReadAPIView(_TestOrganizationsReadAPIView):
 
-    """Tests for REST API's retrieve organization view for regular user."""
+    """Tests for REST API's read organization view for regular user."""
 
     def setUp(self):
         """Set up each test."""
-        super(TestRegularUserOrganizationsRetrieveAPIView, self).setUp()
+        super(TestRegularUserOrganizationsReadAPIView, self).setUp()
         self.client.login(
             username='volunteer@example.com',
             password='123volunteer'
         )
 
-    def test_organization_retrieve_status(self):
-        """Test organization's retrieve status for regular user.
+    def test_organization_read_status(self):
+        """Test organization's read status for regular user.
 
         Organizations are readable for everyone.
         """
@@ -93,16 +91,15 @@ class TestRegularUserOrganizationsRetrieveAPIView(
         response = self.client.get(
             '/api/organizations/{}/'.format(organization.id))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self._test_organization_retrieve_fields(response.data)
+        self._test_organization_read_fields(response.data)
 
 
-class TestAnonymousUserOrganizationsRetrieveAPIView(
-        _TestOrganizationsRetrieveAPIView):
+class TestAnonymousUserOrganizationsReadAPIView(_TestOrganizationsReadAPIView):
 
-    """Tests for REST API's retrieve organization view for anonymous user."""
+    """Tests for REST API's read organization view for anonymous user."""
 
-    def test_organization_retrieve_status(self):
-        """Test organization's retrieve status for anonymous user.
+    def test_organization_read_status(self):
+        """Test organization's read status for anonymous user.
 
         Organizations are readable for everyone.
         """
@@ -110,4 +107,4 @@ class TestAnonymousUserOrganizationsRetrieveAPIView(
         response = self.client.get(
             '/api/organizations/{}/'.format(organization.id))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self._test_organization_retrieve_fields(response.data)
+        self._test_organization_read_fields(response.data)

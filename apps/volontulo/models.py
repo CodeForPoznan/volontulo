@@ -142,7 +142,7 @@ class Offer(models.Model):
             return True
         return False
 
-    def save_offer_image(self, gallery, userprofile, is_main=False):
+    def save_offer_image(self, gallery, is_main=False):
         """Handle image upload for user profile page.
 
         :param gallery: UserProfile model instance
@@ -150,7 +150,6 @@ class Offer(models.Model):
         :param is_main: Boolean main image flag
         """
         gallery.offer = self
-        gallery.userprofile = userprofile
         gallery.is_main = self.set_main_image(is_main)
         gallery.save()
         return self
@@ -287,7 +286,6 @@ class UserGallery(models.Model):
 
 class OfferImage(models.Model):
     """Handling offer image."""
-    userprofile = models.ForeignKey(UserProfile, related_name='offerimages')
     offer = models.ForeignKey(Offer, related_name='images')
     path = models.ImageField(upload_to='offers/')
     is_main = models.BooleanField(default=False)
