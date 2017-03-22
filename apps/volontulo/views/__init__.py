@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-u"""
+"""
 .. module:: __init__
 """
 from django.conf import settings
@@ -23,7 +23,7 @@ from apps.volontulo.models import UserProfile
 
 
 def logged_as_admin(request):
-    u""""Helper function that provide information is user has admin privilege.
+    """Helper function that provide information is user has admin privilege.
 
     It is used in separate modules.
 
@@ -36,7 +36,7 @@ def logged_as_admin(request):
 
 
 def homepage(request):
-    u"""Main view of app.
+    """Main view of app.
 
     We will display page with few step CTA links?
 
@@ -49,7 +49,7 @@ def homepage(request):
 
     return render(
         request,
-        "homepage.html",
+        'homepage.html',
         {
             'offers': offers,
             'MEDIA_URL': settings.MEDIA_URL,
@@ -58,7 +58,7 @@ def homepage(request):
 
 
 def static_pages(request, template_name):
-    u"""Generic view used for rendering static pages.
+    """Generic view used for rendering static pages.
 
     :param request: WSGIRequest instance
     :param template_name: string Template name to display
@@ -66,7 +66,7 @@ def static_pages(request, template_name):
     try:
         return render(
             request,
-            "pages/{}.html".format(template_name)
+            'pages/{template_name}.html'.format(template_name=template_name)
         )
     except TemplateDoesNotExist:
         raise Http404
@@ -74,12 +74,12 @@ def static_pages(request, template_name):
 
 @login_required
 def logged_user_profile(request):
-    u"""View to display user profile page.
+    """View to display user profile page.
 
     :param request: WSGIRequest instance
     """
     def _init_edit_profile_form():
-        u"""Initialize EditProfileForm - helper method."""
+        """Initialize EditProfileForm - helper method."""
         return EditProfileForm(
             initial={
                 'phone_no': request.user.userprofile.phone_no,
@@ -90,30 +90,30 @@ def logged_user_profile(request):
         )
 
     def _populate_participated_offers(request):
-        u"""Populate offers that current user participate."""
+        """Populate offers that current user participate."""
         return Offer.objects.filter(volunteers=request.user)
 
     def _populate_created_offers(request):
-        u"""Populate offers that current user create."""
+        """Populate offers that current user create."""
         return Offer.objects.filter(
             organization__userprofiles__user=request.user
         )
 
     def _is_saving_user_avatar():
-        u"""."""
+        """."""
         return request.POST.get('submit') == 'save_image' and request.FILES
 
     def _is_saving_organization_image():
-        u"""."""
+        """."""
         submit_value = request.POST.get('submit')
         return submit_value == 'save_organization_image' and request.FILES
 
     def _is_saving_profile():
-        u"""."""
+        """."""
         return request.POST.get('submit') == 'save_profile'
 
     def _save_userprofile():
-        u"""Save user profile"""
+        """Save user profile."""
         form = EditProfileForm(request.POST)
         if form.is_valid():
             user = User.objects.get(id=request.user.id)
@@ -130,18 +130,20 @@ def logged_user_profile(request):
             user.save()
             messages.success(
                 request,
-                u"Zaktualizowano profil"
+                'Zaktualizowano profil'
             )
         else:
             errors = '<br />'.join(form.errors)
             messages.error(
                 request,
-                u"Problem w trakcie zapisywania profilu: {}".format(errors)
+                'Problem w trakcie zapisywania profilu: {errors}'.format(
+                    errors=errors
+                )
             )
         return form
 
     def _handle_user_avatar_upload():
-        u"""Handle image upload for user profile page."""
+        """Handle image upload for user profile page."""
         gallery_form = UserGalleryForm(request.POST, request.FILES)
         if gallery_form.is_valid():
             userprofile.clean_images()
@@ -150,19 +152,21 @@ def logged_user_profile(request):
             # User can only change his avatar
             gallery.is_avatar = True
             gallery.save()
-            messages.success(request, u"Dodano grafikę")
+            messages.success(request, 'Dodano grafikę')
         else:
             errors = '<br />'.join(gallery_form.errors)
             messages.error(
                 request,
-                u"Problem w trakcie dodawania grafiki: {}".format(errors)
+                'Problem w trakcie dodawania grafiki: {errors}'.format(
+                    errors=errors
+                )
             )
 
     def _handle_organization_image_upload():
-        u"""Handle image upload for user profile page."""
+        """Handle image upload for user profile page."""
 
         def _is_main(form):
-            u"""Return True if is_main image was selected."""
+            """Return True if is_main image was selected."""
             return True if form.cleaned_data['is_main'] else False
 
         gallery_form = OrganizationGalleryForm(
@@ -176,12 +180,14 @@ def logged_user_profile(request):
             if _is_main(gallery_form):
                 gallery.set_as_main(gallery.organization)
             gallery.save()
-            messages.success(request, u"Dodano zdjęcie do galerii.")
+            messages.success(request, 'Dodano zdjęcie do galerii.')
         else:
             errors = '<br />'.join(gallery_form.errors)
             messages.error(
                 request,
-                u"Problem w trakcie dodawania grafiki: {}".format(errors)
+                'Problem w trakcie dodawania grafiki: {errors}'.format(
+                    errors=errors
+                )
             )
 
     profile_form = _init_edit_profile_form()
@@ -213,9 +219,8 @@ def logged_user_profile(request):
     return render(request, 'users/user_profile.html', ctx)
 
 
-@login_required
 def contact_form(request):
-    u"""View responsible for contact forms.
+    """View responsible for contact forms.
 
     :param request: WSGIRequest instance
     """
@@ -234,16 +239,16 @@ def contact_form(request):
                 ],
                 {k: v for k, v in request.POST.items()},
             )
-            messages.success(request, u'Email został wysłany.')
+            messages.success(request, 'Email został wysłany.')
         else:
-            errors = u'<br />'.join(form.errors)
+            errors = '<br />'.join(form.errors)
             messages.error(
                 request,
-                u'Proszę poprawić błędy w formularzu: ' + errors
+                'Proszę poprawić błędy w formularzu: ' + errors
             )
             return render(
                 request,
-                "contact.html",
+                'contact.html',
                 {
                     'contact_form': form,
                 }
@@ -252,7 +257,7 @@ def contact_form(request):
     form = AdministratorContactForm()
     return render(
         request,
-        "contact.html",
+        'contact.html',
         {
             'contact_form': form,
         }
@@ -260,7 +265,7 @@ def contact_form(request):
 
 
 def newsletter_signup(request):
-    u"""Newsletter signup page
+    """Newsletter signup page.
 
     :param request: WSGIRequest instance
     """
@@ -271,7 +276,7 @@ def newsletter_signup(request):
 
 
 def page_not_found(request):
-    u"""Page not found - 404 error handler.
+    """Page not found - 404 error handler.
 
     :param request: WSGIRequest instance
     """
@@ -283,7 +288,7 @@ def page_not_found(request):
 
 
 def server_error(request):
-    u"""Internal Server Error - 500 error handler.
+    """Internal Server Error - 500 error handler.
 
     :param request: WSGIRequest instance
     """
