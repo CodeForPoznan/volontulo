@@ -45,7 +45,7 @@ class TestAdminUserOffersReadAPIView(_TestOffersReadAPIView):
         for admin user.
         """
         offer = Offer.objects.first()
-        response = self.client.get('/api/offers/{}/'.format(offer.id))
+        response = self.client.get('/api/offers/{id}/'.format(id=offer.id))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self._test_offer_read_fields(response.data)
 

@@ -70,7 +70,7 @@ class TestOrganizationUserOffersListAPIView(_TestOffersListAPIView):
         )
 
     def test_offer_list_length(self):
-        """Test offers' list length for user with organization.
+        """Test offers list length for user with organization.
 
         Because we set up only 2 unpublished offers, they will be visible only
         for admin user.
@@ -94,7 +94,7 @@ class TestRegularUserOffersListAPIView(_TestOffersListAPIView):
         )
 
     def test_offer_list_length(self):
-        """Test offers' list length for regular user.
+        """Test offers list length for regular user.
 
         Because we set up only 2 unpublished offers, they will be visible only
         for admin user.
@@ -110,7 +110,7 @@ class TestAnonymousUserOffersListAPIView(_TestOffersListAPIView):
     """Tests for REST API's list offers view for anonymous user."""
 
     def test_offer_list_length(self):
-        """Test offers' list length for anonymous user.
+        """Test offers list length for anonymous user.
 
         Because we set up only 2 unpublished offers, they will be visible only
         for admin user.

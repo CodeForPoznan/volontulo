@@ -40,7 +40,7 @@ class TestAdminUserOrganizationsReadAPIView(_TestOrganizationsReadAPIView):
         """
         organization = Organization.objects.first()
         response = self.client.get(
-            '/api/organizations/{}/'.format(organization.id))
+            '/api/organizations/{id}/'.format(id=organization.id))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self._test_organization_read_fields(response.data)
 
@@ -65,7 +65,7 @@ class TestOrganizationUserOrganizationsReadAPIView(
         """
         organization = Organization.objects.first()
         response = self.client.get(
-            '/api/organizations/{}/'.format(organization.id))
+            '/api/organizations/{id}/'.format(id=organization.id))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self._test_organization_read_fields(response.data)
 
@@ -89,7 +89,7 @@ class TestRegularUserOrganizationsReadAPIView(_TestOrganizationsReadAPIView):
         """
         organization = Organization.objects.first()
         response = self.client.get(
-            '/api/organizations/{}/'.format(organization.id))
+            '/api/organizations/{id}/'.format(id=organization.id))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self._test_organization_read_fields(response.data)
 
@@ -105,6 +105,6 @@ class TestAnonymousUserOrganizationsReadAPIView(_TestOrganizationsReadAPIView):
         """
         organization = Organization.objects.first()
         response = self.client.get(
-            '/api/organizations/{}/'.format(organization.id))
+            '/api/organizations/{id}/'.format(id=organization.id))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self._test_organization_read_fields(response.data)

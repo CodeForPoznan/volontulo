@@ -12,7 +12,7 @@ from apps.volontulo.serializers import OrganizationSerializer
 
 class TestOrganizationSerializer(TestCase):
 
-    """Test for organization's serializer."""
+    """Test for organizations serializer."""
 
     def test_slug(self):
         """Test slug method."""

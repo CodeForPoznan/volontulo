@@ -42,7 +42,7 @@ class TestAdminUserOrganizationsListAPIView(_TestOrganizationsListAPIView):
         self.client.login(username='admin@example.com', password='123admin')
 
     def test_organization_list_length(self):
-        """Test organizations' list length for admin user.
+        """Test organizations list length for admin user.
 
         Organizations are readable for everyone.
         """
@@ -66,7 +66,7 @@ class TestOrganizationUserOrganizationsListAPIView(
         )
 
     def test_organization_list_length(self):
-        """Test organizations' list length for user with organization.
+        """Test organizations list length for user with organization.
 
         Organizations are readable for everyone.
         """
@@ -89,7 +89,7 @@ class TestRegularUserOrganizationsListAPIView(_TestOrganizationsListAPIView):
         )
 
     def test_organization_list_length(self):
-        """Test organizations' list length for regular user.
+        """Test organizations list length for regular user.
 
         Organizations are readable for everyone.
         """
@@ -104,7 +104,7 @@ class TestAnonymousUserOrganizationsListAPIView(_TestOrganizationsListAPIView):
     """Tests for REST API's list organizations view for anonymous user."""
 
     def test_organization_list_length(self):
-        """Test organizations' list length for anonymous user.
+        """Test organizations list length for anonymous user.
 
         Organizations are readable for everyone.
         """

@@ -61,7 +61,7 @@ class TestOrganizationUserOrganizationsCreateAPIView(
         )
 
     def test_organization_create_status(self):
-        """Test organizations's create status for user with organization.
+        """Test organization create status for user with organization.
 
         API for now is read-only.
         """
@@ -88,7 +88,7 @@ class TestRegularUserOrganizationsCreateAPIView(
         )
 
     def test_organization_create_status(self):
-        """Test organizations's create status for regular user.
+        """Test organization create status for regular user.
 
         API for now is read-only.
         """
@@ -107,7 +107,7 @@ class TestAnonymousUserOrganizationsCreateAPIView(
     """Tests for REST API's create organization view for anonymous user."""
 
     def test_organization_create_status(self):
-        """Test organizations's create status for anonymous user.
+        """Test organization create status for anonymous user.
 
         API for now is read-only.
         """

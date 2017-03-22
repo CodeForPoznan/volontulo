@@ -18,7 +18,7 @@ from apps.volontulo.serializers import OfferSerializer
 
 class TestOfferSerializer(TestCase):
 
-    """Test for offers's serializer."""
+    """Test for offers serializer."""
 
     def test_image(self):
         """Test image method."""

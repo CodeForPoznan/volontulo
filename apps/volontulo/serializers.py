@@ -12,7 +12,7 @@ from apps.volontulo import models
 
 class OfferSerializer(serializers.HyperlinkedModelSerializer):
 
-    """REST API offers' serializer."""
+    """REST API offers serializer."""
 
     slug = serializers.SerializerMethodField()
     image = serializers.SerializerMethodField()
@@ -49,7 +49,7 @@ class OfferSerializer(serializers.HyperlinkedModelSerializer):
 
 class OrganizationSerializer(serializers.HyperlinkedModelSerializer):
 
-    """REST API organizations' serializer."""
+    """REST API organizations serializer."""
 
     slug = serializers.SerializerMethodField()
 
