@@ -4,7 +4,6 @@
 .. module:: serializers
 """
 
-from django.contrib.auth import models as auth_models
 from django.utils.text import slugify
 from rest_framework import serializers
 
