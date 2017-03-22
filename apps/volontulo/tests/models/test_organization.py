@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-u"""
+"""
 .. module:: test_organization
 """
-from __future__ import unicode_literals
+
 from django.test import TestCase
 
 from apps.volontulo.models import Organization

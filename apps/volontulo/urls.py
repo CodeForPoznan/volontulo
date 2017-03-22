@@ -1,17 +1,25 @@
 # -*- coding: utf-8 -*-
 
-u"""
+"""
 .. module:: urls
 """
 
+from django.conf.urls import include
 from django.conf.urls import url
+from rest_framework.routers import DefaultRouter
 
 from apps.volontulo import views
+from apps.volontulo.views import api as api_views
 from apps.volontulo.views import auth as auth_views
 from apps.volontulo.views import admin_panel as admin_views
 from apps.volontulo.views import offers as offers_views
 from apps.volontulo.views import organizations as orgs_views
 from apps.volontulo.views import pages as pages_views
+
+
+router = DefaultRouter()
+router.register(r'offers', api_views.OfferViewSet, base_name='offer')
+router.register(r'organizations', api_views.OrganizationViewSet)
 
 
 handler404 = 'apps.volontulo.views.page_not_found'
@@ -20,6 +28,9 @@ handler500 = 'apps.volontulo.views.server_error'
 urlpatterns = [
     # homepage:
     url(r'^$', views.homepage, name='homepage'),
+
+    # api:
+    url(r'^api/', include(router.urls)),
 
     # login and loggged user space:
     url(r'^login$', auth_views.login, name='login'),
