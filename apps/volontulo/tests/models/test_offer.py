@@ -90,7 +90,7 @@ class OfferTestCase(TestCase):
             organization=self.organization,
             description="Dokładny opis oferty",
             requirements="Dokładny opis wymagań",
-            time_commitment="333 dni w rok",
+            time_commitment="333 dni w roku",
             benefits="Wszelkie korzyści z uczestnictwa w wolontariacie",
             location="Polska, Poznań",
             title="Zwięzły tytuł oferty",
@@ -122,7 +122,7 @@ class OfferTestCase(TestCase):
 
     def test__offer_time_commit_field(self):
         """Testing offer time commitment field"""
-        self.assertEqual(self.offer.time_commitment, "333 dni w rok")
+        self.assertEqual(self.offer.time_commitment, "333 dni w roku")
 
     def test__offer_benefits_field(self):
         """Testing offer benefits field"""

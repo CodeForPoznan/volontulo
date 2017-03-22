@@ -46,7 +46,7 @@ class TestAdminUserOffersListAPIView(_TestOffersListAPIView):
         self.client.login(username='admin@example.com', password='123admin')
 
     def test_offer_list_length(self):
-        """Test offers' list length for admin user.
+        """Test offers list length for admin user.
 
         Because we set up only 2 unpublished offers, they will be visible only
         for admin user.
