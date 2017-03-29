@@ -68,6 +68,18 @@ class OffersCreate(View):
 
         :param request: WSGIRequest instance
         """
+        if request.user.is_anonymous():
+            messages.info(
+                request,
+                "Aby założyć ofertę, musisz się zalogować lub zarejestrować."
+            )
+
+            return redirect(
+                '{login}?next={path}'.format(
+                    login=reverse('login'), path=request.path
+                )
+            )
+
         if request.user.userprofile.is_administrator:
             messages.info(
                 request,
@@ -460,7 +472,9 @@ class OffersJoin(View):
                         "Zaloguj się, aby zapisać się do oferty."
                     )
                     return redirect(
-                        reverse('login') + '?next={}'.format(request.path)
+                        '{login}?next={path}'.format(
+                            login=reverse('login'), path=request.path
+                        )
                     )
                 else:
                     messages.info(

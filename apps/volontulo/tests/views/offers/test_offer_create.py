@@ -75,6 +75,16 @@ class TestOffersCreate(TestCase):
         )
         self.assertTemplateUsed(response, 'offers/offers_list.html')
 
+    def test_offers_create_anonymous_user_get_method(self):
+        """Test access to page for offer creation without login."""
+        response = self.client.get('/offers/create', follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            "Aby założyć ofertę, musisz się zalogować lub zarejestrować."
+        )
+        self.assertTemplateUsed(response, 'auth/login.html')
+
     def test_offers_create_invalid_form(self):
         """Test attempt of creation of new offer with invalid form."""
         self.client.post('/login', {
