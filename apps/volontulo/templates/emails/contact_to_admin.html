@@ -2,7 +2,7 @@
 
 {% load staticfiles %}
 
-{% block title %}Kontakt wolontariusza z administratorem{% endblock %}
+{% block title %}Kontakt {% if applicant == 'VOLUNTEER' %}wolontariusza{% elif applicant == 'ORGANIZATION' %}organizacji{% endif %} z administratorem{% endblock %}
 
 {% block email_content %}
   <center>

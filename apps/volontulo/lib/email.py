@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-u"""
+"""
 .. module:: email
 """
 
@@ -19,11 +19,11 @@ AUTH_PASSWORD = None
 CONNECTION = None
 
 SUBJECTS = {
-    'offer_application': u'Zgłoszenie chęci pomocy w ofercie',
-    'offer_creation': u'Zgłoszenie oferty na Volontulo',
-    'registration': u'Rejestracja na Volontulo',
-    'volunteer_to_admin': u'Kontakt z administratorem',
-    'volunteer_to_organisation': u'Kontakt od wolontariusza',
+    'offer_application': 'Zgłoszenie chęci pomocy w ofercie',
+    'offer_creation': 'Zgłoszenie oferty na Volontulo',
+    'registration': 'Rejestracja na Volontulo',
+    'contact_to_admin': 'Kontakt z administratorem',
+    'volunteer_to_organisation': 'Kontakt od wolontariusza',
 }
 
 

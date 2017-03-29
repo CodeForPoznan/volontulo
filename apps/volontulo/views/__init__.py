@@ -232,7 +232,7 @@ def contact_form(request):
             admin = User.objects.get(id=administrator_id)
             send_mail(
                 request,
-                'volunteer_to_admin',
+                'contact_to_admin',
                 [
                     admin.email,
                     request.POST.get('email'),
