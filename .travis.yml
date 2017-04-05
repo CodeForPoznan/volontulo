@@ -19,6 +19,7 @@ script:
   - pylint apps
   - coverage run --source='./apps' manage.py test --settings=volontulo_org.settings.dev -v 3
   - cd apps/volontulo && npm install && npm build && cd -
+  - cd ..
 after_success:
   - codecov
   - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" = false ]; then
