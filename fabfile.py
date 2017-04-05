@@ -23,25 +23,27 @@ def update():
     u"""Function defining all steps required to properly update application."""
 
     # Django app refresh:
-    with contextlib.nested(
-        cd('/var/www/volontuloapp_org'),
-        prefix('workon volontuloapp_org')
-    ):
+    with cd('/var/www/volontuloapp_org'):
         run('git checkout master')
         run('git pull')
+
+    with contextlib.nested(
+        prefix('workon volontuloapp_org'),
+        cd('/var/www/volontuloapp_org/backend'),
+    ):
         run('pip install -r requirements/base.txt')
 
     # Gulp frontend refresh:
     with contextlib.nested(
         prefix('nvm use 7.4.0'),
-        cd('/var/www/volontuloapp_org/apps/volontulo')
+        cd('/var/www/volontuloapp_org/backend/apps/volontulo'),
     ):
         run('npm install .')
         run('node node_modules/.bin/gulp build')
 
     # Django site refresh:
     with contextlib.nested(
-        cd('/var/www/volontuloapp_org'),
+        cd('/var/www/volontuloapp_org/backend'),
         prefix('workon volontuloapp_org')
     ):
         run('python manage.py migrate --traceback'

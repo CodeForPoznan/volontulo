@@ -5,8 +5,9 @@ language: python
 python:
   - 3.5
 install:
-  - pip install -r requirements/dev.txt
+  - pip install -r backend/requirements/dev.txt
 script:
+  - cd backend
   - cp etc/local_config.yaml.sample local_config.yaml
   - "sed -i 's/secret_key:.*/secret_key: classified_secret_key/g' local_config.yaml"
   - "sed -i 's/db_host:.*/db_host: localhost/g' local_config.yaml"

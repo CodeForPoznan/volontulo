@@ -1,5 +1,5 @@
 # Configuration files
-local_config.yaml
+backend/local_config.yaml
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -64,10 +64,10 @@ target/
 
 # npm and gulp
 .nvm/
-apps/volontulo/node_modules/
-apps/volontulo/static/
-media
-static
+backend/apps/volontulo/node_modules/
+backend/apps/volontulo/static/
+backend/media
+backend/static
 
 # Development directories / files
 .ropeproject

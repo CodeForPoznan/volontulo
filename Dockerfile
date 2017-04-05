@@ -2,7 +2,7 @@ FROM ubuntu:16.04
 
 ENV LANG C.UTF-8
 
-ADD . /app
+ADD backend /backend
 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
@@ -31,7 +31,7 @@ RUN chmod a+x /usr/bin/wait-for-it
 ENV NODE_PATH $NVM_DIR/versions/node/v$NODE_VERSION/lib/node_modules
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
-WORKDIR /app
+WORKDIR /backend
 
 RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements/dev.txt
@@ -44,11 +44,11 @@ ENV SECRET_KEY=a63eb5ef-3b25-4595-846a-5d97d99486f0
 
 RUN echo "secret_key: $SECRET_KEY" >> local_config.yaml
 
-WORKDIR /app/apps/volontulo
+WORKDIR /backend/apps/volontulo
 
 RUN npm install
 RUN node node_modules/.bin/gulp build
 
-WORKDIR /app
+WORKDIR /backend
 
 EXPOSE 8000
