@@ -3,26 +3,26 @@ frontend:
   # build: .
   entrypoint: ng serve --open --host=0.0.0.0
   # entrypoint: tail -f /dev/null
-  working_dir: /frontend
+  working_dir: /volontulo/frontend
   ports:
     - 4200:4200
   volumes:
-    - ./frontend:/frontend
-    - /frontend/node_modules
+    - ./frontend:/volontulo/frontend
+    - /volontulo/frontend/node_modules
 
 backend:
   image: codeforpoznan/volontulo
   # build: .
   entrypoint: bash docker-entrypoint.sh
   # entrypoint: tail -f /dev/null
-  working_dir: /backend
+  working_dir: /volontulo/backend
   ports:
     - 8000:8000
   links:
     - db:db
   volumes:
-    - ./backend:/backend
-    - /backend/apps/volontulo/node_modules
+    - ./backend:/volontulo/backend
+    - /volontulo/backend/apps/volontulo/node_modules
 
 db:
   image: postgres

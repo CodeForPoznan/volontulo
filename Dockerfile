@@ -30,26 +30,26 @@ RUN chmod a+x /usr/bin/wait-for-it
 ENV NODE_PATH $NVM_DIR/versions/node/v$NODE_VERSION/lib/node_modules
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
-ADD backend /backend
-WORKDIR /backend
+ADD backend /volontulo/backend
+WORKDIR /volontulo/backend
 
 RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements/dev.txt
 
-RUN cp etc/local_config.yaml.sample local_config.yaml
+RUN cp local_config.yaml.sample local_config.yaml
 RUN sed '/^secret_key/ d' local_config.yaml > tmp.yaml && mv tmp.yaml local_config.yaml
 
 ENV SECRET_KEY=a63eb5ef-3b25-4595-846a-5d97d99486f0
 
 RUN echo "secret_key: $SECRET_KEY" >> local_config.yaml
 
-WORKDIR /backend/apps/volontulo
+WORKDIR /volontulo/backend/apps/volontulo
 
 RUN npm install
 RUN node node_modules/.bin/gulp build
 
-ADD frontend /frontend
-WORKDIR /frontend
+ADD frontend /volontulo/frontend
+WORKDIR /volontulo/frontend
 
 RUN npm install -g @angular/cli
 RUN npm install

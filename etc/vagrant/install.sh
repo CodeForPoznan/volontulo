@@ -33,7 +33,7 @@ fi
 # install python packages
 su - -c "pip3 install -r $PROJECT_DIR/requirements/dev.txt"
 
-cp $PROJECT_DIR/etc/local_config.yaml.sample $PROJECT_DIR/local_config.yaml
+cp $PROJECT_DIR/local_config.yaml.sample $PROJECT_DIR/local_config.yaml
 sed '/^secret_key/ d' $PROJECT_DIR/local_config.yaml > $PROJECT_DIR/tmp.yaml && mv tmp.yaml local_config.yaml
 UUID=a63eb5ef-3b25-4595-846a-5d97d99486f0
 echo "secret_key: $UUID" >> $PROJECT_DIR/local_config.yaml
