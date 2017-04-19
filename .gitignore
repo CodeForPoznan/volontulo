@@ -69,6 +69,21 @@ backend/apps/volontulo/static/
 backend/media
 backend/static
 
+frontend/node_modules/
+frontend/tmp/
+frontend/out-tsc/
+frontend/.sass-cache
+frontend/.sass-cache
+frontend/connect.lock
+frontend/coverage
+frontend/libpeerconnection.log
+frontend/typings
+frontend/e2e/*.js
+frontend/e2e/*.map
+
+npm-debug.log
+testem.log
+
 # Development directories / files
 .ropeproject
 
@@ -79,3 +94,6 @@ backend/static
 #vagrant ignore
 .vagrant/
 tmp.yaml
+
+.DS_Store
+Thumbs.db

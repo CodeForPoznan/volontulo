@@ -2,10 +2,9 @@ FROM ubuntu:16.04
 
 ENV LANG C.UTF-8
 
-ADD backend /backend
-
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
+RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ xenial main restricted" >> /etc/apt/sources.list
 RUN apt-get update
 RUN apt-get build-dep -y python-imaging
 RUN apt-get install -y python3-pip \
@@ -31,11 +30,11 @@ RUN chmod a+x /usr/bin/wait-for-it
 ENV NODE_PATH $NVM_DIR/versions/node/v$NODE_VERSION/lib/node_modules
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
+ADD backend /backend
 WORKDIR /backend
 
 RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements/dev.txt
-
 
 RUN cp etc/local_config.yaml.sample local_config.yaml
 RUN sed '/^secret_key/ d' local_config.yaml > tmp.yaml && mv tmp.yaml local_config.yaml
@@ -49,6 +48,12 @@ WORKDIR /backend/apps/volontulo
 RUN npm install
 RUN node node_modules/.bin/gulp build
 
-WORKDIR /backend
+ADD frontend /frontend
+WORKDIR /frontend
+
+RUN npm install -g @angular/cli
+RUN npm install
+
 
 EXPOSE 8000
+EXPOSE 4200
