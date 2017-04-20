@@ -1,12 +1,12 @@
 #!/bin/bash
-# Script to set up a Django project on Vagrant.
-PROJECT_NAME=$1
 
-DB_NAME=$PROJECT_NAME
-DB_USERNAME=$PROJECT_NAME
-DB_PASSWD=$PROJECT_NAME
+. ./etc/common-config.sh
 
-PROJECT_DIR=/home/vagrant/$PROJECT_NAME
+DB_NAME=volontulo
+DB_USERNAME=volontulo
+DB_PASSWD=volontulo
+
+PROJECT_DIR=/home/ubuntu/backend
 
 
 # Install essential packages from Apt
@@ -50,10 +50,9 @@ su - postgres -c "psql -c \"CREATE DATABASE $DB_NAME WITH  TEMPLATE=template0 EN
 python3 $PROJECT_DIR/manage.py migrate --settings=volontulo_org.settings.dev_vagrant
 python3 $PROJECT_DIR/manage.py loaddata $PROJECT_DIR/initial/data.json --settings=volontulo_org.settings.dev_vagrant
 
-
 # Instrall nodejs
 NODE_VERSION="7.4.0"
-NVM_DIR="/home/vagrant/.nvm"
+NVM_DIR="/home/ubuntu/.nvm"
 
 su - vagrant -c "wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash"
 source $NVM_DIR/nvm.sh

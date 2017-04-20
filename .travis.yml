@@ -8,7 +8,7 @@ install:
   - pip install -r backend/requirements/dev.txt
 script:
   - cd backend
-  - cp etc/local_config.yaml.sample local_config.yaml
+  - cp local_config.yaml.sample local_config.yaml
   - "sed -i 's/secret_key:.*/secret_key: classified_secret_key/g' local_config.yaml"
   - "sed -i 's/db_host:.*/db_host: localhost/g' local_config.yaml"
   - "sed -i 's/db_port:.*/db_port: 5432/g' local_config.yaml"

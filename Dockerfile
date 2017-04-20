@@ -2,6 +2,8 @@ FROM ubuntu:16.04
 
 ENV LANG C.UTF-8
 
+ADD etc /volontulo/etc
+
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ xenial main restricted" >> /etc/apt/sources.list
