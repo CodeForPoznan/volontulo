@@ -1,4 +1,4 @@
-# volontulo
+# Volontulo
 
 [![Join the chat at https://gitter.im/CodeForPoznan/volontulo](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/CodeForPoznan/volontulo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/CodeForPoznan/volontulo.svg)](https://travis-ci.org/CodeForPoznan/volontulo)
@@ -8,96 +8,50 @@
 
 Web portal for collaboration of community volunteers with organizations and institutions. 
 
-## Semi-automated Project Set Up
+## Developer setup
 
-Install system dependecies
-```
-sudo bin/install_dependencies
-```
-Setup virtualenv, python packages, run migration and gulp.
-```
-bin/setup
-```
-Activate virtualenv.
-```
-source env/bin/activate
-```
-Django commands
-```
-python manage.py COMMAND --settings=volontulo_org.settings.dev
-```
+For developers' convinience we are supporting two widely used virtualization platforms: **Docker** and **Vagrant**.
 
-## Manual Project Set Up
+### Docker
 
-Usage of virtualenv is recommended. Assuming you use Virtualenvwrapper:
-```
-mkvirtualenv --no-site-packages venv_name
-```
-To install project dependencies use pip and choose the correct file (production, development, etc.)
-```
-pip install -r requirements/dev.txt
-```
+To run our application in development mode You need to have **Docker** and **Docker Compose**.
 
-Copy the Local Configuration file:
+That's the easiest way to setup environment - from downloaded source code run
 ```
-cp etc/local_config.yaml.sample local_config.yaml
-vim local_config.yaml
+docker-compose up
 ```
+and point your browser to [http://localhost:8000](http://localhost:8000) and [http://localhost:4200](http://localhost:4200)
 
-Fill the Local Configuration Values.
-To generate "secret_key", you can use
-```head -c 64 /dev/urandom | base64 -w 0```
-For Windows users may be used simple:
-```
-python -c "import uuid; print str(uuid.uuid4()).replace('-', '')"
-```
+### Vagrant
 
-If the site is supposed to be served under different domain than volontulo.org or volontuloapp.org
-and you are not in development environment, fill the "allowed_host" value. Otherwise
-it can be left blank.
+To run our application in Vagrant:
 
-### Gulp Instalation
+* provision and start Vagrant container
+```
+vagrant up
+```
+* SSH into it (do it twice, for backend and frontend)
+```
+vagrant ssh
+```
+* run backend
+```
+cd /home/ubuntu/backend
+python3 manage.py runserver --settings=volontulo_org.settings.dev_vagrant
+```
+* run frontend
+```
+cd /home/ubuntu/backend
+ng serve --open --host=0.0.0.0
+```
+* point your browser to [http://localhost:8000](http://localhost:8000) and [http://localhost:4200](http://localhost:4200)
 
-Gulp is used to prepare and serve all static files into `/apps/volontulo/static/volontulo` so Django can use them
-```
-cd /apps/volontulo
-npm install
-```
-Windows can have problems with unix paths, so it is practical to install Gulp globally (with `sudo` on linux)
-```
-npm install -g gulp
-```
-### Using Gulp
-In development
-```
-gulp watch
-```
-Otherwise
-```
-gulp build
-```
-To convert svg icons to base64 format that ultimately is compiled to CSS, use:
-```
-gulp build_icons
-```
-Icons in .svg format should be placed at `\volontulo\apps\volontulo\frontend\icons\`.  
-That will allow their usage in SCSS like so: `@extend %asterisk-icon;` as an element background.
+### Manual project set up
 
-### Running the App in development mode
-Choose the appriopriate settings file  
-Run server
-```
-python manage.py runserver --settings=volontulo_org.settings.dev
-```
-Now you able to access the development site:
-[http://localhost:8000](http://localhost:8000)
+For manual installation You can follow `Dockerfile`/`etc/vagrant-install.sh` instructions.
 
-### Running tests
-To run the project tests:
-```
-python manage.py test --settings=volontulo_org.settings.dev -v 3
-```
+For Your convinience we suggest to use **virtualenv** and `backend/volontulo_org/settings/dev.py` (as it use SQLite instead of PostgreSQL).
 
-### Initial admin credentials
- * user: admin@volontuloapp.org
- * pass: stx123
+## Initial admin credentials
+ * **user**: admin@volontuloapp.org
+ * **pass**: stx123
