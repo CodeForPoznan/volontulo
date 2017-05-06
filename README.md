@@ -10,7 +10,7 @@ Web portal for collaboration of community volunteers with organizations and inst
 
 ## Developer setup
 
-For developers' convinience we are supporting two widely used virtualization platforms: **Docker** and **Vagrant**.
+For developers' convenience we are supporting two widely used virtualization platforms: **Docker** and **Vagrant**.
 
 ### Docker
 
@@ -50,7 +50,7 @@ ng serve --open --host=0.0.0.0
 
 For manual installation You can follow `Dockerfile`/`etc/vagrant-install.sh` instructions.
 
-For Your convinience we suggest to use **virtualenv** and `backend/volontulo_org/settings/dev.py` (as it use SQLite instead of PostgreSQL).
+For Your convenience we suggest to use **virtualenv** and `backend/volontulo_org/settings/dev.py` (as it use SQLite instead of PostgreSQL).
 
 ## Initial admin credentials
  * **user**: admin@volontuloapp.org
