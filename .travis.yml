@@ -6,6 +6,10 @@ python:
   - 3.5
 install:
   - pip install -r backend/requirements/dev.txt
+
+  - nvm install 7.9.0
+  - npm install -g @angular/cli
+  - cd frontend && npm install && cd -
 script:
   - cd backend
   - cp local_config.yaml.sample local_config.yaml
@@ -19,6 +23,11 @@ script:
   - pylint apps
   - coverage run --source='./apps' manage.py test --settings=volontulo_org.settings.dev -v 3
   - cd apps/volontulo && npm install && npm build && cd -
+  - cd ..
+
+  - cd frontend
+  - ng lint
+  - ng test --single-run
   - cd ..
 after_success:
   - codecov
