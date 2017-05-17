@@ -22,15 +22,18 @@ script:
   - pep8 --exclude='apps/volontulo/migrations/*,node_modules,.ropeproject' .
   - pylint apps
   - coverage run --source='./apps' manage.py test --settings=volontulo_org.settings.dev -v 3
+  - coverage xml
   - cd apps/volontulo && npm install && npm build && cd -
   - cd ..
 
   - cd frontend
   - ng lint
-  - ng test --single-run
+  - ng test --single-run --code-coverage
   - cd ..
 after_success:
-  - codecov
+  - codecov --file backend/coverage.xml
+  - codecov --file frontend/coverage/lcov.info
+
   - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" = false ]; then
       export REPO=codeforpoznan/volontulo;
       export TAG=latest;
