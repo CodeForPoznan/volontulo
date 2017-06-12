@@ -52,21 +52,21 @@ class TestOffersCreate(TestCase):
 
     def test_offers_create_get_method(self):
         """Test page for offer creation - tendering template with form."""
-        self.client.post('/login', {
+        self.client.post('/o/login', {
             'email': 'organization@example.com',
             'password': '123org',
         })
-        response = self.client.get('/offers/create')
+        response = self.client.get('/o/offers/create')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'offers/offer_form.html')
 
     def test_offers_create_no_org_get_method(self):
         """Test page for offer creation - tendering template with form."""
-        self.client.post('/login', {
+        self.client.post('/o/login', {
             'email': 'no_organ@example.com',
             'password': '123no_org',
         })
-        response = self.client.get('/offers/create', follow=True)
+        response = self.client.get('/o/offers/create', follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertContains(
             response,
@@ -77,7 +77,7 @@ class TestOffersCreate(TestCase):
 
     def test_offers_create_anonymous_user_get_method(self):
         """Test access to page for offer creation without login."""
-        response = self.client.get('/offers/create', follow=True)
+        response = self.client.get('/o/offers/create', follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertContains(
             response,
@@ -87,11 +87,11 @@ class TestOffersCreate(TestCase):
 
     def test_offers_create_invalid_form(self):
         """Test attempt of creation of new offer with invalid form."""
-        self.client.post('/login', {
+        self.client.post('/o/login', {
             'email': 'organization@example.com',
             'password': '123org',
         })
-        response = self.client.post('/offers/create', {})
+        response = self.client.post('/o/offers/create', {})
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'offers/offer_form.html')
         self.assertContains(
@@ -101,12 +101,12 @@ class TestOffersCreate(TestCase):
 
     def test_create_offer_without_date(self):
         """Test for creating offer without date."""
-        self.client.post('/login', {
+        self.client.post('/o/login', {
             'email': 'organization@example.com',
             'password': '123org',
         })
 
-        response = self.client.post('/offers/create', {
+        response = self.client.post('/o/offers/create', {
             'organization': self.organization.id,
             'description': 'desc',
             'requirements': 'required requirements',
@@ -125,12 +125,12 @@ class TestOffersCreate(TestCase):
 
     def test_offers_create_valid_form(self):
         """Test attempt of creation of new offer with valid form."""
-        self.client.post('/login', {
+        self.client.post('/o/login', {
             'email': 'organization@example.com',
             'password': '123org',
         })
         for i in range(1, 4):
-            response = self.client.post('/offers/create', {
+            response = self.client.post('/o/offers/create', {
                 'organization': self.organization.id,
                 'description': str(i),
                 'requirements': 'required requirements',
@@ -145,7 +145,7 @@ class TestOffersCreate(TestCase):
             offer = Offer.objects.get(description=str(i))
             self.assertRedirects(
                 response,
-                '/offers/volontulo-offer/{}'.format(offer.id),
+                '/o/offers/volontulo-offer/{}'.format(offer.id),
                 302,
                 200,
             )

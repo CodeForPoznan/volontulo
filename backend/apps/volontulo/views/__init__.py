@@ -35,6 +35,11 @@ def logged_as_admin(request):
     )
 
 
+def homepage_redirect(request):  # pylint: disable=unused-argument
+    """Temporary redirect to old homepage."""
+    return redirect('{}/{}'.format(settings.ANGULAR_ROOT, ''))
+
+
 def homepage(request):
     """Main view of app.
 

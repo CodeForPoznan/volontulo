@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-u"""
+"""
 .. module:: test_pages
 """
 from django.test import Client
@@ -10,90 +10,90 @@ from apps.volontulo.tests import common
 
 
 class TestPages(TestCase):
-    u"""Class responsible for testing various pages."""
+    """Class responsible for testing various pages."""
 
     @classmethod
     def setUpTestData(cls):
-        u"""Set up data for all tests."""
+        """Set up data for all tests."""
         common.initialize_filled_volunteer_and_organization()
         common.initialize_administrator()
 
     def setUp(self):
-        u"""Set up each test."""
+        """Set up each test."""
         self.client = Client()
 
     def test__homepage_for_anonymous(self):
-        u"""Home page for anonymous users."""
-        response = self.client.get('/')
+        """Home page for anonymous users."""
+        response = self.client.get('/o')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'homepage.html')
         self.assertIn('offers', response.context)
         self.assertEqual(len(response.context['offers']), 4)
 
     def test__homepage_for_volunteer_and_organization(self):
-        u"""Home page for volunteers and organizations.
+        """Home page for volunteers and organizations.
 
         There's currently no difference for anonymous
         or volunteer/organization - for now.
         """
-        response = self.client.get('/')
+        response = self.client.get('/o')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'homepage.html')
         self.assertIn('offers', response.context)
         self.assertEqual(len(response.context['offers']), 4)
 
     def test__homepage_for_administrator(self):
-        u"""Home page for administrators."""
-        self.client.post('/login', {
-            'email': u'admin_user@example.com',
+        """Home page for administrators."""
+        self.client.post('/o/login', {
+            'email': 'admin_user@example.com',
             'password': 'admin_password',
         })
-        response = self.client.get('/')
+        response = self.client.get('/o')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'homepage.html')
         self.assertIn('offers', response.context)
         self.assertEqual(len(response.context['offers']), 10)
 
-        offers = {u'NEW': 0, u'ACTIVE': 0, u'SUSPENDED': 0}
+        offers = {'NEW': 0, 'ACTIVE': 0, 'SUSPENDED': 0}
         for offer in response.context['offers']:
             offers[offer.status_old] += 1
 
-        self.assertEqual(offers[u'ACTIVE'], 0)
-        self.assertEqual(offers[u'NEW'], 5)
-        self.assertEqual(offers[u'SUSPENDED'], 5)
+        self.assertEqual(offers['ACTIVE'], 0)
+        self.assertEqual(offers['NEW'], 5)
+        self.assertEqual(offers['SUSPENDED'], 5)
 
     def test__get_organization_faq_staticpage(self):
-        u"""Organization FAQ static page"""
-        response = self.client.get('/pages/faq-organizations')
+        """Organization FAQ static page"""
+        response = self.client.get('/o/pages/faq-organizations')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'pages/faq-organizations.html')
-        self.assertContains(response, u'Często zadawane pytania')
+        self.assertContains(response, 'Często zadawane pytania')
 
     def test__get_volunteer_faq_staticpage(self):
-        u"""Volunteer FAQ static page"""
-        response = self.client.get('/pages/faq-volunteers')
+        """Volunteer FAQ static page"""
+        response = self.client.get('/o/pages/faq-volunteers')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'pages/faq-volunteers.html')
-        self.assertContains(response, u'Często zadawane pytania')
+        self.assertContains(response, 'Często zadawane pytania')
 
     def test__get_regulations_staticpage(self):
-        u"""Regulations FAQ static page"""
-        response = self.client.get('/pages/regulations')
+        """Regulations FAQ static page"""
+        response = self.client.get('/o/pages/regulations')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'pages/regulations.html')
-        self.assertContains(response, u'Regulamin')
+        self.assertContains(response, 'Regulamin')
 
     def test_about_us(self):
-        u"""Test about us."""
-        response = self.client.get('/o-nas')
+        """Test about us."""
+        response = self.client.get('/o/o-nas')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'pages/about-us.html')
-        self.assertContains(response, u'Kim jesteśmy?')
+        self.assertContains(response, 'Kim jesteśmy?')
 
     def test_office_subpage(self):
-        u"""Test office subpage."""
-        response = self.client.get('/office')
+        """Test office subpage."""
+        response = self.client.get('/o/office')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'pages/office.html')
         self.assertContains(response,
-                            u'Dyżury dla wolontariuszy oraz organizacji')
+                            'Dyżury dla wolontariuszy oraz organizacji')

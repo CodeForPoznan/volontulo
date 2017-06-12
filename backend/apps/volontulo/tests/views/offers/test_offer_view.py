@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-u"""
+"""
 .. module:: test_offer_view
 """
 
@@ -75,23 +75,23 @@ class TestOffersView(TestCase):
 
     def test_for_non_existing_offer(self):
         """Test if error 404 will be raised when offer dosn't exist."""
-        response = self.client.get('/offers/some-slug/42')
+        response = self.client.get('/o/offers/some-slug/42')
         self.assertEqual(response.status_code, 404)
 
     def test_for_different_slug(self):
         """Test if redirect will be raised when offer has different slug."""
-        response = self.client.get('/offers/different-slug/{}'.format(
+        response = self.client.get('/o/offers/different-slug/{}'.format(
             self.offer.id))
         self.assertRedirects(
             response,
-            '/offers/volontulo-offer/{}'.format(self.offer.id),
+            '/o/offers/volontulo-offer/{}'.format(self.offer.id),
             302,
             200,
         )
 
     def test_for_correct_slug(self):
         """Test offer details for standard user."""
-        response = self.client.get('/offers/volontulo-offer/{}'.format(
+        response = self.client.get('/o/offers/volontulo-offer/{}'.format(
             self.offer.id
         ))
         self.assertEqual(response.status_code, 200)

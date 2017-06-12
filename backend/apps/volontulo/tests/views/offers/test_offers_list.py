@@ -24,7 +24,7 @@ class TestOffersList(TestOffersCommons, TestCase):
         offers.
         Test are common for anonymous user, volunteer and organization.
         """
-        response = self.client.get('/offers')
+        response = self.client.get('/o/offers')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'offers/offers_list.html')
         self.assertIn('offers', response.context)
@@ -36,7 +36,7 @@ class TestOffersList(TestOffersCommons, TestCase):
 
     def test_offers_list_for_volunteer(self):
         """Test offers' list for account of volunteer."""
-        self.client.post('/login', {
+        self.client.post('/o/login', {
             'email': 'volunteer@example.com',
             'password': '123volunteer',
         })
@@ -44,7 +44,7 @@ class TestOffersList(TestOffersCommons, TestCase):
 
     def test_offers_list_for_organization(self):
         """Test offers' list for account of organization."""
-        self.client.post('/login', {
+        self.client.post('/o/login', {
             'email': 'organization@example.com',
             'password': '123org',
         })
@@ -52,11 +52,11 @@ class TestOffersList(TestOffersCommons, TestCase):
 
     def test_offers_list_for_admin(self):
         """Test offers' list for account of admin."""
-        self.client.post('/login', {
+        self.client.post('/o/login', {
             'email': 'admin@example.com',
             'password': '123admin',
         })
-        response = self.client.get('/offers')
+        response = self.client.get('/o/offers')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'offers/offers_list.html')
         self.assertIn('offers', response.context)

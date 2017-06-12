@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-u"""
-.. module:: test_offers_2
+"""
+.. module:: test_offers_archived
 """
 
 from django.contrib.auth.models import User
@@ -63,7 +63,7 @@ class TestOffersArchived(TestCase):
 
     def test_offers_archived_page(self):
         """Offers archive page."""
-        response = self.client.get('/offers/archived')
+        response = self.client.get('/o/offers/archived')
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'offers/archived.html')

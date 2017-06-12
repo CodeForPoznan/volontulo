@@ -36,7 +36,7 @@ class TestPages(TestCase):
 
     def test__get_contact_with_administrator_form_by_anonymous(self):
         """Request contact with administrator form by anonymous user."""
-        response = self.client.get('/contact', follow=True)
+        response = self.client.get('/o/contact', follow=True)
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'contact.html')
@@ -46,11 +46,11 @@ class TestPages(TestCase):
 
     def test__get_contact_with_administrator_form_by_volunteer(self):
         """Request contact with administrator form by volunteer user."""
-        self.client.post('/login', {
+        self.client.post('/o/login', {
             'email': 'volunteer1@example.com',
             'password': 'volunteer1',
         })
-        response = self.client.get('/contact')
+        response = self.client.get('/o/contact')
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'contact.html')
@@ -60,11 +60,11 @@ class TestPages(TestCase):
 
     def test__get_contact_with_administrator_form_by_organization(self):
         """Request contact with administrator form by organization user."""
-        self.client.post('/login', {
+        self.client.post('/o/login', {
             'email': 'organization1@example.com',
             'password': 'organization1',
         })
-        response = self.client.get('/contact')
+        response = self.client.get('/o/contact')
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'contact.html')
@@ -84,7 +84,7 @@ class TestPages(TestCase):
         }
 
         response = self.client.post(
-            '/contact',
+            '/o/contact',
             form_params,
             follow=True
         )
@@ -102,7 +102,7 @@ class TestPages(TestCase):
         """Post to contact with administrator form by volunteer user assuming
         validation error.
         """
-        self.client.post('/login', {
+        self.client.post('/o/login', {
             'email': 'volunteer1@example.com',
             'password': 'volunteer1',
         })
@@ -116,7 +116,7 @@ class TestPages(TestCase):
             'message': '',
         }
         response = self.client.post(
-            '/contact',
+            '/o/contact',
             form_params,
             follow=True
         )
@@ -131,7 +131,7 @@ class TestPages(TestCase):
 
     def test__contact_with_admin_form_by_volunteer(self):
         """Post to contact with administrator form by volunteer user."""
-        self.client.post('/login', {
+        self.client.post('/o/login', {
             'email': 'volunteer1@example.com',
             'password': 'volunteer1',
         })
@@ -144,7 +144,7 @@ class TestPages(TestCase):
             'message': 'My crime is that of curiosity.'
         }
         response = self.client.post(
-            '/contact',
+            '/o/contact',
             form_params,
             follow=True
         )
@@ -162,7 +162,7 @@ class TestPages(TestCase):
         """Post to contact with administrator form by organization user
         validation error.
         """
-        self.client.post('/login', {
+        self.client.post('/o/login', {
             'email': 'organization1@example.com',
             'password': 'organization1',
         })
@@ -176,7 +176,7 @@ class TestPages(TestCase):
             'message': '',
         }
         response = self.client.post(
-            '/contact',
+            '/o/contact',
             form_params,
             follow=True
         )
@@ -193,7 +193,7 @@ class TestPages(TestCase):
         """Post to contact with administrator form by organization user
         validation success.
         """
-        self.client.post('/login', {
+        self.client.post('/o/login', {
             'email': self.admin.email,
             'password': self.test_admin_password
         })
@@ -209,7 +209,7 @@ class TestPages(TestCase):
         }
 
         response = self.client.post(
-            '/contact',
+            '/o/contact',
             form_params,
             follow=True
         )

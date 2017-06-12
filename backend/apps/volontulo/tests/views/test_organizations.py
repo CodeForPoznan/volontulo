@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-u"""
+"""
 .. module:: test_organizations
 """
 from django.test import Client
@@ -11,11 +11,11 @@ from apps.volontulo.tests import common
 
 
 class TestOrganizations(TestCase):
-    u"""Class responsible for testing organization specific views."""
+    """Class responsible for testing organization specific views."""
 
     @classmethod
     def setUpTestData(cls):
-        u"""Data fixtures for all tests."""
+        """Data fixtures for all tests."""
         # volunteer user - totally useless
         cls.volunteer = common.initialize_empty_volunteer()
         # organization user - no offers
@@ -25,12 +25,12 @@ class TestOrganizations(TestCase):
             common.initialize_filled_volunteer_and_organization()
 
     def setUp(self):
-        u"""Set up each test."""
+        """Set up each test."""
         self.client = Client()
 
     def test__organization_list(self):
-        u"""Test getting organization list as anonymous."""
-        response = self.client.get('/organizations', follow=True)
+        """Test getting organization list as anonymous."""
+        response = self.client.get('/o/organizations', follow=True)
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'organizations/list.html')
@@ -40,10 +40,10 @@ class TestOrganizations(TestCase):
     def test__ensure_status_is_displayed_in_profile_view(self):
         """Test if offer status is displayed in a profile view."""
         self.client.login(
-            username=u'volunteer2@example.com',
-            password=u'volunteer2'
+            username='volunteer2@example.com',
+            password='volunteer2'
         )
-        response = self.client.get('/me', follow=True)
+        response = self.client.get('/o/me', follow=True)
         self.assertTemplateUsed(response, 'users/my_offers.html')
         self.assertIn('offers', response.context)
         self.assertEqual(
@@ -52,10 +52,10 @@ class TestOrganizations(TestCase):
     def test__ensure_status_is_displayed_in_organisations_view(self):
         """Test if offer status is displayed in an organisation view."""
         self.client.login(
-            username=u'volunteer2@example.com',
-            password=u'volunteer2'
+            username='volunteer2@example.com',
+            password='volunteer2'
         )
-        response = self.client.get('/me', follow=True)
+        response = self.client.get('/o/me', follow=True)
         self.assertIn('offers', response.context)
         self.assertEqual(
             'published', response.context['offers'][0].offer_status)

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-u"""
+"""
 .. module:: test_offer_join
 """
 
@@ -56,24 +56,24 @@ class TestOffersJoin(TestCase):
 
     def test_for_nonexisting_offer(self):
         """Test if error 404 will be raised when offer dosn't exist."""
-        response = self.client.get('/offers/some-slug/42/join')
+        response = self.client.get('/o/offers/some-slug/42/join')
         self.assertEqual(response.status_code, 404)
 
     def test_for_different_slug(self):
         """Test if redirect will be raised when offer has different slug."""
-        response = self.client.get('/offers/different-slug/{}/join'.format(
+        response = self.client.get('/o/offers/different-slug/{}/join'.format(
             self.offer.id
         ))
         self.assertRedirects(
             response,
-            '/offers/volontulo-offer/{}/join'.format(self.offer.id),
+            '/o/offers/volontulo-offer/{}/join'.format(self.offer.id),
             302,
             200,
         )
 
     def test_correct_slug_for_anonymous_user(self):
         """Test get method of offer join for anonymous user."""
-        response = self.client.get('/offers/volontulo-offer/{}/join'.format(
+        response = self.client.get('/o/offers/volontulo-offer/{}/join'.format(
             self.offer.id
         ))
         self.assertEqual(response.status_code, 200)
@@ -84,11 +84,11 @@ class TestOffersJoin(TestCase):
 
     def test_correct_slug_for_logged_in_user(self):
         """Test get method of offer join for logged in user."""
-        self.client.post('/login', {
+        self.client.post('/o/login', {
             'email': 'volunteer@example.com',
             'password': 'vol123',
         })
-        response = self.client.get('/offers/volontulo-offer/{}/join'.format(
+        response = self.client.get('/o/offers/volontulo-offer/{}/join'.format(
             self.offer.id
         ))
         self.assertEqual(response.status_code, 200)
@@ -101,7 +101,7 @@ class TestOffersJoin(TestCase):
 
     def test_offers_join_invalid_form(self):
         """Test attempt of joining offer with invalid form."""
-        response = self.client.post('/offers/volontulo-offer/{}/join'.format(
+        response = self.client.post('/o/offers/volontulo-offer/{}/join'.format(
             self.offer.id
         ), {})
         self.assertEqual(response.status_code, 200)
@@ -113,13 +113,13 @@ class TestOffersJoin(TestCase):
 
     def test_offers_join_valid_form_and_logged_user(self):
         """Test attempt of joining offer with valid form and logged user."""
-        self.client.post('/login', {
+        self.client.post('/o/login', {
             'email': 'volunteer@example.com',
             'password': 'vol123',
         })
 
         # successfull joining offer:
-        response = self.client.post('/offers/volontulo-offer/{}/join'.format(
+        response = self.client.post('/o/offers/volontulo-offer/{}/join'.format(
             self.offer.id
         ), {
             'email': 'volunteer@example.com',
@@ -129,13 +129,13 @@ class TestOffersJoin(TestCase):
         }, follow=True)
         self.assertRedirects(
             response,
-            '/offers/volontulo-offer/{}'.format(self.offer.id),
+            '/o/offers/volontulo-offer/{}'.format(self.offer.id),
             302,
             200,
         )
 
         # unsuccessfull joining the same offer for the second time:
-        response = self.client.post('/offers/volontulo-offer/{}/join'.format(
+        response = self.client.post('/o/offers/volontulo-offer/{}/join'.format(
             self.offer.id
         ), {
             'email': 'volunteer@example.com',
@@ -145,7 +145,7 @@ class TestOffersJoin(TestCase):
         }, follow=True)
         self.assertRedirects(
             response,
-            '/offers',
+            '/o/offers',
             302,
             200,
         )
@@ -165,13 +165,13 @@ class TestOffersJoin(TestCase):
 
         # successfull joining offer:
         response = self.client.post(
-            '/offers/volontulo-offer/{}/join'.format(self.offer.id),
+            '/o/offers/volontulo-offer/{}/join'.format(self.offer.id),
             post_data,
             follow=True,
         )
         self.assertRedirects(
             response,
-            '/register',
+            '/o/register',
             302,
             200,
         )
@@ -191,13 +191,13 @@ class TestOffersJoin(TestCase):
 
         # successfull joining offer:
         response = self.client.post(
-            '/offers/volontulo-offer/{}/join'.format(self.offer.id),
+            '/o/offers/volontulo-offer/{}/join'.format(self.offer.id),
             post_data,
             follow=True,
         )
         self.assertRedirects(
             response,
-            '/login?next=/offers/volontulo-offer/{}/join'.format(
+            '/o/login?next=/o/offers/volontulo-offer/{}/join'.format(
                 self.offer.id
             ),
             302,

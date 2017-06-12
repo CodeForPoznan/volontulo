@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-u"""
+"""
 .. module:: test_edit_profile
 """
 from django.contrib.auth.models import User
@@ -12,14 +12,14 @@ from apps.volontulo.tests import common
 
 
 class TestEditProfileForm(TransactionTestCase):
-    u"""Tests for register view."""
+    """Tests for register view."""
 
     def setUp(self):
-        u"""UnitTest setup data."""
+        """UnitTest setup data."""
         common.initialize_empty_volunteer()
 
     def test_is_validate_passed_passwords_form_is_valid(self):
-        u"""Test is_validate() method.
+        """Test is_validate() method.
 
             Testing EditProfileForm.is_valid() method
             with correct passwords and other fields
@@ -36,7 +36,7 @@ class TestEditProfileForm(TransactionTestCase):
         self.assertTrue(form.is_valid())
 
     def test__is_validate__empty_passwords__form_is_not_valid(self):
-        u"""Test is_validate() method.
+        """Test is_validate() method.
 
             Testing EditProfileForm.is_valid() method
             with empty passwords and other fields
@@ -47,7 +47,7 @@ class TestEditProfileForm(TransactionTestCase):
         self.assertFalse(form.is_valid())
 
     def test__is_validate__wrong_current_password__raise_exception(self):
-        u"""Test is_validate() method.
+        """Test is_validate() method.
 
             Testing EditProfileForm.is_valid() method
             with incorrect current password
@@ -64,7 +64,7 @@ class TestEditProfileForm(TransactionTestCase):
         self.assertRaises(ValidationError, form.is_valid)
 
     def test__is_validate__distinct_new_passwords__raise_exception(self):
-        u"""Test is_validate() method.
+        """Test is_validate() method.
 
             Testing EditProfileForm.is_valid() method
             with distinct new passwords
@@ -81,11 +81,11 @@ class TestEditProfileForm(TransactionTestCase):
         self.assertRaises(ValidationError, form.is_valid)
 
     def test__no_is_avatar_field_on_edit_profile_form(self):
-        u"""Test if Is Avatar field is not visible."""
+        """Test if Is Avatar field is not visible."""
 
-        self.client.post('/login', {
-            'email': u'volunteer1@example.com',
+        self.client.post('/o/login', {
+            'email': 'volunteer1@example.com',
             'password': 'volunteer1',
         })
-        response = self.client.get('/me')
-        self.assertNotContains(response, u'is_avatar')
+        response = self.client.get('/o/me')
+        self.assertNotContains(response, 'is_avatar')
