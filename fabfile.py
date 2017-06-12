@@ -35,7 +35,7 @@ def update():
 
     # Gulp frontend refresh:
     with contextlib.nested(
-        prefix('nvm use 7.4.0'),
+        prefix('nvm use 7.9.0'),
         cd('/var/www/volontuloapp_org/backend/apps/volontulo'),
     ):
         run('npm install .')
@@ -48,4 +48,12 @@ def update():
     ):
         run('python manage.py migrate --traceback'
             ' --settings=volontulo_org.settings.production')
+
+    # Angular assets refresh:
+    with contextlib.nested(
+        prefix('nvm use 7.9.0'),
+        cd('/var/www/volontuloapp_org/frontend'),
+    ):
+        run('npm install .')
+        run('ng build --prod')
         run('service apache2 restart')
