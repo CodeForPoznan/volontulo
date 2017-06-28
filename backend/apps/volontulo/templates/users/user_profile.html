@@ -62,13 +62,20 @@
             Działania w instytucji czy organizacji
         </h3>
         <div class="panel-body">
-            {% include 'organizations/gallery.html' with image_form=image_form gallery=gallery %}
-            <hr />
-            <div class="h4">
-                <h4>Organizowane oferty</h4>
-                <a href="{% url 'offers_create' %}" class="btn btn-primary btn-sm">Utwórz ofertę</a>
-            </div>
-            {% include 'organizations/organization_offers.html' with offers=created_offers %}
+            {% if userprofile.is_in_organization %}
+                {% include 'organizations/gallery.html' with image_form=image_form gallery=gallery %}
+                <hr />
+                <div class="h4">
+                    <h4>Organizowane oferty</h4>
+                    <a href="{% url 'offers_create' %}" class="btn btn-primary btn-sm">Utwórz ofertę</a>
+                </div>
+                {% include 'organizations/organization_offers.html' with offers=created_offers %}
+            {% else %}
+                <div>
+                    <p>Pracujesz w organizacji zajmującej się wolontariatem?</p>
+                    <a href="{% url 'organizations_create' %}" class="btn btn-primary btn-sm">Dodaj organizację</a>
+                </div>
+            {% endif %}
         </div>
     </div>
 

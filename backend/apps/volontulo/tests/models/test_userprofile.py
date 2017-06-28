@@ -65,6 +65,13 @@ class TestUserProfile(TestCase):
             u'administrator@example.com'
         )
 
+    def test__is_user_in_organization(self):
+        """Check if specified user is in organization."""
+
+        self.assertFalse(self.administrator_user.is_in_organization())
+        self.assertFalse(self.volunteer_user.is_in_organization())
+        self.assertTrue(self.organization_user.is_in_organization())
+
     def test__is_admin_or_volunteer(self):
         """Check if specified user has enabled/disabled administrator flag."""
 
