@@ -13,6 +13,8 @@ frontend:
 backend:
   image: codeforpoznan/volontulo
   # build: .
+  environment:
+    SECRET_KEY: a63eb5ef-3b25-4595-846a-5d97d99486f0
   entrypoint: bash docker-entrypoint.sh
   # entrypoint: tail -f /dev/null
   working_dir: /volontulo/backend
