@@ -1,13 +1,9 @@
-import { Component, Inject, OpaqueToken } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { environment } from '../environments/environment';
+import { WindowService } from './window.service';
 
-export const WindowToken = new OpaqueToken('Window');
-
-export function _window(): Window {
-  return window;
-}
 
 @Component({
   template: ''
@@ -15,7 +11,7 @@ export function _window(): Window {
 export class RedirectComponent {
   constructor(
     private router: Router,
-    @Inject(WindowToken) private window: any
+    @Inject(WindowService) private window: any
   ) {
     const angularUrlSuffix = this.router.routerState.snapshot.url;
     const djangoUrlSuffix = angularUrlSuffix === '/' ? '' : angularUrlSuffix;

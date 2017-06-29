@@ -5,7 +5,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { RedirectComponent, WindowToken, _window } from './redirect.component';
+import { RedirectComponent } from './redirect.component';
+import { WindowService, WindowFactory } from './window.service';
+
 
 const appRoutes: Routes = [
   {
@@ -26,7 +28,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes)
   ],
   providers: [
-    {provide: WindowToken, useFactory: _window},
+    { provide: WindowService, useFactory: WindowFactory }
   ],
   bootstrap: [AppComponent]
 })
