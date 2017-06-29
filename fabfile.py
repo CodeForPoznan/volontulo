@@ -48,6 +48,8 @@ def update():
     ):
         run('python manage.py migrate --traceback'
             ' --settings=volontulo_org.settings.production')
+        run('python manage.py collectstatic --traceback --noinput'
+            ' --settings=volontulo_org.settings.production')
 
     # Angular assets refresh:
     with contextlib.nested(
