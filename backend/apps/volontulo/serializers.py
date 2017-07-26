@@ -4,6 +4,7 @@
 .. module:: serializers
 """
 
+from django.contrib.auth.models import User
 from django.utils.text import slugify
 from rest_framework import serializers
 
@@ -66,3 +67,23 @@ class OrganizationSerializer(serializers.HyperlinkedModelSerializer):
     def get_slug(obj):
         """Returns slugified name."""
         return slugify(obj.name)
+
+
+class UserSerializer(serializers.ModelSerializer):
+
+    """REST API organizations serializer."""
+
+    class Meta:
+        model = User
+        exclude = ('password',)
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+
+    """REST API organizations serializer."""
+
+    organizations = OrganizationSerializer(many=True)
+    user = UserSerializer()
+
+    class Meta:
+        model = models.UserProfile

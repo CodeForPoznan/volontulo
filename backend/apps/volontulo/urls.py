@@ -192,4 +192,9 @@ urlpatterns = [
         views.newsletter_signup,
         name='newsletter_signup'
     ),
+    url(
+        r'^api/login',
+        views.api.LoginView.as_view(),
+        name='api_login'
+    ),
 ]

@@ -4,12 +4,54 @@
 .. module:: api
 """
 
+from django.contrib.auth import authenticate, login
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework import viewsets
 
 from apps.volontulo import models
 from apps.volontulo import permissions
 from apps.volontulo import serializers
+from apps.volontulo.authentication import CsrfExemptSessionAuthentication
 from apps.volontulo.views import logged_as_admin
+
+
+class LoginView(APIView):
+    """
+    REST Login view
+    """
+    authentication_classes = (CsrfExemptSessionAuthentication,)
+    permission_classes = ()
+
+    def post(self, request):
+        """POST from login"""
+        content = {
+            'success': False,
+            'message': 'User is logged'
+        }
+        if not request.user.is_authenticated():
+            username = request.data.get('username')
+            password = request.data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    content = {
+                        'success': True,
+                        'message': 'Login success',
+                        'username': username
+                    }
+                else:
+                    content = {
+                        'success': False,
+                        'message': 'User is inactive'
+                    }
+            else:
+                content = {
+                    'success': False,
+                    'message': 'Incorrect credentials'
+                }
+        return Response(content)
 
 
 class OfferViewSet(viewsets.ModelViewSet):
