@@ -4,9 +4,13 @@
 .. module:: api
 """
 
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate
+from django.contrib.auth import login
+from rest_framework.decorators import api_view
+from rest_framework.decorators import authentication_classes
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework import viewsets
 
 from apps.volontulo import models
@@ -16,42 +20,28 @@ from apps.volontulo.authentication import CsrfExemptSessionAuthentication
 from apps.volontulo.views import logged_as_admin
 
 
-class LoginView(APIView):
-    """
-    REST Login view
-    """
-    authentication_classes = (CsrfExemptSessionAuthentication,)
-    permission_classes = ()
+@api_view(['POST'])
+@authentication_classes((CsrfExemptSessionAuthentication,))
+@permission_classes((AllowAny,))
+def login_view(request):
+    """REST API login view."""
+    if not request.user.is_authenticated():
+        username = request.data.get('username')
+        password = request.data.get('password')
+        user = authenticate(username=username, password=password)
 
-    def post(self, request):
-        """POST from login"""
-        content = {
-            'success': False,
-            'message': 'User is logged'
-        }
-        if not request.user.is_authenticated():
-            username = request.data.get('username')
-            password = request.data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    content = {
-                        'success': True,
-                        'message': 'Login success',
-                        'username': username
-                    }
-                else:
-                    content = {
-                        'success': False,
-                        'message': 'User is inactive'
-                    }
-            else:
-                content = {
-                    'success': False,
-                    'message': 'Incorrect credentials'
-                }
-        return Response(content)
+        if user is None or not user.is_active:
+            return Response({
+                'success': False,
+                'user': None,
+            })
+
+        login(request, user)
+
+    return Response({
+        'success': True,
+        'user': serializers.UserSerializer(request.user).data,
+    })
 
 
 class OfferViewSet(viewsets.ModelViewSet):

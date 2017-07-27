@@ -75,15 +75,4 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        exclude = ('password',)
-
-
-class UserProfileSerializer(serializers.ModelSerializer):
-
-    """REST API organizations serializer."""
-
-    organizations = OrganizationSerializer(many=True)
-    user = UserSerializer()
-
-    class Meta:
-        model = models.UserProfile
+        fields = ('username',)

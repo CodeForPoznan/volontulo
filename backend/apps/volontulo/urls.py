@@ -30,6 +30,11 @@ urlpatterns = [
 
     # api:
     url(r'^api/', include(router.urls)),
+    url(
+        r'^api/login',
+        views.api.login_view,
+        name='api_login'
+    ),
 
     # homepage:
     url(r'^o$', views.homepage, name='homepage'),
@@ -191,10 +196,5 @@ urlpatterns = [
         r'^o/newsletter$',
         views.newsletter_signup,
         name='newsletter_signup'
-    ),
-    url(
-        r'^api/login',
-        views.api.LoginView.as_view(),
-        name='api_login'
     ),
 ]
