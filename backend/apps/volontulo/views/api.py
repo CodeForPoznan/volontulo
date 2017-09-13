@@ -6,6 +6,7 @@
 
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.decorators import authentication_classes
 from rest_framework.decorators import permission_classes
@@ -31,17 +32,14 @@ def login_view(request):
         user = authenticate(username=username, password=password)
 
         if user is None or not user.is_active:
-            return Response({
-                'success': False,
-                'user': None,
-            })
+            return Response(None, status=status.HTTP_401_UNAUTHORIZED)
 
         login(request, user)
 
-    return Response({
-        'success': True,
-        'user': serializers.UserSerializer(request.user).data,
-    })
+    return Response(
+        serializers.UserSerializer(request.user).data,
+        status=status.HTTP_200_OK,
+    )
 
 
 class OfferViewSet(viewsets.ModelViewSet):
