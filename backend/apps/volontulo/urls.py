@@ -35,6 +35,11 @@ urlpatterns = [
         views.api.login_view,
         name='api_login'
     ),
+    url(
+        r'^api/logout',
+        views.api.logout_view,
+        name='api_logout'
+    ),
 
     # homepage:
     url(r'^o$', views.homepage, name='homepage'),

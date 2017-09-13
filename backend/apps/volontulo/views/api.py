@@ -6,6 +6,7 @@
 
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
+from django.contrib.auth import logout
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.decorators import authentication_classes
@@ -40,6 +41,16 @@ def login_view(request):
         serializers.UserSerializer(request.user).data,
         status=status.HTTP_200_OK,
     )
+
+
+@api_view(['GET'])
+@permission_classes((AllowAny,))
+def logout_view(request):
+    """REST API logout view."""
+    if request.user.is_authenticated():
+        logout(request)
+        return Response(None, status=status.HTTP_200_OK)
+    return Response(None, status=status.HTTP_400_BAD_REQUEST)
 
 
 class OfferViewSet(viewsets.ModelViewSet):
