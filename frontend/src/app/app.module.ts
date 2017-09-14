@@ -32,7 +32,6 @@ const appRoutes: Routes = [
     HomeComponent,
     HeaderComponent,
     FooterComponent,
-    SubFooterComponent
   ],
   imports: [
     BrowserModule,
