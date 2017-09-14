@@ -11,8 +11,6 @@ import { WindowService, WindowFactory } from './window.service';
 import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
-import { SubFooterComponent } from './sub-footer/sub-footer.component';
-
 
 const appRoutes: Routes = [
   // {
