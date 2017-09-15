@@ -4,7 +4,7 @@ import { environment } from '../../environments/environment';
 
 
 @Component({
-  selector: 'app-header',
+  selector: 'volontulo-header',
   templateUrl: './header.component.html'
 })
 export class HeaderComponent implements OnInit {
