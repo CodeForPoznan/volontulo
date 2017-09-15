@@ -153,6 +153,15 @@ class OffersCreate(View):
 class OffersReorder(View):
     """Class view supporting change of a offer."""
 
+    def dispatch(self, *args, **kwargs):
+        user = self.request.user
+        if (
+                not user.is_authenticated() or
+                not user.userprofile.is_administrator
+        ):
+            return redirect('offers_list')
+        return super(OffersReorder, self).dispatch(*args, **kwargs)
+
     @staticmethod
     def get(request, id_):
         """Display offer list with weights GET request.
