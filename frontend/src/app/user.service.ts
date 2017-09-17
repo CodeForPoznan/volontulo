@@ -6,20 +6,19 @@ import { Observable } from 'rxjs/Rx';
 export class UserService {
   private url = 'http://localhost:8000/api/login';
 
-  constructor (
-    private http: Http
-  ) {}
+  constructor(private http: Http) {
+  }
 
   loginUser(username: string, password: string) {
-    let headers: Headers = new Headers({
+    const headers: Headers = new Headers({
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*'
     });
-    let options: RequestOptions = new RequestOptions({ headers: headers });
+    const options: RequestOptions = new RequestOptions({ headers: headers });
 
     return this.http.post(this.url, { username, password }, options)
-    .map((res:Response) => res.json())
-    .catch(this.handleError);
+      .map((res: Response) => res.json())
+      .catch(this.handleError);
   }
 
   handleError(reject: Response | any) {
