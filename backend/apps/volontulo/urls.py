@@ -32,13 +32,18 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(
         r'^api/login',
-        views.api.login_view,
+        api_views.login_view,
         name='api_login'
     ),
     url(
         r'^api/logout',
-        views.api.logout_view,
+        api_views.logout_view,
         name='api_logout'
+    ),
+    url(
+        r'^api/current-user',
+        api_views.current_user,
+        name='current_user'
     ),
 
     # homepage:

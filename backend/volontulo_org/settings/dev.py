@@ -14,7 +14,12 @@ INSTALLED_APPS += (
     'debug_toolbar',
     'django_coverage',
     'django_extensions',
-    'django_nose'
+    'django_nose',
+    'corsheaders',
+)
+
+MIDDLEWARE_CLASSES += (
+    'corsheaders.middleware.CorsMiddleware',
 )
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
@@ -32,3 +37,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'fake_emails')
 
 ANGULAR_ROOT = 'http://localhost:4200'
+
+CORS_ORIGIN_WHITELIST = (
+    'localhost:4200',
+)
+CORS_ALLOW_CREDENTIALS = True

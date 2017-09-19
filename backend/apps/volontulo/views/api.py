@@ -37,9 +37,14 @@ def login_view(request):
 
         login(request, user)
 
+        return Response(
+            serializers.UserSerializer(user).data,
+            status=status.HTTP_200_OK,
+        )
+
     return Response(
         serializers.UserSerializer(request.user).data,
-        status=status.HTTP_200_OK,
+        status=status.HTTP_400_BAD_REQUEST,
     )
 
 
@@ -51,6 +56,19 @@ def logout_view(request):
         logout(request)
         return Response(None, status=status.HTTP_200_OK)
     return Response(None, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes((AllowAny,))
+def current_user(request):
+    """REST API view for current user."""
+    if request.user.is_authenticated():
+        return Response(
+            serializers.UserSerializer(request.user).data,
+            status=status.HTTP_200_OK,
+        )
+
+    return Response(None, status=status.HTTP_200_OK)
 
 
 class OfferViewSet(viewsets.ModelViewSet):
