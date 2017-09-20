@@ -6,11 +6,11 @@
         <h3 class="nav-title">Informacje</h3>
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link" href="#">Strona główna</a>
-            <a class="nav-link" href="#">Załóż konto</a>
-            <a class="nav-link" href="#">Kontakt z administratorem</a>
-            <a class="nav-link" href="#">O nas</a>
-            <a class="nav-link" href="#">Regulamin</a>
+            <a class="nav-link" href="{{ djangoRoot }}">Strona główna</a>
+            <a class="nav-link" href="{{ djangoRoot }}/register">Załóż konto</a>
+            <a class="nav-link" href="{{ djangoRoot }}/contact">Kontakt z administratorem</a>
+            <a class="nav-link" href="{{ djangoRoot }}/o-nas">O nas</a>
+            <a class="nav-link" href="{{ djangoRoot }}/regulations">Regulamin</a>
           </li>
         </ul>
       </div>
@@ -18,11 +18,11 @@
         <h3 class="nav-title">Strefa organizacji i instytucji</h3>
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link" href="#">Załóż konto</a>
-            <a class="nav-link" href="#">Dodaj nową ofertę</a>
-            <a class="nav-link" href="#">Lista organizacji i instytucji</a>
-            <a class="nav-link" href="#">FAQ dla organizacji i instytucji</a>
-            <a class="nav-link" href="#">Przyjdź na dyżur</a>
+            <a class="nav-link" href="{{ djangoRoot }}/register">Załóż konto</a>
+            <a class="nav-link" href="{{ djangoRoot }}/offers/create">Dodaj nową ofertę</a>
+            <a class="nav-link" href="{{ djangoRoot }}/organizations">Lista organizacji i instytucji</a>
+            <a class="nav-link" href="{{ djangoRoot }}/pages/faq-organizations">FAQ dla organizacji i instytucji</a>
+            <a class="nav-link" href="{{ djangoRoot }}/office">Przyjdź na dyżur</a>
           </li>
         </ul>
       </div>
@@ -30,12 +30,12 @@
         <h3 class="nav-title">Strefa wolontariusza</h3>
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link" href="#">Załóż konto</a>
-            <a class="nav-link" href="#">Lista aktualnych ofert</a>
-            <a class="nav-link" href="#">Archiwum ofert</a>
-            <a class="nav-link" href="#">Lista organizacji i instytucji</a>
-            <a class="nav-link" href="#">FAQ dla wolontariuszy</a>
-            <a class="nav-link" href="#"></a>
+            <a class="nav-link" href="{{ djangoRoot }}/register">Załóż konto</a>
+            <a class="nav-link" href="{{ djangoRoot }}/offers">Lista aktualnych ofert</a>
+            <a class="nav-link" href="{{ djangoRoot }}/offers/archived">Archiwum ofert</a>
+            <a class="nav-link" href="{{ djangoRoot }}/organizations">Lista organizacji i instytucji</a>
+            <a class="nav-link" href="{{ djangoRoot }}/faq-volunteers">FAQ dla wolontariuszy</a>
+            <a class="nav-link" href="{{ djangoRoot }}/office"></a>
           </li>
         </ul>
       </div>
