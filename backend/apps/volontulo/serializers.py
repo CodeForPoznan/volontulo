@@ -73,6 +73,16 @@ class UserSerializer(serializers.ModelSerializer):
 
     """REST API organizations serializer."""
 
+    is_administrator = serializers.SerializerMethodField()
+
     class Meta:
         model = User
-        fields = ('username',)
+        fields = (
+            'is_administrator',
+            'username',
+        )
+
+    @staticmethod
+    def get_is_administrator(obj):
+        """Returns information if user is an administrator."""
+        return obj.userprofile.is_administrator
