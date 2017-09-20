@@ -11,10 +11,9 @@ import { User } from '../user.d';
 })
 export class HeaderComponent {
 
+  public currentUser: User;
+  public djangoRoot: string;
   public isNavbarCollapsed = true;
-
-  private currentUser: User;
-  private djangoRoot: string;
 
   constructor (private authService: AuthService) {
     this.djangoRoot = environment.djangoRoot;
