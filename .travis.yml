@@ -28,7 +28,7 @@ script:
 
   - cd frontend
   - ng lint
-  - ng test --single-run --code-coverage
+  - ng test --single-run --code-coverage --browsers HeadlessChrome
   - cd ..
 after_success:
   - codecov --file backend/coverage.xml
