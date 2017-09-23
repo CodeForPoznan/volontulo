@@ -153,14 +153,14 @@ class OffersCreate(View):
 class OffersReorder(View):
     """Class view supporting change of a offer."""
 
-    def dispatch(self, *args, **kwargs):
+    def dispatch(self, request, *args, **kwargs):
         user = self.request.user
         if (
                 not user.is_authenticated() or
                 not user.userprofile.is_administrator
         ):
             return redirect('offers_list')
-        return super(OffersReorder, self).dispatch(*args, **kwargs)
+        return super(OffersReorder, self).dispatch(request, *args, **kwargs)
 
     @staticmethod
     def get(request, id_):
@@ -175,7 +175,7 @@ class OffersReorder(View):
             'offers': offers, 'id': id_})
 
     @staticmethod
-    def post(request, id_):
+    def post(request, _):
         """Display offer list with weights GET request.
 
         :param request:
@@ -290,7 +290,7 @@ class OffersEdit(View):
                 offer.reject()
             return redirect('offers_list')
 
-        form = CreateOfferForm(  # pylint: disable=redefined-variable-type
+        form = CreateOfferForm(
             request.POST, instance=offer
         )
 
@@ -343,8 +343,8 @@ class OffersDelete(View):
             offer.reject()
             messages.info(request, "Oferta została odrzucona.")
             return redirect('homepage')
-        else:
-            return HttpResponseForbidden()
+
+        return HttpResponseForbidden()
 
 
 class OffersAccept(View):
@@ -365,8 +365,8 @@ class OffersAccept(View):
             offer.publish()
             messages.info(request, "Oferta została zaakceptowana.")
             return redirect('homepage')
-        else:
-            return HttpResponseForbidden()
+
+        return HttpResponseForbidden()
 
 
 class OffersView(View):
@@ -485,12 +485,12 @@ class OffersJoin(View):
                             login=reverse('login'), path=request.path
                         )
                     )
-                else:
-                    messages.info(
-                        request,
-                        "Zarejestruj się, aby zapisać się do oferty."
-                    )
-                    return redirect('register')
+
+                messages.info(
+                    request,
+                    "Zarejestruj się, aby zapisać się do oferty."
+                )
+                return redirect('register')
 
             has_applied = Offer.objects.filter(
                 volunteers=user,

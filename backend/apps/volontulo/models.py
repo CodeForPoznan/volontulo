@@ -175,10 +175,9 @@ class Offer(models.Model):
                 )
         ):
             return 'ongoing'
-        elif self.started_at > timezone.now():
+        if self.started_at > timezone.now():
             return 'future'
-        else:
-            return 'finished'
+        return 'finished'
 
     def change_status(self, status):
         """Change offer status.

@@ -24,12 +24,12 @@ class PageList(ListView):
     template_name = 'pages/page_list.html'
 
     @method_decorator(user_passes_test(is_admin_test))
-    def dispatch(self, *args, **kwargs):
+    def dispatch(self, request, *args, **kwargs):
         """
         Method is overriden to check that current user instance
         is administrator.
         """
-        return super(PageList, self).dispatch(*args, **kwargs)
+        return super(PageList, self).dispatch(request, *args, **kwargs)
 
 
 class PageDetails(DetailView):
@@ -56,12 +56,12 @@ class PageCreate(CreateView):
         return redirect(self.get_success_url())
 
     @method_decorator(user_passes_test(is_admin_test))
-    def dispatch(self, *args, **kwargs):
+    def dispatch(self, request, *args, **kwargs):
         """
         Method is overriden to check that current user instance
         is administrator.
         """
-        return super(PageCreate, self).dispatch(*args, **kwargs)
+        return super(PageCreate, self).dispatch(request, *args, **kwargs)
 
 
 class PageEdit(UpdateView):
@@ -76,12 +76,12 @@ class PageEdit(UpdateView):
     success_url = reverse_lazy('pages_list')
 
     @method_decorator(user_passes_test(is_admin_test))
-    def dispatch(self, *args, **kwargs):
+    def dispatch(self, request, *args, **kwargs):
         """
         Method is overriden to check that current user instance
         is administrator.
         """
-        return super(PageEdit, self).dispatch(*args, **kwargs)
+        return super(PageEdit, self).dispatch(request, *args, **kwargs)
 
 
 class PageDelete(DeleteView):
@@ -97,9 +97,9 @@ class PageDelete(DeleteView):
         return self.post(request, *args, **kwargs)
 
     @method_decorator(user_passes_test(is_admin_test))
-    def dispatch(self, *args, **kwargs):
+    def dispatch(self, request, *args, **kwargs):
         """
         Method is overriden to check that current user instance
         is administrator.
         """
-        return super(PageDelete, self).dispatch(*args, **kwargs)
+        return super(PageDelete, self).dispatch(request, *args, **kwargs)
