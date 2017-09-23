@@ -1,7 +1,3 @@
-__Story / Bug id:__ https://github.com/CodeForPoznan/volontulo/issues/123
-
-__Reference person:__ @yourgithubname
-
 __Description:__
 
 Description of your changes.
