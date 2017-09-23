@@ -19,6 +19,7 @@ INSTALLED_APPS += (
 )
 
 MIDDLEWARE_CLASSES += (
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'corsheaders.middleware.CorsMiddleware',
 )
 
