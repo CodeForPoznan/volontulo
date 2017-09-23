@@ -31,7 +31,7 @@ def update():
         prefix('workon volontuloapp_org'),
         cd('/var/www/volontuloapp_org/backend'),
     ):
-        run('pip install -r requirements/base.txt')
+        run('pip install --upgrade -r requirements/base.txt')
 
     # Gulp frontend refresh:
     with contextlib.nested(
