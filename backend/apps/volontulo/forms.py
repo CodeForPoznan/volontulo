@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
-u"""
+"""
 .. module:: forms
 """
-from __future__ import unicode_literals
 
 from django import forms
 from django.contrib.auth.models import User
@@ -15,12 +14,12 @@ from apps.volontulo.models import OrganizationGallery
 from apps.volontulo.models import UserGallery
 from apps.volontulo.utils import get_administrators_emails
 
-ACCEPT_TERMS = u"""Wyrażam zgodę na przetwarzanie moich danych osobowych"""
+ACCEPT_TERMS = """Wyrażam zgodę na przetwarzanie moich danych osobowych"""
 
 
 class UserForm(forms.ModelForm):
 
-    u"""Form reposponsible for authorization."""
+    """Form reposponsible for authorization."""
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput())
     terms_acceptance = forms.BooleanField(label=ACCEPT_TERMS, required=True)
@@ -32,7 +31,7 @@ class UserForm(forms.ModelForm):
 
 class EditProfileForm(forms.Form):
 
-    u"""Form reposponsible for edit user details on profile page."""
+    """Form reposponsible for edit user details on profile page."""
     first_name = forms.CharField(
         label="Imię",
         max_length=128,
@@ -44,7 +43,7 @@ class EditProfileForm(forms.Form):
         required=False
     )
     phone_no = forms.CharField(
-        label=u"Numer telefonu",
+        label="Numer telefonu",
         required=False
     )
     current_password = forms.CharField(
@@ -80,17 +79,17 @@ class EditProfileForm(forms.Form):
                 confirm_new_password
         ):
             if not user.check_password(current_password):
-                raise ValidationError(u"Aktualne hasło jest błędne")
+                raise ValidationError("Aktualne hasło jest błędne")
 
             if new_password != confirm_new_password:
-                raise ValidationError(u"Wprowadzone hasła różnią się")
+                raise ValidationError("Wprowadzone hasła różnią się")
 
         return True
 
 
 class CreateOfferForm(forms.ModelForm):
 
-    u"""Form reposponsible for creating offer by organization."""
+    """Form reposponsible for creating offer by organization."""
 
     def __init__(self, *args, **kwargs):
         super(CreateOfferForm, self).__init__(*args, **kwargs)
@@ -125,8 +124,8 @@ class CreateOfferForm(forms.ModelForm):
 
 class UserGalleryForm(forms.ModelForm):
 
-    u"""Form used for changing user profile of user."""
-    image = forms.ImageField(label=u"Wybierz grafikę")
+    """Form used for changing user profile of user."""
+    image = forms.ImageField(label="Wybierz grafikę")
 
     class Meta(object):
         model = UserGallery
@@ -137,14 +136,14 @@ class UserGalleryForm(forms.ModelForm):
 
 class OrganizationGalleryForm(forms.ModelForm):
 
-    u"""Form used for changing organization profiel."""
-    path = forms.ImageField(label=u"Wybierz grafikę")
+    """Form used for changing organization profiel."""
+    path = forms.ImageField(label="Wybierz grafikę")
     organization = forms.ModelChoiceField(
-        label=u"Dodaj do organizacji",
+        label="Dodaj do organizacji",
         queryset=Organization.objects.all()
     )
     is_main = forms.BooleanField(
-        label=u"Użyj jako zdjęcie główne? ",
+        label="Użyj jako zdjęcie główne? ",
         required=False,
     )
 
@@ -153,12 +152,12 @@ class OrganizationGalleryForm(forms.ModelForm):
         fields = ['path', 'organization']
 
     def __init__(self, userprofile, *args, **kwargs):
-        u"""Initialize OrganizationGalleryForm object."""
+        """Initialize OrganizationGalleryForm object."""
         super(OrganizationGalleryForm, self).__init__(*args, **kwargs)
         self._set_user_organizations(userprofile)
 
     def _set_user_organizations(self, userprofile):
-        u"""Get current user organizations."""
+        """Get current user organizations."""
         self.fields['organization'].queryset = Organization.objects.filter(
             userprofiles=userprofile
         )
@@ -166,10 +165,10 @@ class OrganizationGalleryForm(forms.ModelForm):
 
 class OfferImageForm(forms.ModelForm):
 
-    u"""Form used for upload offer image."""
-    path = forms.ImageField(label=u"Dodaj zdjęcie")
+    """Form used for upload offer image."""
+    path = forms.ImageField(label="Dodaj zdjęcie")
     is_main = forms.BooleanField(
-        label=u"Użyj jako zdjęcie główne? ",
+        label="Użyj jako zdjęcie główne? ",
         required=False,
     )
 
@@ -182,7 +181,7 @@ class OfferImageForm(forms.ModelForm):
 
 class OfferApplyForm(forms.Form):
 
-    u"""Form for applying for join to offer ."""
+    """Form for applying for join to offer ."""
     email = forms.CharField(max_length=80)
     phone_no = forms.CharField(max_length=80)
     fullname = forms.CharField(max_length=80)
@@ -191,7 +190,7 @@ class OfferApplyForm(forms.Form):
 
 class ContactForm(forms.Form):
 
-    u"""Basic contact form."""
+    """Basic contact form."""
     email = forms.CharField(max_length=150)
     message = forms.CharField(widget=forms.Textarea())
     name = forms.CharField(max_length=150)
@@ -200,19 +199,27 @@ class ContactForm(forms.Form):
 
 class VolounteerToOrganizationContactForm(ContactForm):
 
-    U"""Contact form specified for volounteers to mail to organization."""
+    """Contact form specified for volounteers to mail to organization."""
     organization = forms.CharField(widget=forms.HiddenInput())
 
 
 class AdministratorContactForm(ContactForm):
 
-    U"""Contact form specified for anyone to mail to administrator."""
+    """Contact form specified for anyone to mail to administrator."""
     APPLICANTS = (
-        ('VOLUNTEER', u'wolontariusz'),
-        ('ORGANIZATION', u'organizacja'),
+        ('VOLUNTEER', 'wolontariusz'),
+        ('ORGANIZATION', 'organizacja'),
     )
-    ADMINISTRATORS = [
-        (key, value) for key, value in get_administrators_emails().items()
-    ]
     applicant = forms.Select(choices=APPLICANTS)
-    administrator = forms.Select(choices=ADMINISTRATORS)
+
+    def __init__(self, *args, **kwargs):
+        """Administrator contant form initialization.
+
+        Administrator choice need to be here, as new Django release tries to
+        import this form during migrations, even if user table is not
+        available.
+        """
+        super(AdministratorContactForm, self).__init__(*args, **kwargs)
+        self.administrator = forms.Select(
+            choices=get_administrators_emails().items(),
+        )
