@@ -146,7 +146,7 @@ class TestRegister(TransactionTestCase):
         self.assertEqual(len(response.redirect_chain), 1)
         self.assertEqual(
             response.redirect_chain[0],
-            ('http://testserver/o', 302),
+            ('/o', 302),
         )
         self.assertIn('_auth_user_id', self.client.session)
         self.assertContains(
@@ -204,10 +204,7 @@ class TestLogin(TestCase):
             200,
         )
         self.assertEqual(len(response.redirect_chain), 1)
-        self.assertEqual(
-            response.redirect_chain[0],
-            ('http://testserver/o', 302),
-        )
+        self.assertEqual(response.redirect_chain[0], ('/o', 302))
         self.assertIn('_auth_user_id', self.client.session)
 
     def test__post_login_by_anonymous_user(self):
@@ -275,10 +272,7 @@ class TestLogin(TestCase):
             200,
         )
         self.assertEqual(len(response.redirect_chain), 1)
-        self.assertEqual(
-            response.redirect_chain[0],
-            ('http://testserver/o', 302),
-        )
+        self.assertEqual(response.redirect_chain[0], ('/o', 302))
 
     def test__post_login_by_authorized_user(self):
         """Post to login form by authorized"""
@@ -295,10 +289,7 @@ class TestLogin(TestCase):
             200,
         )
         self.assertEqual(len(response.redirect_chain), 1)
-        self.assertEqual(
-            response.redirect_chain[0],
-            ('http://testserver/o', 302),
-        )
+        self.assertEqual(response.redirect_chain[0], ('/o', 302))
 
 
 class TestLogout(TestCase):
@@ -327,7 +318,7 @@ class TestLogout(TestCase):
         self.assertEqual(len(response.redirect_chain), 1)
         self.assertEqual(
             response.redirect_chain[0],
-            ('http://testserver/o/login?next=/o/logout', 302),
+            ('/o/login?next=/o/logout', 302),
         )
         self.assertNotIn('_auth_user_id', self.client.session)
 
@@ -346,10 +337,7 @@ class TestLogout(TestCase):
             200,
         )
         self.assertEqual(len(response.redirect_chain), 1)
-        self.assertEqual(
-            response.redirect_chain[0],
-            ('http://testserver/o', 302),
-        )
+        self.assertEqual(response.redirect_chain[0], ('/o', 302))
         self.assertContains(
             response,
             "Użytkownik został wylogowany!"
@@ -371,10 +359,7 @@ class TestLogout(TestCase):
             200,
         )
         self.assertEqual(len(response.redirect_chain), 1)
-        self.assertEqual(
-            response.redirect_chain[0],
-            ('http://testserver/o', 302),
-        )
+        self.assertEqual(response.redirect_chain[0], ('/o', 302))
         self.assertIn('_auth_user_id', self.client.session)
         self.assertContains(
             response,

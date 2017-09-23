@@ -29,8 +29,7 @@ class TestEditOrganization(TestOrganizations):
         self.assertEqual(
             response.redirect_chain[0],
             (
-                'http://testserver/o/login?'
-                'next=/o/organizations/organization-1/{}/edit'.format(
+                '/o/login?next=/o/organizations/organization-1/{}/edit'.format(
                     self.organization.id
                 ),
                 302
@@ -57,8 +56,7 @@ class TestEditOrganization(TestOrganizations):
         self.assertEqual(
             response.redirect_chain[0],
             (
-                'http://testserver/o/login?'
-                'next=/o/organizations/organization-1/{}/edit'.format(
+                '/o/login?next=/o/organizations/organization-1/{}/edit'.format(
                     self.organization.id
                 ),
                 302
@@ -88,7 +86,7 @@ class TestEditOrganization(TestOrganizations):
         self.assertEqual(
             response.redirect_chain[0],
             (
-                'http://testserver/o/organizations/organization-1/{}'.format(
+                '/o/organizations/organization-1/{}'.format(
                     self.organization.id
                 ),
                 302
@@ -122,7 +120,7 @@ class TestEditOrganization(TestOrganizations):
         self.assertEqual(
             response.redirect_chain[0],
             (
-                'http://testserver/o/organizations/organization-1/{}'.format(
+                '/o/organizations/organization-1/{}'.format(
                     self.organization.id
                 ),
                 302
@@ -156,7 +154,7 @@ class TestEditOrganization(TestOrganizations):
         self.assertEqual(
             response.redirect_chain[0],
             (
-                'http://testserver/o/organizations/organization-1/{}'.format(
+                '/o/organizations/organization-1/{}'.format(
                     self.organization.id
                 ),
                 302
@@ -189,7 +187,7 @@ class TestEditOrganization(TestOrganizations):
         self.assertEqual(
             response.redirect_chain[0],
             (
-                'http://testserver/o/organizations/organization-1/{}'.format(
+                '/o/organizations/organization-1/{}'.format(
                     self.organization.id
                 ),
                 302

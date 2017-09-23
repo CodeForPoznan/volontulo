@@ -53,8 +53,8 @@ class TestOffersArchived(TestCase):
                     offer_status='published',
                     recruitment_status='closed',
                     action_status='finished',
-                    started_at='2010-10-10 10:10:10',
-                    finished_at='2012-12-12 12:12:12'
+                    started_at='2010-10-10 10:10:10+00:00',
+                    finished_at='2012-12-12 12:12:12+00:00'
                 )
 
     def setUp(self):

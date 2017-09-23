@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-u"""
+"""
 .. module:: test_offerstatus
 """
-from datetime import datetime
+
 from datetime import timedelta
 
 from django.test import TestCase
@@ -14,95 +14,89 @@ from apps.volontulo.models import Organization
 
 
 class TestOfferStatusModel(TestCase):
-    u"""Tests for OfferStatus model."""
+    """Tests for OfferStatus model."""
 
     @classmethod
     def setUpTestData(cls):
-        u"""Fixtures for OfferStatus model unittests."""
-        current_datetime = timezone.now().strftime("%Y-%m-%d %H:%M:%S")
-        past = datetime.strptime(
-            current_datetime,
-            "%Y-%m-%d %H:%M:%S"
-        ) - timedelta(days=5)
-        future = datetime.strptime(
-            current_datetime,
-            "%Y-%m-%d %H:%M:%S"
-        ) + timedelta(days=5)
+        """Fixtures for OfferStatus model unittests."""
+        current_datetime = timezone.now()
+        past = current_datetime - timedelta(days=5)
+        future = current_datetime + timedelta(days=5)
 
         # closed offer
         Offer.objects.create(
             organization=Organization.objects.create(
-                name=u'Some organization',
-                address=u'',
-                description=u''
+                name='Some organization',
+                address='',
+                description=''
             ),
             started_at=str(past - timedelta(days=2)),
             finished_at=str(past),
-            description=u'',
-            requirements=u'',
+            description='',
+            requirements='',
             time_commitment='12.12.2015',
-            benefits=u'',
-            location=u'',
-            title=u'Offer 1',
-            time_period=u'',
+            benefits='',
+            location='',
+            title='Offer 1',
+            time_period='',
         )
 
         # future offer
         Offer.objects.create(
             organization=Organization.objects.create(
-                name=u'Some organization',
-                address=u'',
-                description=u''
+                name='Some organization',
+                address='',
+                description=''
             ),
             started_at=str(future),
             finished_at=str(future + timedelta(days=2)),
-            description=u'',
-            requirements=u'',
+            description='',
+            requirements='',
             time_commitment='12.12.2015',
-            benefits=u'',
-            location=u'',
-            title=u'Offer 2',
-            time_period=u'',
+            benefits='',
+            location='',
+            title='Offer 2',
+            time_period='',
         )
 
         # ongoing offer (start + end date)
         Offer.objects.create(
             organization=Organization.objects.create(
-                name=u'Some organization',
-                address=u'',
-                description=u''
+                name='Some organization',
+                address='',
+                description=''
             ),
             started_at=str(past),
             finished_at=str(future),
-            description=u'',
-            requirements=u'',
+            description='',
+            requirements='',
             time_commitment='12.12.2015',
-            benefits=u'',
-            location=u'',
-            title=u'Offer 3',
-            time_period=u'',
+            benefits='',
+            location='',
+            title='Offer 3',
+            time_period='',
         )
 
         # ongoing offer (start date, no ending before now)
         Offer.objects.create(
             organization=Organization.objects.create(
-                name=u'Some organization',
-                address=u'',
-                description=u''
+                name='Some organization',
+                address='',
+                description=''
             ),
             started_at=str(past),
             finished_at=None,
-            description=u'',
-            requirements=u'',
+            description='',
+            requirements='',
             time_commitment='12.12.2015',
-            benefits=u'',
-            location=u'',
-            title=u'Offer 4',
-            time_period=u'',
+            benefits='',
+            location='',
+            title='Offer 4',
+            time_period='',
         )
 
     def test__determine_action_status(self):
-        u"""Verify action status."""
+        """Verify action status."""
         finished_offer = Offer.objects.get(title='Offer 1')
         self.assertEqual(finished_offer.determine_action_status(), 'finished')
 

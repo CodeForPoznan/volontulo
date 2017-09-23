@@ -7,7 +7,6 @@
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMultiAlternatives
 from django.core.mail import get_connection
-from django.template import Context
 from django.template.loader import get_template
 
 from apps.volontulo.utils import get_administrators_emails
@@ -34,7 +33,7 @@ def send_mail(request, templates_name, recipient_list, context=None):
     auth_password = AUTH_PASSWORD
     connection = CONNECTION
 
-    context = Context(context or {})
+    context = context or {}
     context.update({
         'protocol': 'https' if request.is_secure() else 'http',
         'domain': get_current_site(request).domain,

@@ -47,8 +47,8 @@ class TestOfferModel(TestCase):
             location='Poland, Poznań',
             title='Example Offer Title',
             time_period='2-5 times a week',
-            started_at='2015-10-12 10:11:12',
-            finished_at='2015-12-12 11:12:13',
+            started_at='2015-10-12 10:11:12+00:00',
+            finished_at='2015-12-12 11:12:13+00:00',
         )
         for volunteer in volunteers:
             offer.volunteers.add(volunteer)
@@ -96,8 +96,8 @@ class OfferTestCase(TestCase):
             title="Zwięzły tytuł oferty",
             time_period="Od 23.09.2015 do 25.12.2016",
             status_old='ACTIVE',
-            started_at='2015-10-12 10:11:12',
-            finished_at='2015-12-12 11:12:13',
+            started_at='2015-10-12 10:11:12Z',
+            finished_at='2015-12-12 11:12:13Z',
             offer_status='published',
             recruitment_status='open',
             action_status='ongoing',

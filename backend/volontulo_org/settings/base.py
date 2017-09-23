@@ -142,7 +142,7 @@ EMAIL_USE_TLS = False
 
 # verify if it's required for registering user
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
+    'django.contrib.auth.backends.AllowAllUsersModelBackend',
 )
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

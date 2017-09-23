@@ -12,24 +12,24 @@ from apps.volontulo.models import UserProfile
 
 COMMON_OFFER_DATA = {
     'organization': None,
-    'description': u'',
-    'requirements': u'',
-    'time_commitment': u'',
-    'benefits': u'',
-    'location': u'',
-    'title': u'volontulo offer',
-    'time_period': u''
+    'description': '',
+    'requirements': '',
+    'time_commitment': '',
+    'benefits': '',
+    'location': '',
+    'title': 'volontulo offer',
+    'time_period': ''
 }
 
 
 def initialize_empty_volunteer():
-    u"""Initialize empty volunteer."""
+    """Initialize empty volunteer."""
     volunteer_user1 = User.objects.create_user(
         'volunteer1@example.com',
         'volunteer1@example.com',
         'volunteer1',
-        first_name=u'Grzegorz',
-        last_name=u'Brzęczyszczykiewicz',
+        first_name='Grzegorz',
+        last_name='Brzęczyszczykiewicz',
     )
     volunteer_user1.save()
     userprofile = UserProfile.objects.create(user=volunteer_user1)
@@ -39,19 +39,19 @@ def initialize_empty_volunteer():
 
 
 def initialize_empty_organization():
-    u"""Initialize empty organization."""
+    """Initialize empty organization."""
     organization1 = Organization.objects.create(
-        name=u'Organization 1',
-        address=u'Organization 1 address',
-        description=u'Organization 1 description',
+        name='Organization 1',
+        address='Organization 1 address',
+        description='Organization 1 description',
     )
     organization1.save()
     organization_user1 = User.objects.create_user(
         'organization1@example.com',
         'organization1@example.com',
         'organization1',
-        first_name=u'Organization1Firstname',
-        last_name=u'Organization1Lastname',
+        first_name='Organization1Firstname',
+        last_name='Organization1Lastname',
     )
     organization_user1.save()
     organization_profile1 = UserProfile.objects.create(
@@ -62,7 +62,7 @@ def initialize_empty_organization():
 
 
 def initialize_filled_volunteer_and_organization():
-    u"""Initialize volunteer filled with data."""
+    """Initialize volunteer filled with data."""
     # create volunteer user
     volunteer_user2 = User.objects.create_user(
         'volunteer2@example.com',
@@ -73,7 +73,7 @@ def initialize_filled_volunteer_and_organization():
     UserProfile.objects.create(user=volunteer_user2)
 
     # create organization user to create offers
-    organization2 = Organization.objects.create(name=u'Organization 2')
+    organization2 = Organization.objects.create(name='Organization 2')
     organization2.save()
     # this is required due to login to this user
     organization_user2 = User.objects.create_user(
@@ -90,17 +90,17 @@ def initialize_filled_volunteer_and_organization():
     # create organization offers and assign volunteer to them
     for i in range(11, 15):
         offer = Offer.objects.create(
-            title=u'Title {}'.format(i),
-            description=u'Description {}'.format(i),
-            requirements=u'Requirements {}'.format(i),
-            time_commitment=u'Time commitment {}'.format(i),
-            benefits=u'Benefits {}'.format(i),
-            location=u'Location {}'.format(i),
-            time_period=u'Time period {}'.format(i),
-            status_old=u'ACTIVE',
+            title='Title {}'.format(i),
+            description='Description {}'.format(i),
+            requirements='Requirements {}'.format(i),
+            time_commitment='Time commitment {}'.format(i),
+            benefits='Benefits {}'.format(i),
+            location='Location {}'.format(i),
+            time_period='Time period {}'.format(i),
+            status_old='ACTIVE',
             votes=True,
-            started_at='2015-10-05 09:10:11',
-            finished_at='2015-12-12 12:13:14',
+            started_at='2015-10-05 09:10:11+00:00',
+            finished_at='2015-12-12 12:13:14+00:00',
             organization=organization2,
             offer_status='published',
             recruitment_status='open',
@@ -112,17 +112,17 @@ def initialize_filled_volunteer_and_organization():
     # create additional organization offers for administrator use
     for i in range(100, 110):
         offer2 = Offer.objects.create(
-            title=u'Title {}'.format(i),
-            description=u'Description {}'.format(i),
-            requirements=u'Requirements {}'.format(i),
-            time_commitment=u'Time commitment {}'.format(i),
-            benefits=u'Benefits {}'.format(i),
-            location=u'Location {}'.format(i),
-            time_period=u'Time period {}'.format(i),
-            status_old=u'SUSPENDED' if i % 2 == 0 else u'NEW',
+            title='Title {}'.format(i),
+            description='Description {}'.format(i),
+            requirements='Requirements {}'.format(i),
+            time_commitment='Time commitment {}'.format(i),
+            benefits='Benefits {}'.format(i),
+            location='Location {}'.format(i),
+            time_period='Time period {}'.format(i),
+            status_old='SUSPENDED' if i % 2 == 0 else 'NEW',
             votes=True,
-            started_at='2015-10-05 09:10:11',
-            finished_at='2015-12-12 12:13:14',
+            started_at='2015-10-05 09:10:11+00:00',
+            finished_at='2015-12-12 12:13:14+00:00',
             organization=organization2,
             offer_status='unpublished',
             recruitment_status='open',
@@ -134,11 +134,11 @@ def initialize_filled_volunteer_and_organization():
 
 
 def initialize_empty_organizations():
-    u"""Initialize empty organization."""
+    """Initialize empty organization."""
     for i in range(11, 15):
         organization = Organization.objects.create(
             id=i,
-            name=u'Organization {}'.format(i)
+            name='Organization {}'.format(i)
         )
         organization.save()
         organization_user = User.objects.create_user(
@@ -156,7 +156,7 @@ def initialize_empty_organizations():
 def initialize_administrator(
         username='admin_user@example.com',
         email='admin_user@example.com', password='admin_password'):
-    u"""Initialize administrator user.
+    """Initialize administrator user.
 
     :param username: string User username
     :param email: string User email

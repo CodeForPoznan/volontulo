@@ -39,7 +39,7 @@ class TestUsersProfile(TestCase):
         self.assertEqual(len(response.redirect_chain), 1)
         self.assertEqual(
             response.redirect_chain[0],
-            ('http://testserver/o/login?next=/o/me', 302),
+            ('/o/login?next=/o/me', 302),
         )
 
     def test__logged_user_profile(self):

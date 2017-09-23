@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
-u"""
+"""
 .. module:: auth
 """
-from __future__ import unicode_literals
 
 from django.contrib import auth
 from django.contrib import messages
@@ -77,24 +76,24 @@ def login(request):
 
 @login_required
 def logout(request):
-    u"""Logout view.
+    """Logout view.
 
     :param request: WSGIRequest instance
     """
     auth.logout(request)
     messages.info(
         request,
-        u"Użytkownik został wylogowany!"
+        "Użytkownik został wylogowany!"
     )
     return redirect('homepage')
 
 
 class Register(View):
-    u"""View responsible for registering new users."""
+    """View responsible for registering new users."""
 
     @staticmethod
     def get(request, user_form=None):
-        u"""Simple view to render register form.
+        """Simple view to render register form.
 
         :param request: WSGIRequest instance
         :param user_form: UserForm instance
@@ -102,7 +101,7 @@ class Register(View):
         if request.user.is_authenticated():
             messages.success(
                 request,
-                u'Jesteś już zalogowany.'
+                'Jesteś już zalogowany.'
             )
             return redirect('homepage')
 
@@ -116,7 +115,7 @@ class Register(View):
 
     @classmethod
     def post(cls, request):
-        u"""Method handles creation of new user.
+        """Method handles creation of new user.
 
         :param request: WSGIRequest instance
         """
@@ -125,8 +124,8 @@ class Register(View):
         if not user_form.is_valid():
             messages.error(
                 request,
-                u'Wprowadzono nieprawidłowy email, hasło lub nie wyrażono '
-                u'zgody na przetwarzanie danych osobowych.'
+                'Wprowadzono nieprawidłowy email, hasło lub nie wyrażono '
+                'zgody na przetwarzanie danych osobowych.'
             )
             return cls.get(request, user_form)
 
@@ -152,7 +151,7 @@ class Register(View):
             # error message:
             messages.info(
                 request,
-                u'Użytkownik o podanym emailu już istnieje'
+                'Użytkownik o podanym emailu już istnieje'
             )
             return cls.get(request, user_form)
 
@@ -167,13 +166,13 @@ class Register(View):
         # homepage:
         messages.success(
             request,
-            u'Rejestracja przebiegła pomyślnie'
+            'Rejestracja przebiegła pomyślnie'
         )
         messages.info(
             request,
-            u'Na podany przy rejestracji email został wysłany link '
-            u'aktywacyjny. Aby w pełni wykorzystać konto należy je aktywować '
-            u'poprzez kliknięcie linku lub wklejenie go w przeglądarce.'
+            'Na podany przy rejestracji email został wysłany link '
+            'aktywacyjny. Aby w pełni wykorzystać konto należy je aktywować '
+            'poprzez kliknięcie linku lub wklejenie go w przeglądarce.'
         )
         return redirect('homepage')
 
@@ -197,7 +196,7 @@ def activate(request, uuid):
 
 
 def password_reset(request):
-    u"""View responsible for password reset."""
+    """View responsible for password reset."""
     return auth_views.password_reset(
         request,
         template_name='auth/password_reset.html',
@@ -210,7 +209,7 @@ def password_reset(request):
 
 
 def password_reset_confirm(request, uidb64, token):
-    u"""Landing page for password reset."""
+    """Landing page for password reset."""
     return auth_views.password_reset_confirm(
         request,
         uidb64,
