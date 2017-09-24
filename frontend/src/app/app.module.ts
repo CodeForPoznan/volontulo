@@ -11,12 +11,17 @@ import { WindowService, WindowFactory } from './window.service';
 import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
+import { AboutUsComponent } from './static/about-us.component';
 
 const appRoutes: Routes = [
   // {
   //   path: '',
   //   component: HomeComponent
   // },
+  {
+    path: 'o-nas',
+    component: AboutUsComponent
+  },
   {
     path: '**',
     component: RedirectComponent
@@ -30,6 +35,7 @@ const appRoutes: Routes = [
     HomeComponent,
     HeaderComponent,
     FooterComponent,
+    AboutUsComponent,
   ],
   imports: [
     BrowserModule,
