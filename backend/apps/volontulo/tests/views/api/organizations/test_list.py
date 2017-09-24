@@ -4,11 +4,8 @@
 .. module:: test_list
 """
 
-from io import BytesIO
-
 from rest_framework import status
 from rest_framework.test import APITestCase
-from djangorestframework_camel_case.parser import CamelCaseJSONParser
 
 from apps.volontulo.tests.views.offers.commons import TestOffersCommons
 
@@ -21,10 +18,7 @@ class _TestOrganizationsListAPIView(TestOffersCommons, APITestCase):
         """Test list's fields of organization REST API endpoint."""
         response = self.client.get('/api/organizations/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        # dirty hack intead of checking response.data because of issue
-        # djangorestframework-camel-case #26:
-        for organization in CamelCaseJSONParser().parse(
-                BytesIO(response.content)):
+        for organization in response.data:
             self.assertIsInstance(organization.pop('id'), int)
             self.assertIsInstance(organization.pop('name'), str)
             self.assertIsInstance(organization.pop('slug'), str)
