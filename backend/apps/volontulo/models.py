@@ -299,44 +299,6 @@ class OfferImage(models.Model):
         return str(self.path)
 
 
-class OrganizationGallery(models.Model):
-    """Handling organizations gallery."""
-    organization = models.ForeignKey(Organization, related_name='images')
-    published_by = models.ForeignKey(UserProfile, related_name='gallery')
-    path = models.ImageField(upload_to='gallery/')
-    is_main = models.BooleanField(default=False, blank=True)
-
-    def __str__(self):
-        """String representation of an image."""
-        return str(self.path)
-
-    def remove(self):
-        """Remove image."""
-        self.remove()
-
-    def set_as_main(self, organization):
-        """Save image as main.
-
-        :param organization: Organization model instance
-        """
-        OrganizationGallery.objects.filter(
-            organization_id=organization.id
-        ).update(is_main=False)
-        self.is_main = True
-        self.save()
-
-    @staticmethod
-    def get_organizations_galleries(userprofile):
-        """Get images grouped by organizations
-
-        :param userprofile: UserProfile model instance
-        """
-        organizations = Organization.objects.filter(
-            userprofiles=userprofile
-        ).all()
-        return {o.name: o.images.all() for o in organizations}
-
-
 class Page(models.Model):
     """Static page model."""
 

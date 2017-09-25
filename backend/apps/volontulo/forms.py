@@ -10,7 +10,6 @@ from django.core.exceptions import ValidationError
 from apps.volontulo.models import Offer
 from apps.volontulo.models import OfferImage
 from apps.volontulo.models import Organization
-from apps.volontulo.models import OrganizationGallery
 from apps.volontulo.models import UserGallery
 from apps.volontulo.utils import get_administrators_emails
 
@@ -132,35 +131,6 @@ class UserGalleryForm(forms.ModelForm):
         fields = [
             'image',
         ]
-
-
-class OrganizationGalleryForm(forms.ModelForm):
-
-    """Form used for changing organization profiel."""
-    path = forms.ImageField(label="Wybierz grafikę")
-    organization = forms.ModelChoiceField(
-        label="Dodaj do organizacji",
-        queryset=Organization.objects.all()
-    )
-    is_main = forms.BooleanField(
-        label="Użyj jako zdjęcie główne? ",
-        required=False,
-    )
-
-    class Meta(object):
-        model = OrganizationGallery
-        fields = ['path', 'organization']
-
-    def __init__(self, userprofile, *args, **kwargs):
-        """Initialize OrganizationGalleryForm object."""
-        super(OrganizationGalleryForm, self).__init__(*args, **kwargs)
-        self._set_user_organizations(userprofile)
-
-    def _set_user_organizations(self, userprofile):
-        """Get current user organizations."""
-        self.fields['organization'].queryset = Organization.objects.filter(
-            userprofiles=userprofile
-        )
 
 
 class OfferImageForm(forms.ModelForm):

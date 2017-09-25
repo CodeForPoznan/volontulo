@@ -63,8 +63,6 @@
         </h3>
         <div class="panel-body">
             {% if userprofile.is_in_organization %}
-                {% include 'organizations/gallery.html' with image_form=image_form gallery=gallery %}
-                <hr />
                 <div class="h4">
                     <h4>Organizowane oferty</h4>
                     <a href="{% url 'offers_create' %}" class="btn btn-primary btn-sm">Utwórz ofertę</a>
