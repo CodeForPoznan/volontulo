@@ -3,6 +3,7 @@
 {% block title %}Lista organizacji{% endblock %}
 
 {% block content %}
+        <a href="{% url 'organizations_create' %}" class="btn btn-primary btn-sm">Dodaj organizację</a>
        {% if organizations %}
         <h2>Lista organizacji</h2>
         <table class="table table-striped">
