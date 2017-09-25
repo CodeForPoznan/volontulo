@@ -9,7 +9,6 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from apps.volontulo.models import Offer
 from apps.volontulo.models import OfferImage
-from apps.volontulo.models import Organization
 from apps.volontulo.models import UserGallery
 from apps.volontulo.utils import get_administrators_emails
 
