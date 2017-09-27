@@ -9,6 +9,7 @@ import { CookieModule } from 'ngx-cookie';
 import { AppComponent } from './app.component';
 import { RedirectComponent } from './redirect.component';
 import { WindowService, WindowFactory } from './window.service';
+import { OffersComponent } from './offers/offers.component';
 import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
@@ -37,6 +38,7 @@ const appRoutes: Routes = [
     HomeComponent,
     HeaderComponent,
     FooterComponent,
+    OffersComponent,
     CookieLawBannerComponent,
     AboutUsComponent
   ],

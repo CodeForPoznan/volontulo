@@ -1,0 +1,24 @@
+<section class="container">
+  <div class="row">
+    <article *ngFor="let offer of offers" class="offer col-sm-6 col-md-4">
+      <a href="{{ offer.url }}" class="offer-img"
+         [ngStyle]="{'background-image': offer.image ? 'url(/' + offer.image + ')' : 'url(/media/)'}"></a>
+      <h2 class="offer-title">
+        <a href="{{ offer.url }}" class="offer_link">{{ offer.title }}</a>
+      </h2>
+      <div class="offer-caption">
+        <div class="offer-row">
+          <span aria-hidden="true" class="offer-glyphicon glyphicon glyphicon-map-marker"></span>
+          <span>{{ offer.location }}</span>
+        </div>
+        <section class="offer-row">
+          <span aria-hidden="true" class="offer-glyphicon glyphicon glyphicon-time"></span>
+          <span> Od {{ offer.startedAt ? offer.startedAt : 'teraz' }} </span>
+          &nbsp;
+          <span> do {{ offer.finishedAt ? offer.finishedAt : 'ustalenia' }}</span>
+        </section>
+        <div class="offer-organizer">Organizator:</div>
+      </div>
+    </article>
+  </div>
+</section>
