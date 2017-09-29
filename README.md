@@ -37,11 +37,11 @@ vagrant ssh
 * run backend
 ```
 cd /home/ubuntu/backend
-python3 manage.py runserver --settings=volontulo_org.settings.dev_vagrant
+python3 manage.py runserver --settings=volontulo_org.settings.dev_vagrant 0.0.0.0:8000
 ```
 * run frontend
 ```
-cd /home/ubuntu/backend
+cd /home/ubuntu/frontend
 ng serve --open --host=0.0.0.0
 ```
 * point your browser to [http://localhost:8000](http://localhost:8000) and [http://localhost:4200](http://localhost:4200)
