@@ -31,6 +31,7 @@ su - postgres -c "psql -c \"CREATE DATABASE $VOLONTULO_DB_NAME WITH  TEMPLATE=te
 
 cd /home/ubuntu/backend
 export DJANGO_SETTINGS_MODULE="volontulo_org.settings.dev"
+export VOLONTULO_SECRET_KEY="a63eb5ef-3b25-4595-846a-5d97d99486f0"
 python3 manage.py migrate
 python3 manage.py loaddata initial/data.json
 
