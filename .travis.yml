@@ -12,16 +12,10 @@ install:
   - cd frontend && npm install && cd -
 script:
   - cd backend
-  - cp local_config.yaml.sample local_config.yaml
-  - "sed -i 's/secret_key:.*/secret_key: classified_secret_key/g' local_config.yaml"
-  - "sed -i 's/db_host:.*/db_host: localhost/g' local_config.yaml"
-  - "sed -i 's/db_port:.*/db_port: 5432/g' local_config.yaml"
-  - "sed -i 's/db_name:.*/db_name: volontulo/g' local_config.yaml"
-  - "sed -i 's/db_user:.*/db_user: postgres/g' local_config.yaml"
-  - "sed -i 's/db_pass:.*/db_pass:/g' local_config.yaml"
   - pycodestyle --exclude='apps/volontulo/migrations/*,node_modules,.ropeproject' .
   - pylint apps
-  - coverage run --source='./apps' manage.py test --settings=volontulo_org.settings.dev -v 3
+  - export VOLONTULO_SECRET_KEY="a63eb5ef-3b25-4595-846a-5d97d99486f0"
+  - coverage run --source='./apps' manage.py test --settings=volontulo_org.settings.dev_local -v 3
   - coverage xml
   - cd apps/volontulo && npm install && npm build && cd -
   - cd ..

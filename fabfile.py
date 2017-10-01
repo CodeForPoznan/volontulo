@@ -46,10 +46,8 @@ def update():
         cd('/var/www/volontuloapp_org/backend'),
         prefix('workon volontuloapp_org')
     ):
-        run('python manage.py migrate --traceback'
-            ' --settings=volontulo_org.settings.production')
-        run('python manage.py collectstatic --traceback --noinput'
-            ' --settings=volontulo_org.settings.production')
+        run('python manage.py migrate --traceback')
+        run('python manage.py collectstatic --traceback --noinput')
 
     # Angular assets refresh:
     with contextlib.nested(

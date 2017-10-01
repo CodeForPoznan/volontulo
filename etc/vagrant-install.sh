@@ -20,25 +20,23 @@ export FRONTEND_DIR="/home/ubuntu/frontend"
 if ! command -v psql; then
     apt-get install -y postgresql
 fi
-DB_NAME=volontulo
-DB_USERNAME=volontulo
-DB_PASSWD=volontulo
-su - postgres -c "psql -c 'CREATE ROLE $DB_USERNAME;'"
-su - postgres -c "psql -c \"ALTER USER $DB_USERNAME with password '$DB_PASSWD';\""
-su - postgres -c "psql -c \"ALTER ROLE $DB_USERNAME WITH LOGIN;\""
-su - postgres -c "psql -c \"CREATE DATABASE $DB_NAME WITH  TEMPLATE=template0 ENCODING='utf-8' owner $DB_USERNAME;\""
+
+export VOLONTULO_DB_USER="volontulo"
+export VOLONTULO_DB_PASS="volontulo"
+export VOLONTULO_DB_NAME="volontulo"
+su - postgres -c "psql -c 'CREATE ROLE $VOLONTULO_DB_USER;'"
+su - postgres -c "psql -c \"ALTER USER $VOLONTULO_DB_USER with password '$VOLONTULO_DB_PASS';\""
+su - postgres -c "psql -c \"ALTER ROLE $VOLONTULO_DB_USER WITH LOGIN;\""
+su - postgres -c "psql -c \"CREATE DATABASE $VOLONTULO_DB_NAME WITH  TEMPLATE=template0 ENCODING='utf-8' owner $VOLONTULO_DB_USER;\""
+
 cd /home/ubuntu/backend
-python3 manage.py migrate --settings=volontulo_org.settings.dev_vagrant
-python3 manage.py loaddata initial/data.json --settings=volontulo_org.settings.dev_vagrant
+export DJANGO_SETTINGS_MODULE="volontulo_org.settings.dev"
+python3 manage.py migrate
+python3 manage.py loaddata initial/data.json
 
-# # Finish
-# cat << "EOF"
 
-# ///     #//(  &(//////#    //(          (//////#@    (///    (/(  //////////( ///     (//   ///         &(//////#
-# #//(    ///  /////#/////#  //(        ///////////(   (////   (/(     #//#     ///     (//   ///        ////// ////#
-#  (//%  #//( (////( (#////% //(       (///#%/# (///#  (/////& (/(     #//#     ///     (//   ///       (/////# /////
-#   /// %//(  ///%/    %///( //(        /(&@&( #(& /(  (// ///&(/(     #//#     (//     (//   ///       ///#     #///
-#   #/////(   (///#    ////  //(         #///%(&/////  (//  (////(     #//#     (//     (//   ///       #///      (//
-#    /////     ()#///(&///   //(&&&&&&@   #////////    (//   #///(     #//#     #///#////     ///&&&&@   #///(((((//
-
-# EOF
+echo "export DJANGO_SETTINGS_MODULE=volontulo_org.settings.dev" > /home/ubuntu/.bash_profile
+echo "export VOLONTULO_DB_USER=volontulo" > /home/ubuntu/.bash_profile
+echo "export VOLONTULO_DB_PASS=volontulo" > /home/ubuntu/.bash_profile
+echo "export VOLONTULO_DB_NAME=volontulo" > /home/ubuntu/.bash_profile
+echo "export VOLONTULO_SECRET_KEY=a63eb5ef-3b25-4595-846a-5d97d99486f0" > /home/ubuntu/.bash_profile

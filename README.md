@@ -37,7 +37,7 @@ vagrant ssh
 * run backend
 ```
 cd /home/ubuntu/backend
-python3 manage.py runserver --settings=volontulo_org.settings.dev_vagrant 0.0.0.0:8000
+python3 manage.py runserver 0.0.0.0:8000
 ```
 * run frontend
 ```

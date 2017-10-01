@@ -12,21 +12,13 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-import yaml
 from unipath import Path
 
 from django.core.exceptions import ImproperlyConfigured
 
 BASE_DIR = Path(__file__).ancestor(3)
 
-LOCAL_CONFIG_FILEPATH = os.path.join(
-    BASE_DIR, 'local_config.yaml'
-)
-
-with open(LOCAL_CONFIG_FILEPATH, 'r') as f:
-    LOCAL_CONFIG = yaml.load(f)
-
-SECRET_KEY = LOCAL_CONFIG.get('secret_key')
+SECRET_KEY = os.environ.get('VOLONTULO_SECRET_KEY')
 if not SECRET_KEY:
     raise ImproperlyConfigured
 
@@ -34,11 +26,9 @@ if not SECRET_KEY:
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    '.volontulo.org',
+    '.volontulo.pl',
     '.volontuloapp.org',
 ]
-if LOCAL_CONFIG.get('allowed_host'):
-    ALLOWED_HOSTS.append(LOCAL_CONFIG['allowed_host'])
 
 # Application definition
 
@@ -95,11 +85,11 @@ WSGI_APPLICATION = 'volontulo_org.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'USER': LOCAL_CONFIG['db_user'],
-        'PASSWORD': LOCAL_CONFIG['db_pass'],
-        'NAME': LOCAL_CONFIG['db_name'],
-        'HOST': LOCAL_CONFIG['db_host'],
-        'PORT': LOCAL_CONFIG['db_port'],
+        'USER': os.environ.get('VOLONTULO_DB_USER'),
+        'PASSWORD': os.environ.get('VOLONTULO_DB_PASS'),
+        'NAME': os.environ.get('VOLONTULO_DB_NAME'),
+        'HOST': os.environ.get('VOLONTULO_DB_HOST', 'localhost'),
+        'PORT': os.environ.get('VOLONTULO_DB_PORT', '5432'),
     }
 }
 

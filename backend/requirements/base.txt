@@ -3,7 +3,6 @@ django-bootstrap3==9.0.0
 django-cookie-law==1.0.13
 logilab-common==1.4.1
 Pillow==4.2.1
-PyYAML==3.12
 six==1.11.0
 unipath==1.1
 wheel==0.30.0
