@@ -7,5 +7,5 @@ nvm alias default $NODE_VERSION
 nvm use default
 
 
-echo "export NVM_DIR=\"$NVM_DIR\"" >> $USER_DIR/.bashrc
-echo '[ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"' >> $USER_DIR/.bashrc
+echo "export NVM_DIR=\"$NVM_DIR\"" >> $USER_DIR/.bash_profile
+echo '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"' >> $USER_DIR/.bash_profile
