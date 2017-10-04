@@ -36,8 +36,6 @@ python3 manage.py migrate
 python3 manage.py loaddata initial/data.json
 
 
-echo "export DJANGO_SETTINGS_MODULE=volontulo_org.settings.dev" >> /home/ubuntu/.bash_profile
-echo "export VOLONTULO_DB_USER=volontulo" >> /home/ubuntu/.bash_profile
-echo "export VOLONTULO_DB_PASS=volontulo" >> /home/ubuntu/.bash_profile
-echo "export VOLONTULO_DB_NAME=volontulo" >> /home/ubuntu/.bash_profile
-echo "export VOLONTULO_SECRET_KEY=a63eb5ef-3b25-4595-846a-5d97d99486f0" >> /home/ubuntu/.bash_profile
+echo "export DJANGO_SETTINGS_MODULE=\"$DJANGO_SETTINGS_MODULE\"" >> /home/ubuntu/.bash_profile
+echo "export VOLONTULO_DB_PASS=\"$OLONTULO_DB_PASS\"" >> /home/ubuntu/.bash_profile
+echo "export VOLONTULO_SECRET_KEY=\"$VOLONTULO_SECRET_KEY\"" >> /home/ubuntu/.bash_profile

@@ -16,10 +16,8 @@ backend:
   environment:
     DJANGO_SETTINGS_MODULE: volontulo_org.settings.dev
     VOLONTULO_SECRET_KEY: a63eb5ef-3b25-4595-846a-5d97d99486f0
-    VOLONTULO_DB_USER: volontulo
-    VOLONTULO_DB_PASS: volontulo
-    VOLONTULO_DB_NAME: volontulo
     VOLONTULO_DB_HOST: db
+    VOLONTULO_DB_PASS: volontulo
   entrypoint: bash docker-entrypoint.sh
   # entrypoint: tail -f /dev/null
   working_dir: /volontulo/backend
@@ -34,6 +32,6 @@ backend:
 db:
   image: postgres
   environment:
-    POSTGRES_PASSWORD: volontulo
-    POSTGRES_USER: volontulo
     POSTGRES_DB: volontulo
+    POSTGRES_USER: volontulo
+    POSTGRES_PASSWORD: volontulo

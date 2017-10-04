@@ -85,9 +85,9 @@ WSGI_APPLICATION = 'volontulo_org.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'USER': os.environ.get('VOLONTULO_DB_USER'),
+        'USER': os.environ.get('VOLONTULO_DB_USER', 'volontulo'),
+        'NAME': os.environ.get('VOLONTULO_DB_NAME', 'volontulo'),
         'PASSWORD': os.environ.get('VOLONTULO_DB_PASS'),
-        'NAME': os.environ.get('VOLONTULO_DB_NAME'),
         'HOST': os.environ.get('VOLONTULO_DB_HOST', 'localhost'),
         'PORT': os.environ.get('VOLONTULO_DB_PORT', '5432'),
     }

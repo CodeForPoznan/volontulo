@@ -50,7 +50,7 @@ ng serve --open --host=0.0.0.0
 
 For manual installation You can follow `Dockerfile`/`etc/vagrant-install.sh` instructions.
 
-For Your convenience we suggest to use **virtualenv** and `backend/volontulo_org/settings/dev.py` (as it use SQLite instead of PostgreSQL).
+For Your convenience we suggest to use **virtualenv** and `backend/volontulo_org/settings/dev_local.py` (as it use SQLite instead of PostgreSQL).
 
 ## Initial admin credentials
  * **user**: admin@volontuloapp.org

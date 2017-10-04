@@ -27,7 +27,10 @@
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
-        "prod": "environments/environment.prod.ts"
+        "prod": "environments/environment.prod.ts",
+        "dev.volontulo.pl": "environments/environment.dev.volontulo.pl.ts",
+        "rc.volontulo.pl": "environments/environment.rc.volontulo.pl.ts",
+        "volontulo.pl": "environments/environment.volontulo.pl.ts"
       }
     }
   ],
