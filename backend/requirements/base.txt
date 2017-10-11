@@ -6,7 +6,6 @@ Pillow==4.2.1
 six==1.11.0
 unipath==1.1
 wheel==0.30.0
-django-dynamic-fixture==1.9.5
 psycopg2==2.7.3.1
 djangorestframework==3.6.4
 djangorestframework-camel-case==1.0b1
