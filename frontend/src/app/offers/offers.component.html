@@ -1,8 +1,10 @@
 <section class="container">
   <div class="row">
     <article *ngFor="let offer of offers" class="offer col-sm-6 col-md-4">
-      <a href="{{ offer.url }}" class="offer-img"
-         [ngStyle]="{'background-image': offer.image ? 'url(/' + offer.image + ')' : 'url(/media/)'}"></a>
+      <div class="offer-cover-image">
+        <a href="{{ offer.url }}" class="offer-img"
+           [ngStyle]="{'background-image': 'url(' + offer.image + ')'}"></a>
+      </div>
       <h2 class="offer-title">
         <a href="{{ offer.url }}" class="offer_link">{{ offer.title }}</a>
       </h2>

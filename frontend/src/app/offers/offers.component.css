@@ -32,11 +32,17 @@
     border-bottom-color: #E6E9ED;
 }
 
+.offer-cover-image {
+    overflow: hidden;
+}
+
 .offer-img {
     display: block;
     position: relative;
     margin: -10% -15% -30%;
     padding-top: 100%;
+    background-position: center;
+    background-size: cover;
 }
 
 .offer-row {
