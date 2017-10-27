@@ -68,7 +68,7 @@ class TestUsersProfile(TestCase):
         self.assertContains(
             response,
             "Zgłoś się w jednej z dostępnych "
-            "ofert wolontariuatu i zapełnij to miejsce."
+            "ofert wolontariatu i zapełnij to miejsce."
         )
 
     def test__logged_user_profile_filled_volunteer(self):
@@ -83,7 +83,7 @@ class TestUsersProfile(TestCase):
         self.assertContains(
             response,
             "Zgłoś się w jednej z dostępnych "
-            "ofert wolontariuatu i zapełnij to miejsce."
+            "ofert wolontariatu i zapełnij to miejsce."
         )
 
     def test__logged_user_profile_empty_organization(self):
