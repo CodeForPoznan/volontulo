@@ -34,3 +34,5 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:4200',
 )
 CORS_ALLOW_CREDENTIALS = True
+
+SYSTEM_DOMAIN = 'localhost'

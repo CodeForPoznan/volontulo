@@ -4,6 +4,7 @@
 .. module:: email
 """
 
+from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMultiAlternatives
 from django.core.mail import get_connection
@@ -11,7 +12,7 @@ from django.template.loader import get_template
 
 from apps.volontulo.utils import get_administrators_emails
 
-FROM_ADDRESS = 'support@volontuloapp.org'
+FROM_ADDRESS = 'no-reply@' + settings.SYSTEM_DOMAIN
 FAIL_SILENTLY = False
 AUTH_USER = None
 AUTH_PASSWORD = None

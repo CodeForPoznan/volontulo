@@ -141,3 +141,5 @@ MEDIA_URL = '/media/'
 
 # settings required if we want to use @login_required decorator
 LOGIN_URL = 'login'
+
+SYSTEM_DOMAIN = 'localhost'

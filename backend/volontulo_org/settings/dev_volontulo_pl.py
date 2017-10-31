@@ -8,3 +8,4 @@ from .base import *
 # Extra settings go here:
 
 ANGULAR_ROOT = 'https://dev.volontulo.pl'
+SYSTEM_DOMAIN = 'dev.volontulo.pl'
