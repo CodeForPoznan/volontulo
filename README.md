@@ -55,3 +55,19 @@ For Your convenience we suggest to use **virtualenv** and `backend/volontulo_org
 ## Initial admin credentials
  * **user**: admin@volontuloapp.org
  * **pass**: stx123
+
+## Instances
+
+* dev (dev.volontulo.pl)
+* RC (rc.volontulo.pl)
+* production (volontulo.pl)
+
+## Release cycles definition
+
+Working agreement:
+
+* We work in 6-weeks sprints. Code is pushed to the dev instance after merging and passing tests.
+* Code freeze at the end of the 5th week. Regression tests can be started after pushing the release branch to release candidate instance. 
+* Regression lasts for one week and all of the regression bugs, that have been found, should be fixed with highest priority in week 6.
+* Afterwards application is to be tested and approved by the client. 
+* Sign-off from the client means that we push the code to the production after week 6.
