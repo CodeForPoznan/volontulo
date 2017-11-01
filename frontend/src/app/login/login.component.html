@@ -1,0 +1,15 @@
+<h2>Logowanie</h2>
+<form method="post" role="form" (ngSubmit)=login()>
+    <div class="form-group">
+      <p>Email:</p>
+        <input type="text" [(ngModel)]="loginModel.username" name="username" class="form-control"/>
+    </div>
+    <div class="form-group">
+      <p>Password:</p>
+        <input type="password" [(ngModel)]="loginModel.password" name="password" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <a href="{{ resetPasswordUrl }}">Nie pamiętasz hasła? Możemy pomóc!</a>
+    </div>
+    <button type="submit" name="submit" class="btn btn-primary">Zaloguj</button>
+</form>

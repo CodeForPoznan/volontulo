@@ -9,6 +9,8 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { CookieLawBannerComponent } from './cookie-law-banner/cookie-law-banner.component';
 import { AuthService } from './auth.service';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
 
 
 describe('AppComponent', () => {
@@ -24,7 +26,8 @@ describe('AppComponent', () => {
       imports: [
         NgbModule.forRoot(),
         CookieModule.forRoot(),
-        HttpModule
+        HttpModule,
+        RouterTestingModule,
       ],
       providers: [
         CookieService
@@ -36,6 +39,9 @@ describe('AppComponent', () => {
         FooterComponent,
         CookieLawBannerComponent
       ],
+      schemas: [
+        CUSTOM_ELEMENTS_SCHEMA
+      ]
     }).compileComponents();
   }));
 

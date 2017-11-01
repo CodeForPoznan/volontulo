@@ -168,27 +168,6 @@ class TestLogin(TestCase):
         """Set up each test."""
         self.client = Client()
 
-    def test__get_login_by_anonymous(self):
-        """Get login form by anonymous user"""
-        response = self.client.get('/o/login')
-
-        self.assertNotIn('_auth_user_id', self.client.session)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'auth/login.html')
-        self.assertContains(response, 'Logowanie')
-        self.assertContains(
-            response,
-            'Nie pamiętasz hasła? Możemy pomóc!'
-        )
-        self.assertContains(
-            response,
-            'Email:'
-        )
-        self.assertContains(
-            response,
-            'Password:'
-        )
-
     def test__get_login_by_authorized(self):
         """Get login form by authorized user"""
         self.client.post('/o/login', {

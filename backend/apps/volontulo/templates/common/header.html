@@ -15,9 +15,9 @@
                 </h1>
                 <div class="pull-right">
                 {% if user.is_anonymous and not user.is_authenticated %}
-                    <a class="btn btn-primary navbar-btn" href="{% url 'login' %}">Załóż konto</a>
+                    <a class="btn btn-primary navbar-btn" href="{% url 'register' %}">Załóż konto</a>
                     <span class="navbar-text">lub</span>
-                    <a class="btn btn-link navbar-btn" href="{% url 'login' %}">Zaloguj się</a>
+                    <a class="btn btn-link navbar-btn" href="{{ ANGULAR_ROOT }}/login">Zaloguj się</a>
                 {% else %}
                     <div class="btn-group">
                         <button aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" class="btn btn-link dropdown-toggle" type="button">Witaj, {{ user.email }}! <span class="caret"></span></button>

@@ -5,14 +5,15 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { HeaderComponent } from './header.component';
 import { AuthService } from '../auth.service';
-
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('HeaderComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         NgbModule.forRoot(),
-        HttpModule
+        HttpModule,
+        RouterTestingModule,
       ],
       providers: [
       ],

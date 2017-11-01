@@ -15,7 +15,7 @@
           <span class="nav-item navbar-text ml-2 mr-2">lub</span>
         </li>
         <li class="nav-item">
-          <a href="{{ djangoRoot }}/login" class="btn btn-outline-success my-2 my-sm-0">Zaloguj się</a>
+          <a [routerLink]="['/login']" class="btn btn-outline-success my-2 my-sm-0">Zaloguj się</a>
         </li>
       </ul>
       <ng-template #anonymousBlock>

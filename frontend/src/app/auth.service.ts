@@ -3,6 +3,7 @@ import { Http } from '@angular/http';
 
 import { environment } from '../environments/environment';
 import { User } from './user.d';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthService {
@@ -11,8 +12,12 @@ export class AuthService {
   private _currentUserUrl = `${environment.apiRoot}/current-user`;
   private _currentUser: User;
   public changeUserEvent: EventEmitter<User>;
+  public resetPasswordUrl = `${environment.djangoRoot}/password-reset`;
 
-  constructor(private http: Http) {
+  constructor(
+    private http: Http,
+    private router: Router,
+  ) {
     this.changeUserEvent = new EventEmitter<User>();
 
     this.http.get(this._currentUserUrl, { withCredentials: true })
@@ -32,6 +37,7 @@ export class AuthService {
         if (this._currentUser !== backendUser) {
           this._currentUser = backendUser;
           this.changeUserEvent.emit(this._currentUser);
+          this.router.navigate(['']);
         }
       });
   }

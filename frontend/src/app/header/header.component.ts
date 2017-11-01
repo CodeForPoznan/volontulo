@@ -7,7 +7,6 @@ import { User } from '../user.d';
 @Component({
   selector: 'volontulo-header',
   templateUrl: './header.component.html',
-  providers: [AuthService]
 })
 export class HeaderComponent {
 
