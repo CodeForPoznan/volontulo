@@ -70,8 +70,7 @@ class TestOffersCreate(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(
             response,
-            "Nie masz jeszcze żadnej założonej organizacji"
-            " na volontuloapp.org."
+            "Nie masz jeszcze żadnej założonej organizacji na"
         )
         self.assertTemplateUsed(response, 'offers/offers_list.html')
 
