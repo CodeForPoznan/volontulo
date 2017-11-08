@@ -15,6 +15,7 @@ import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { CookieLawBannerComponent } from './cookie-law-banner/cookie-law-banner.component';
 import { AboutUsComponent } from './static/about-us.component';
+import { RegulationsComponent } from './static/regulations.component';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './auth.service';
 
@@ -32,9 +33,13 @@ const appRoutes: Routes = [
     component: LoginComponent,
   },
   {
+    path: 'regulations',
+    component: RegulationsComponent
+  },
+  {
     path: '**',
     component: RedirectComponent
-  },
+  }
 ];
 
 @NgModule({
@@ -47,6 +52,7 @@ const appRoutes: Routes = [
     OffersComponent,
     CookieLawBannerComponent,
     AboutUsComponent,
+    RegulationsComponent,
     LoginComponent
   ],
   imports: [

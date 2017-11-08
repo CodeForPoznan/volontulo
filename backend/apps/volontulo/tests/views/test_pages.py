@@ -76,13 +76,6 @@ class TestPages(TestCase):
         self.assertTemplateUsed(response, 'pages/faq-volunteers.html')
         self.assertContains(response, 'Często zadawane pytania')
 
-    def test__get_regulations_staticpage(self):
-        """Regulations FAQ static page"""
-        response = self.client.get('/o/pages/regulations')
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'pages/regulations.html')
-        self.assertContains(response, 'Regulamin')
-
     def test_office_subpage(self):
         """Test office subpage."""
         response = self.client.get('/o/office')

@@ -3,14 +3,14 @@ import { TestBed, inject, async } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CookieModule, CookieService } from 'ngx-cookie';
+import { RouterTestingModule } from '@angular/router/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { CookieLawBannerComponent } from './cookie-law-banner/cookie-law-banner.component';
 import { AuthService } from './auth.service';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouterTestingModule } from '@angular/router/testing';
 
 
 describe('AppComponent', () => {
@@ -27,7 +27,7 @@ describe('AppComponent', () => {
         NgbModule.forRoot(),
         CookieModule.forRoot(),
         HttpModule,
-        RouterTestingModule,
+        RouterTestingModule
       ],
       providers: [
         CookieService
