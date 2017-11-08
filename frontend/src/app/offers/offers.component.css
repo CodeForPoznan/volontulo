@@ -36,6 +36,10 @@
     overflow: hidden;
 }
 
+.offer-cover-image-button {
+    text-align: right;
+}
+
 .offer-img {
     display: block;
     position: relative;
