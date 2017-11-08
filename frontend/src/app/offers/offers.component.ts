@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { OffersService } from './offers.service';
 import { Offer } from './offers.model';
+import { OffersService } from './offers.service';
 
 @Component({
   selector: '<volontulo-offers>',
@@ -22,5 +22,8 @@ export class OffersComponent implements OnInit {
       }
     );
   }
-}
 
+  getDjangoViewUrl(offer: Offer): string {
+    return this.offersService.getDjangoViewUrl(offer);
+  }
+}

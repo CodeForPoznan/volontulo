@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 
 import { environment } from '../../environments/environment';
+import { Offer } from './offers.model';
 
 @Injectable()
 export class OffersService {
@@ -14,5 +15,9 @@ export class OffersService {
   getOffers() {
     return this.http.get(this.url, { withCredentials: true } )
       .map((res: Response) => res.json());
+  }
+
+  getDjangoViewUrl(offer: Offer): string {
+    return `${environment.djangoRoot}/offers/${offer.slug}/${offer.id}`;
   }
 }
