@@ -4,7 +4,7 @@ import { OffersComponent } from '../offers/offers.component';
 
 @Component({
   selector: 'volontulo-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  templateUrl: './homepage.component.html',
+  styleUrls: ['./homepage.component.css']
 })
-export class HomeComponent {}
+export class HomePageComponent {}
