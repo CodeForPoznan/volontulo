@@ -1,5 +1,6 @@
 export const environment = {
-  production: true,
+  apiRoot: 'https://volontulo.pl/api',
   djangoRoot: 'https://volontulo.pl/o',
-  apiRoot: 'https://volontulo.pl/api'
+  production: true,
+  sentryDSN: 'https://231fac114db44046b05ea775c9a4ada2@sentry.io/227464'
 };
