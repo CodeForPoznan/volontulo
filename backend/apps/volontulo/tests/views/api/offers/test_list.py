@@ -8,6 +8,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from apps.volontulo.tests.views.offers.commons import TestOffersCommons
+from apps.volontulo.tests import common
 
 
 class _TestOffersListAPIView(TestOffersCommons, APITestCase):
@@ -19,16 +20,7 @@ class _TestOffersListAPIView(TestOffersCommons, APITestCase):
         response = self.client.get('/api/offers/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         for offer in response.data:
-            self.assertIsInstance(offer.pop('finished_at'), str)
-            self.assertIsInstance(offer.pop('id'), int)
-            self.assertIsInstance(offer.pop('image'), (str, type(None)))
-            self.assertIsInstance(offer.pop('location'), str)
-            self.assertIsInstance(offer.pop('organization'), str)
-            self.assertIsInstance(offer.pop('slug'), str)
-            self.assertIsInstance(offer.pop('started_at'), str)
-            self.assertIsInstance(offer.pop('title'), str)
-            self.assertIsInstance(offer.pop('url'), str)
-            self.assertEqual(len(offer), 0)
+            common.test_offer_list_fields(self, offer)
 
 
 class TestAdminUserOffersListAPIView(_TestOffersListAPIView):
