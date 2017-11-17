@@ -1,9 +1,10 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../environments/environment';
 import { User } from './user.d';
-import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthService {
@@ -27,17 +28,18 @@ export class AuthService {
       });
   }
 
-  login(username: string, password: string) {
-    this.http.post(
+  login(username: string, password: string): Observable<User> {
+    return this.http.post(
       this._loginUrl,
       { username, password },
       { withCredentials: true })
-      .subscribe(rsp => {
+      .map(rsp => {
         const backendUser = rsp.json();
         if (this._currentUser !== backendUser) {
           this._currentUser = backendUser;
           this.changeUserEvent.emit(this._currentUser);
           this.router.navigate(['']);
+          return this._currentUser;
         }
       });
   }

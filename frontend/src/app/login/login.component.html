@@ -11,5 +11,7 @@
     <div class="form-group">
         <a href="{{ resetPasswordUrl }}">Nie pamiętasz hasła? Możemy pomóc!</a>
     </div>
+    <div *ngIf="isAuthFailed" class="alert alert-danger" role="alert">Niepoprawne dane logowania</div>
     <button type="submit" name="submit" class="btn btn-primary">Zaloguj</button>
 </form>
+
