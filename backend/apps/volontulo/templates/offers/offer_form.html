@@ -178,6 +178,15 @@
                                 {% endif %}
                             </div>
                         </div>
+                        <div class="form-group form-group-sm {% if form.reserve_volunteers_limit.errors %}has-error{% endif %}">
+                            <label class="control-label col-xs-5" for="{{ form.organization.id_for_label }}">Limit wolontariuszy</label>
+                            <div class="col-xs-6 col-xs-offset-1">
+                                <input type="text" value="{% if request.POST.reserve_volunteers_limit or offer.reserve_volunteers_limit %}{{ request.POST.reserve_volunteers_limit|default:offer.reserve_volunteers_limit }}{% else %}0{% endif %}" name="reserve_volunteers_limit" class="form-control" id="{{ form.reserve_volunteers_limit.id_for_label }}" />
+                                {% if form.reserve_volunteers_limit.errors %}
+                                    <div class="error-text">{{ form.reserve_volunteers_limit.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

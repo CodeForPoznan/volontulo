@@ -17,6 +17,34 @@ from django.utils import timezone
 logger = logging.getLogger('volontulo.models')
 
 
+def upload_to_offers(_, filename):
+    """
+    Upload to offers path.
+
+    This needs to be a full-body func because
+    migrations requires it to be serializable.
+    """
+    _, file_extension = os.path.splitext(filename)
+    return os.path.join(
+        'offers',
+        '{}{}'.format(uuid.uuid4(), file_extension),
+    )
+
+
+def upload_to_profiles(_, filename):
+    """
+    Upload to profiles path.
+
+    This needs to be a full-body func because
+    migrations requires it to be serializable.
+    """
+    _, file_extension = os.path.splitext(filename)
+    return os.path.join(
+        'profiles',
+        '{}{}'.format(uuid.uuid4(), file_extension),
+    )
+
+
 class Organization(models.Model):
     """Model that handles ogranizations/institutions."""
     name = models.CharField(max_length=150)
@@ -125,6 +153,8 @@ class Offer(models.Model):
     action_start_date = models.DateTimeField(blank=True, null=True)
     action_end_date = models.DateTimeField(blank=True, null=True)
     volunteers_limit = models.IntegerField(default=0, null=True, blank=True)
+    reserve_volunteers_limit = models.IntegerField(
+        default=0, null=True, blank=True)
     weight = models.IntegerField(default=0, null=True, blank=True)
 
     def __str__(self):
@@ -274,25 +304,10 @@ class UserProfile(models.Model):
         return self.user.email
 
 
-def uuid_image_name(prefix):
-    """Upload to function decorator.
-
-    Prefix is a directory, that file will be saved in.
-    """
-    def upload_to(_, filename):
-        """Actual uload_to function, that use prefix from outer scope."""
-        _, file_extension = os.path.splitext(filename)
-        return os.path.join(
-            prefix,
-            '{}{}'.format(uuid.uuid4(), file_extension),
-        )
-    return upload_to
-
-
 class UserGallery(models.Model):
     """Handling user images."""
     userprofile = models.ForeignKey(UserProfile, related_name='images')
-    image = models.ImageField(upload_to=uuid_image_name('profiles'))
+    image = models.ImageField(upload_to=upload_to_profiles)
     is_avatar = models.BooleanField(default=False)
 
     def __str__(self):
@@ -303,7 +318,7 @@ class UserGallery(models.Model):
 class OfferImage(models.Model):
     """Handling offer image."""
     offer = models.ForeignKey(Offer, related_name='images')
-    path = models.ImageField(upload_to=uuid_image_name('offers'))
+    path = models.ImageField(upload_to=upload_to_offers)
     is_main = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 

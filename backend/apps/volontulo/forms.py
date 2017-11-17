@@ -117,6 +117,7 @@ class CreateOfferForm(forms.ModelForm):
             'action_start_date',
             'action_end_date',
             'volunteers_limit',
+            'reserve_volunteers_limit',
         ]
 
 
