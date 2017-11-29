@@ -11,7 +11,7 @@ import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { RedirectComponent } from './redirect.component';
 import { WindowService, WindowFactory } from './window.service';
-import { OffersComponent } from './offers/offers.component';
+import { HomepageOfferComponent } from './homepage-offer/homepage-offer.component';
 import { HomePageComponent } from './home/homepage.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
@@ -59,7 +59,7 @@ const appRoutes: Routes = [
     HomePageComponent,
     HeaderComponent,
     FooterComponent,
-    OffersComponent,
+    HomepageOfferComponent,
     CookieLawBannerComponent,
     AboutUsComponent,
     RegulationsComponent,
