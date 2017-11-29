@@ -2,20 +2,26 @@ import { Component, OnInit, Input } from '@angular/core';
 
 import { Offer } from './offers.model';
 import { OffersService } from './offers.service';
+import { OrganizationService } from '../organization/organization.service';
+import { Organization } from '../organization/organization.model';
 
 @Component({
   selector: 'volontulo-homepage-offer',
   templateUrl: './homepage-offer.component.html',
   styleUrls: ['./homepage-offer.component.css'],
-  providers: [OffersService]
+  providers: [OffersService, OrganizationService]
 })
 export class HomepageOfferComponent {
   @Input() offer: Offer;
 
-  constructor(private offersService: OffersService) {}
+  constructor(private offersService: OffersService, private organizationService: OrganizationService) {}
 
-  getDjangoViewUrl(offer: Offer): string {
-    return this.offersService.getDjangoViewUrl(offer);
+  getOfferViewUrl(offer: Offer): string {
+    return this.offersService.getOfferViewUrl(offer);
+  }
+
+  getOrganizationViewUrl(organization: Organization): string {
+    return this.organizationService.getOrganizationViewUrl(organization);
   }
 }
 

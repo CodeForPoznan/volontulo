@@ -3,6 +3,7 @@ import { Http } from '@angular/http';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { environment } from '../../environments/environment';
+import { Organization } from './organization.model';
 
 @Injectable()
 export class OrganizationService {
@@ -25,5 +26,9 @@ export class OrganizationService {
     this.http.get(`${this.url}/${id}`, this.requestOptions)
       .subscribe(rsp => this.getSubject.next(rsp.json()));
     return this.getSubject;
+  }
+
+  getOrganizationViewUrl(organization: Organization): string {
+    return `${environment.djangoRoot}/organizations/${organization.slug}/${organization.id}`;
   }
 }
