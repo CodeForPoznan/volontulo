@@ -1,4 +1,5 @@
 import { ErrorHandler, NgModule } from '@angular/core';
+import { OffersService } from './homepage-offer/offers.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -20,6 +21,9 @@ import { AboutUsComponent } from './static/about-us.component';
 import { RegulationsComponent } from './static/regulations.component';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './auth.service';
+import { OfferDetailComponent } from './offers/offer-detail/offer-detail.component';
+import { IconComponent } from './icon/icon.component';
+import { IconLabelComponent } from './icon-label/icon-label.component';
 import { BannerComponent } from './banner/banner.component';
 
 Raven.config(environment.sentryDSN).install();
@@ -48,6 +52,10 @@ const appRoutes: Routes = [
     component: RegulationsComponent
   },
   {
+    path: 'offers/:offerSlug/:offerId',
+    component: OfferDetailComponent,
+  },
+  {
     path: '**',
     component: RedirectComponent
   }
@@ -65,6 +73,9 @@ const appRoutes: Routes = [
     AboutUsComponent,
     RegulationsComponent,
     LoginComponent,
+    OfferDetailComponent,
+    IconComponent,
+    IconLabelComponent,
     BannerComponent
   ],
   imports: [
@@ -78,8 +89,9 @@ const appRoutes: Routes = [
   ],
   providers: [
     AuthService,
+    OffersService,
     { provide: WindowService, useFactory: WindowFactory },
-    { provide: ErrorHandler, useClass: RavenErrorHandler }
+    { provide: ErrorHandler, useClass: RavenErrorHandler },
   ],
   bootstrap: [AppComponent]
 })

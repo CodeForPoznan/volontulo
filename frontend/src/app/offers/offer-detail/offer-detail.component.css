@@ -1,0 +1,42 @@
+.header-panels-box {
+    height: 100%;
+    position: relative;
+}
+.header-panels {
+    bottom: 0;
+    position: absolute;
+}
+.header-panel {
+    background-color: rgba(67, 74, 84, 0.2);
+    border-radius: 3px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: #F5F7FA;
+    float: left;
+    font-size: 24px;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 16px;
+    margin: 10px;
+    padding: 10px;
+}
+
+.header-panel h2 {
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.2), 0 0px 1px rgba(0, 0, 0, 0.6), 0 1px 0 rgba(0, 0, 0, 0.6);
+}
+
+.header-labels volontulo-icon-label /deep/ {
+    font-size: 16px;
+}
+
+.header-labels {
+    display: flex;
+    flex-wrap: nowrap;
+}
+.card {
+    margin: 15px;
+  }
+  
+volontulo-icon-label {
+    margin: 10px;
+}

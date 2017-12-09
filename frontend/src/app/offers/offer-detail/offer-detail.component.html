@@ -1,0 +1,67 @@
+<div class="container" *ngIf="offer$ | async as offer">
+    <div class="card bg-light mb-3 text-white">
+        <img class="card-img" src="{{ offer.image }}" alt="{{ offer.title }}">
+        <div class="card-img-overlay">
+            <div class="col-md-12 header-panels-box">
+                <div class="header-panels">
+                    <div class="header-panel">{{ offer.title }}</div>
+                    <div class="clearfix"></div>
+                    <div class="header-labels">
+                        <volontulo-icon-label icon="place">{{ offer.location }}</volontulo-icon-label>
+                        <volontulo-icon-label icon="access_time">{{ offer.startedAt | date:'shortDate' }} - {{ offer.finishedAt | date:'shortDate' }}</volontulo-icon-label>
+<!-- TODO: restore the link for users who can edit the offer when permission check implemented in the frontend 
+<a href="{{ djangoRoot }}/offers/{{ offer.slug }}/{{ offer.id }}/edit" class="btn btn-sm">
+<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edytuj ofertę</a>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="card">
+                <h3 class="card-header">{{ offer.title }}</h3>
+                <div class="card-body">
+                    <p class="card-text">{{ offer.description }} </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="card">
+                <h3 class="card-header">Korzyści dla wolontariusza</h3>
+                <div class="card-body">
+                <p class="card-text">{{ offer.benefits }}</p>
+            </div>
+            </div>
+            <div class="card">
+                <h3 class="card-header">Wymagania wobec wolontariusza</h3>
+                <div class="card-body">
+                <p class="card-text">{{ offer.requirements }}</p>
+                </div>
+            </div>
+            <div class="card">
+                <h3 class="card-header">Zaangażowanie czasowe</h3>
+                <div class="card-body">
+                <p class="card-text">{{ offer.timeCommitment }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4">  
+            <div class="card text-center">
+                <div class="alert alert-danger">
+                    <h2>Możesz pomóc?</h2><br>
+                    Twoja pomoc jest ważna.<br>
+                    <b><h3>Potrzebujemy Ciebie!</h3></b><br>
+                    <a class="btn btn-light" href="{{ getOfferViewUrl(offer) }}">Zgłoś się na ten wolontariat</a>
+                </div>
+                <h3 class="card-header">Rekrutacja trwa do: {{ offer.recruitmentEndDate | date:'shortDate' }}</h3>
+            </div>
+            <div class="card">
+                <h3 class="card-header">Organizator</h3>
+                <div class="card-body">
+                <p class="card-text">{{ offer.organization.name }}</p>
+                </div>
+            </div>
+         </div>
+    </div>
+</div>

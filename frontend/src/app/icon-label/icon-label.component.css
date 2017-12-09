@@ -1,0 +1,30 @@
+.box {
+  color: #434A54;
+  display: flex;
+  flex-wrap: nowrap;
+  height: 45px;
+  opacity: .92;
+}
+.icon {
+    align-items: center;
+    background-color: #E6E9ED;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 0px;
+    display: flex;
+    justify-content: center;
+    width: 54px;
+}
+.icon volontulo-icon /deep/ i{
+    line-height: 45px;
+}
+.content {
+    background: #fff;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 3px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 3px;
+    line-height: 45px;
+    padding: 0 10px;
+}
