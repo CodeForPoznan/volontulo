@@ -62,13 +62,6 @@ class TestPages(TestCase):
         self.assertEqual(offers['NEW'], 5)
         self.assertEqual(offers['SUSPENDED'], 5)
 
-    def test__get_organization_faq_staticpage(self):
-        """Organization FAQ static page"""
-        response = self.client.get('/o/pages/faq-organizations')
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'pages/faq-organizations.html')
-        self.assertContains(response, 'Często zadawane pytania')
-
     def test__get_volunteer_faq_staticpage(self):
         """Volunteer FAQ static page"""
         response = self.client.get('/o/pages/faq-volunteers')
