@@ -1,6 +1,7 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../environments/environment';
@@ -12,19 +13,22 @@ export class AuthService {
   private _logoutUrl = `${environment.apiRoot}/logout`;
   private _currentUserUrl = `${environment.apiRoot}/current-user`;
   private _currentUser: User;
-  public changeUserEvent: EventEmitter<User>;
+  public changeUserEvent: BehaviorSubject<User | null>;
   public resetPasswordUrl = `${environment.djangoRoot}/password-reset`;
+
+  public user$: Observable<User | null>;
 
   constructor(
     private http: Http,
     private router: Router,
   ) {
-    this.changeUserEvent = new EventEmitter<User>();
+    this.changeUserEvent = new BehaviorSubject(null);
+    this.user$ = this.changeUserEvent.asObservable();
 
     this.http.get(this._currentUserUrl, { withCredentials: true })
       .subscribe(rsp => {
         this._currentUser = (rsp.text() === '' ? null : rsp.json());
-        this.changeUserEvent.emit(this._currentUser);
+        this.changeUserEvent.next(this._currentUser);
       });
   }
 
@@ -37,7 +41,7 @@ export class AuthService {
         const backendUser = rsp.json();
         if (this._currentUser !== backendUser) {
           this._currentUser = backendUser;
-          this.changeUserEvent.emit(this._currentUser);
+          this.changeUserEvent.next(this._currentUser);
           this.router.navigate(['']);
           return this._currentUser;
         }

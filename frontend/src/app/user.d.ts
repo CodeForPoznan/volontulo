@@ -1,3 +1,7 @@
+import { Organization } from './organization/organization.model';
+
 export interface User {
-  username: string
+  is_administrator: boolean,
+  organizations: Array<Organization>,
+  username: string,
 }

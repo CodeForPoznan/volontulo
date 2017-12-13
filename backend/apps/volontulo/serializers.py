@@ -20,6 +20,8 @@ class OrganizationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Organization
         fields = (
+            'address',
+            'description',
             'id',
             'name',
             'slug',
@@ -81,11 +83,13 @@ class UserSerializer(serializers.ModelSerializer):
     """REST API organizations serializer."""
 
     is_administrator = serializers.SerializerMethodField()
+    organizations = serializers.SerializerMethodField()
 
     class Meta:
         model = User
         fields = (
             'is_administrator',
+            'organizations',
             'username',
         )
 
@@ -93,3 +97,8 @@ class UserSerializer(serializers.ModelSerializer):
     def get_is_administrator(obj):
         """Returns information if user is an administrator."""
         return obj.userprofile.is_administrator
+
+    def get_organizations(self, obj):
+        """Returns organizations that user belongs to."""
+        qs = obj.userprofile.organizations.all()
+        return OrganizationSerializer(qs, many=True, context=self.context).data

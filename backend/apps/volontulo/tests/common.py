@@ -186,6 +186,8 @@ def test_offer_list_fields(self, offer):
     self.assertIsInstance(offer.pop('time_commitment'), str)
     self.assertIsInstance(offer.pop('time_period'), str)
     self.assertIsInstance(offer.pop('recruitment_end_date'), (str, type(None)))
+    self.assertIsInstance(offer['organization'].pop('address'), str)
+    self.assertIsInstance(offer['organization'].pop('description'), str)
     self.assertIsInstance(offer['organization'].pop('id'), int)
     self.assertIsInstance(offer['organization'].pop('name'), str)
     self.assertIsInstance(offer['organization'].pop('slug'), str)

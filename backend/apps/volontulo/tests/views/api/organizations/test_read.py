@@ -17,6 +17,8 @@ class _TestOrganizationsReadAPIView(TestOffersCommons, APITestCase):
 
     def _test_organization_read_fields(self, organization):
         """Test read's fields of organizations REST API endpoint."""
+        self.assertIsInstance(organization.pop('address'), str)
+        self.assertIsInstance(organization.pop('description'), str)
         self.assertIsInstance(organization.pop('id'), int)
         self.assertIsInstance(organization.pop('name'), str)
         self.assertIsInstance(organization.pop('slug'), str)

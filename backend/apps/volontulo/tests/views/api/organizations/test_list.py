@@ -19,6 +19,8 @@ class _TestOrganizationsListAPIView(TestOffersCommons, APITestCase):
         response = self.client.get('/api/organizations/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         for organization in response.data:
+            self.assertIsInstance(organization.pop('address'), str)
+            self.assertIsInstance(organization.pop('description'), str)
             self.assertIsInstance(organization.pop('id'), int)
             self.assertIsInstance(organization.pop('name'), str)
             self.assertIsInstance(organization.pop('slug'), str)

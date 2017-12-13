@@ -12,6 +12,8 @@ import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { RedirectComponent } from './redirect.component';
 import { WindowService, WindowFactory } from './window.service';
+import { OrganizationService } from './organization/organization.service';
+import { OrganizationDetailsComponent } from './organization/organization-details.component';
 import { HomepageOfferComponent } from './homepage-offer/homepage-offer.component';
 import { HomePageComponent } from './home/homepage.component';
 import { FooterComponent } from './footer/footer.component';
@@ -41,6 +43,10 @@ const appRoutes: Routes = [
     component: HomePageComponent
   },
   {
+    path: 'organizations/:organizationSlug/:organizationId',
+    component: OrganizationDetailsComponent,
+  },
+  {
     path: 'faq-organizations',
     component: FaqOrganizationsComponent,
   },
@@ -51,6 +57,10 @@ const appRoutes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+  },
+  {
+    path: 'o-nas',
+    component: AboutUsComponent
   },
   {
     path: 'regulations',
@@ -73,6 +83,7 @@ const appRoutes: Routes = [
     HomePageComponent,
     HeaderComponent,
     FooterComponent,
+    OrganizationDetailsComponent,
     HomepageOfferComponent,
     CookieLawBannerComponent,
     AboutUsComponent,
@@ -96,6 +107,7 @@ const appRoutes: Routes = [
   providers: [
     AuthService,
     OffersService,
+    OrganizationService,
     { provide: WindowService, useFactory: WindowFactory },
     { provide: ErrorHandler, useClass: RavenErrorHandler },
   ],
