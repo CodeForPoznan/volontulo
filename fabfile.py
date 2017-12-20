@@ -18,6 +18,9 @@ from fabric.api import prefix
 from fabric.api import run
 from fabric.contrib import files
 
+
+NODE_VERSION = '9.3.0'
+
 env.user = 'root'
 if not env.hosts:
     env.hosts = ['dev.volontulo.pl']
@@ -56,7 +59,7 @@ def update():
 
     # Gulp frontend refresh:
     with contextlib.nested(
-        prefix('nvm use 7.9.0'),
+        prefix('nvm use {}'.format(NODE_VERSION)),
         cd('/var/www/volontulo/backend/apps/volontulo'),
     ):
         run('npm install .')
@@ -72,7 +75,7 @@ def update():
 
     # Angular assets refresh:
     with contextlib.nested(
-        prefix('nvm use 7.9.0'),
+        prefix('nvm use {}'.format(NODE_VERSION)),
         cd('/var/www/volontulo/frontend'),
     ):
         run('npm install .')
@@ -120,8 +123,8 @@ def install():
     run('echo \'[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"\' >> ~/.bash_profile')
     run('echo \'[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"\' >> ~/.bash_profile')
     run('source ~/.bash_profile')
-    run('nvm install 7.9')
-    with prefix('nvm use 7.9.0'):
+    run('nvm install {}'.format(NODE_VERSION))
+    with prefix('nvm use {}'.format(NODE_VERSION)):
         run('npm install -g @angular/cli --unsafe-perm')
 
     # Install virtualenv:

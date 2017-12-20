@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Distinct (Docker vs Vagrant) env variables
-export NODE_VERSION="7.9.0"
+export NODE_VERSION="9.3.0"
 export NVM_DIR="/home/ubuntu/.nvm"
 export NODE_PATH="$NVM_DIR/versions/node/v$NODE_VERSION/lib/node_modules"
 export PATH="$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH"

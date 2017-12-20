@@ -16,7 +16,7 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ xenial main restricted" >> /etc/apt/sources.list
 
 # Distinct (Docker vs Vagrant) env variables
-ENV NODE_VERSION 7.9.0
+ENV NODE_VERSION 9.3.0
 ENV NVM_DIR /usr/local/nvm
 ENV NODE_PATH $NVM_DIR/versions/node/v$NODE_VERSION/lib/node_modules
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH

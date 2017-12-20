@@ -7,7 +7,7 @@ python:
 install:
   - pip install -r backend/requirements/dev.txt
 
-  - nvm install 7.9.0
+  - nvm install 9.3.0
   - npm install -g @angular/cli
   - cd frontend && npm install && cd -
 script:
