@@ -167,7 +167,7 @@ env = DJANGO_SETTINGS_MODULE=volontulo_org.settings.{}""".format(
     env_vars[env.host_string]['django_settings']))
     run("echo 'env = VOLONTULO_SECRET_KEY='$VOLONTULO_SECRET_KEY >> /etc/uwsgi/sites/volontulo.ini")
     run("echo 'env = VOLONTULO_DB_PASS='$VOLONTULO_DB_PASS >> /etc/uwsgi/sites/volontulo.ini")
-    run("echo \"env = VOLONTULO_SENTRY_DSN='\"$VOLONTULO_SENTRY_DSN\"'\"" >> /etc/uwsgi/sites/volontulo.ini")
+    run("echo \"env = VOLONTULO_SENTRY_DSN='\"$VOLONTULO_SENTRY_DSN\"'\" >> /etc/uwsgi/sites/volontulo.ini")
     files.append('/etc/uwsgi/sites/volontulo.ini',
 """
 socket = /run/uwsgi/volontulo.sock
