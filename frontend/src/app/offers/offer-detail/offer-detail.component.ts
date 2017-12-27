@@ -26,5 +26,4 @@ export class OfferDetailComponent implements OnInit {
     this.offer$ = this.activatedRoute.params
     .switchMap(params => this.offersService.getOffer(params.offerId));
   }
-
 }
