@@ -21,7 +21,7 @@ class UserFactoryTestCase(TestCase):
         self.totally_fake_user = UserFactory.create()
 
     def test_factories_write_to_db(self):
-        """Test if UserFactory properly create fake user."""
+        """Testing if UserFactory properly create fake user."""
         self.assertEqual(User.objects.count(), 2)
 
     def test_UserFactory_firstname_lastname(self):
