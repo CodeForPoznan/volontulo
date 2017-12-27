@@ -18,6 +18,11 @@ from fabric.api import prefix
 from fabric.api import run
 from fabric.contrib import files
 
+try:
+    from secrets import VOLONTULO_SENTRY_DSN
+except ImportError:
+    print("Missing secrets")
+    raise 
 
 NODE_VERSION = '9.3.0'
 
@@ -25,7 +30,6 @@ env.user = 'root'
 if not env.hosts:
     env.hosts = ['dev.volontulo.pl']
 env.forward_agent = True
-
 
 env_vars = {
     'dev.volontulo.pl': {
@@ -145,6 +149,10 @@ def install():
         run('mkdir media')
         run('chown www-data:www-data media')
 
+    # Export Sentry DSN key
+    run('echo "export VOLONTULO_SENTRY_DSN={}" >> ~/.bash_profile'.format(
+        VOLONTULO_SENTRY_DSN))
+
     # Install uwsgi
     run('pip3 install uwsgi')
     run('mkdir -p /etc/uwsgi/sites')
@@ -159,6 +167,7 @@ env = DJANGO_SETTINGS_MODULE=volontulo_org.settings.{}""".format(
     env_vars[env.host_string]['django_settings']))
     run("echo 'env = VOLONTULO_SECRET_KEY='$VOLONTULO_SECRET_KEY >> /etc/uwsgi/sites/volontulo.ini")
     run("echo 'env = VOLONTULO_DB_PASS='$VOLONTULO_DB_PASS >> /etc/uwsgi/sites/volontulo.ini")
+    run("echo \"env = VOLONTULO_SENTRY_DSN='\"$VOLONTULO_SENTRY_DSN\"'\"" >> /etc/uwsgi/sites/volontulo.ini")
     files.append('/etc/uwsgi/sites/volontulo.ini',
 """
 socket = /run/uwsgi/volontulo.sock
@@ -259,5 +268,5 @@ server {{
         cd('/var/www/volontulo/backend'),
     ):
         django_admin_pass = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(64))
-        run('echo "from django.contrib.auth import get_user_model; User = get_user_model(); u = User(username=\'admin\',, is_staff=True, is_superuser=True); u.set_password(\'{}\'); u.save()" | python manage.py shell'.format(django_admin_pass))
+        run('echo "from django.contrib.auth import get_user_model; User = get_user_model(); u = User(username=\'admin\', is_staff=True, is_superuser=True); u.set_password(\'{}\'); u.save()" | python manage.py shell'.format(django_admin_pass))
         print('Django Admin Password: {}'.format(django_admin_pass))

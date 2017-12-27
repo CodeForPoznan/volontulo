@@ -42,8 +42,8 @@ INSTALLED_APPS = (
     'bootstrap3',
     'cookielaw',
     'rest_framework',
-
     'apps.volontulo',
+    'raven.contrib.django.raven_compat'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -143,3 +143,7 @@ MEDIA_URL = '/media/'
 LOGIN_URL = 'login'
 
 SYSTEM_DOMAIN = 'localhost'
+
+RAVEN_CONFIG = {
+    'dsn': os.environ.get('VOLONTULO_SENTRY_DSN')
+}

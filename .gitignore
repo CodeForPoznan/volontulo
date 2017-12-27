@@ -97,3 +97,8 @@ tmp.yaml
 
 .DS_Store
 Thumbs.db
+
+# Secrets passed to server configuration which should not be commited
+# to the repository, eg. OS environment variables for Sentry DSN,
+# DB pass, etc.
+secrets.py
