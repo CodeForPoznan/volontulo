@@ -21,7 +21,7 @@ class UserFactoryTestCase(TestCase):
         self.totally_fake_user = UserFactory.create()
 
     def test_factories_write_to_db(self):
-        """Testing if UserFactory properly create fake user."""
+        """Test if UserFactory properly create fake user."""
         self.assertEqual(User.objects.count(), 2)
 
     def test_UserFactory_firstname_lastname(self):
@@ -237,19 +237,19 @@ class OfferFactoryTestCase(TestCase):
             )
         self.assertIn(
             self.fake_offer1.offer_status,
-            ["Unpublished", "Published", "Rejected"]
+            ["unpublished", "published", "rejected"]
             )
         self.assertIn(
             self.fake_offer1.recruitment_status,
-            ["Open", "Supplemental", "Closed"]
+            ["open", "supplemental", "closed"]
             )
         self.assertIn(
             self.fake_offer1.action_status,
-            ["Future", "Ongoing", "Finished"]
+            ["future", "ongoing", "finished"]
             )
 
     def test_offer_if_integerField_are_proper_type(self):
-        """Testing if integerField is int type."""
+        """Test if integerField is int type."""
         self.assertIsInstance(self.fake_offer1.volunteers_limit, int)
         self.assertIsInstance(self.fake_offer1.reserve_volunteers_limit, int)
         self.assertIsInstance(self.fake_offer1.weight, int)
