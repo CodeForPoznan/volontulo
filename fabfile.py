@@ -8,8 +8,10 @@ particular script using Python 2.
 """
 
 import contextlib
+import os
 import random
 import string
+import sys
 
 from fabric.api import cd
 from fabric.api import env
@@ -88,11 +90,12 @@ def install():
     u"""Function defining all steps required to install application."""
 
     # ensure that we have secrets configured:
+    sys.path.insert(0, os.path.dirname(__file__))
     try:
         from secrets import VOLONTULO_SENTRY_DSN
     except ImportError:
         print("Missing secrets")
-        raise 
+        raise
 
     # Sytem upgrade:
     run('apt-get update -y')
