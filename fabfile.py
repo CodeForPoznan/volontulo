@@ -263,7 +263,7 @@ server {{
     run('add-apt-repository -y ppa:certbot/certbot')
     run('apt-get update -y')
     run('apt-get install -y python-certbot-nginx ')
-    run('certbot --nginx -m hello@codeforpoznan.pl --agree-tos --no-eff-email -d {} --redirect'.format(env.host_string))
+    run('certbot --authenticator standalone --installer nginx -m hello@codeforpoznan.pl --agree-tos --no-eff-email -d {} --redirect --pre-hook "service nginx stop" --post-hook "service nginx start"'.format(env.host_string))
     run('(crontab -l 2>/dev/null; echo \'0 0 * * * certbot renew --post-hook "systemctl reload nginx"\') | crontab -')
 
     execute(update)
