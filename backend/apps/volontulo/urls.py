@@ -11,7 +11,6 @@ from rest_framework.routers import DefaultRouter
 from apps.volontulo import views
 from apps.volontulo.views import api as api_views
 from apps.volontulo.views import auth as auth_views
-from apps.volontulo.views import admin_panel as admin_views
 from apps.volontulo.views import offers as offers_views
 from apps.volontulo.views import organizations as orgs_views
 from apps.volontulo.views import pages as pages_views
@@ -196,11 +195,6 @@ urlpatterns = [
         r'^o/contact$',
         views.contact_form,
         name='contact_form'
-    ),
-    url(
-        r'^o/panel$',
-        admin_views.main_panel,
-        name='admin_panel'
     ),
     url(
         r'^o/newsletter$',

@@ -27,7 +27,6 @@
               </button>
               <div ngbDropdownMenu aria-labelledby="userDropdown">
                 <a href="{{ djangoRoot }}/me" class="dropdown-item">Moje konto</a>
-                <a *ngIf="currentUser.isAdministrator" href="{{ djangoRoot }}/panel" class="dropdown-item">Panel administracyjny</a>
               </div>
             </div>
           </li>
