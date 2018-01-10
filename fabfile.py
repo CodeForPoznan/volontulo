@@ -18,11 +18,6 @@ from fabric.api import prefix
 from fabric.api import run
 from fabric.contrib import files
 
-try:
-    from secrets import VOLONTULO_SENTRY_DSN
-except ImportError:
-    print("Missing secrets")
-    raise
 
 NODE_VERSION = '9.3.0'
 
@@ -91,6 +86,13 @@ def update():
 
 def install():
     u"""Function defining all steps required to install application."""
+
+    # ensure that we have secrets configured:
+    try:
+        from secrets import VOLONTULO_SENTRY_DSN
+    except ImportError:
+        print("Missing secrets")
+        raise 
 
     # Sytem upgrade:
     run('apt-get update -y')
