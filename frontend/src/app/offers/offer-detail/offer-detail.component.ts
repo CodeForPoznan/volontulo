@@ -15,7 +15,7 @@ import { OffersService } from '../../homepage-offer/offers.service';
 export class OfferDetailComponent implements OnInit {
   public offer$: Observable<Offer>;
   public djangoRoot = environment.djangoRoot;
-  public getOfferViewUrl = this.offersService.getOfferViewUrl;
+  public getJoinViewUrl = this.offersService.getJoinViewUrl;
 
   constructor(
     private activatedRoute: ActivatedRoute,
