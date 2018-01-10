@@ -37,13 +37,8 @@ export class OffersService {
     return offer;
   }
 
-  getOfferViewUrl(offer: Offer): string {
-    return `/offers/${offer.slug}/${offer.id}`;
-  }
-
   getJoinViewUrl(offer: Offer): string {
     return `${environment.djangoRoot}/offers/${offer.slug}/${offer.id}/join`;
   }
-
 
 }

@@ -16,10 +16,6 @@ export class HomepageOfferComponent {
 
   constructor(private offersService: OffersService, private organizationService: OrganizationService) {}
 
-  getOfferViewUrl(offer: Offer): string {
-    return this.offersService.getOfferViewUrl(offer);
-  }
-
   getOrganizationViewUrl(organization: Organization): string {
     return this.organizationService.getOrganizationViewUrl(organization);
   }
