@@ -20,7 +20,7 @@ describe('FooterComponent', () => {
         HttpModule,
         CommonModule,
         RouterTestingModule.withRoutes([
-          { path: 'o-nas', component: AboutUsComponent },
+          { path: 'about-us', component: AboutUsComponent },
           { path: 'regulations', component: RegulationsComponent }
         ])
       ],

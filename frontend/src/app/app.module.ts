@@ -61,16 +61,12 @@ const appRoutes: Routes = [
     component: OfficeComponent,
   },
   {
-    path: 'o-nas',
+    path: 'about-us',
     component: AboutUsComponent
   },
   {
     path: 'login',
     component: LoginComponent,
-  },
-  {
-    path: 'o-nas',
-    component: AboutUsComponent
   },
   {
     path: 'regulations',
