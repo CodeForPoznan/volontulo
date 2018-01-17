@@ -4,7 +4,7 @@ import { CookieService } from 'ngx-cookie';
 @Component({
   selector: 'volontulo-cookie-law-banner',
   templateUrl: './cookie-law-banner.component.html',
-  styleUrls: ['./cookie-law-banner.component.css']
+  styleUrls: ['./cookie-law-banner.component.scss']
 })
 export class CookieLawBannerComponent {
   public shouldHide: boolean;

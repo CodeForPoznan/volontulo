@@ -8,7 +8,7 @@ import { Organization } from '../organization/organization.model';
 @Component({
   selector: 'volontulo-homepage-offer',
   templateUrl: './homepage-offer.component.html',
-  styleUrls: ['./homepage-offer.component.css'],
+  styleUrls: ['./homepage-offer.component.scss'],
   providers: [OffersService, OrganizationService]
 })
 export class HomepageOfferComponent {

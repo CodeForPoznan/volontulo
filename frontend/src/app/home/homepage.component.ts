@@ -6,7 +6,7 @@ import { Offer } from '../homepage-offer/offers.model';
 @Component({
   selector: 'volontulo-home',
   templateUrl: './homepage.component.html',
-  styleUrls: ['./homepage.component.css'],
+  styleUrls: ['./homepage.component.scss'],
   providers: [OffersService]
 })
 

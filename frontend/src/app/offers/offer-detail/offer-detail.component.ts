@@ -10,7 +10,7 @@ import { OffersService } from '../../homepage-offer/offers.service';
 @Component({
   selector: 'volontulo-offer-detail',
   templateUrl: './offer-detail.component.html',
-  styleUrls: ['./offer-detail.component.css'],
+  styleUrls: ['./offer-detail.component.scss'],
 })
 export class OfferDetailComponent implements OnInit {
   public offer$: Observable<Offer>;

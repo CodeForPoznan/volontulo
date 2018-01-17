@@ -9,7 +9,6 @@ import { AuthService } from '../auth.service';
 @Component({
   selector: 'volontulo-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
   loginModel: LoginRequestModel = {
