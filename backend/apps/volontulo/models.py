@@ -325,17 +325,3 @@ class OfferImage(models.Model):
     def __str__(self):
         """String representation of an image."""
         return str(self.path)
-
-
-class Page(models.Model):
-    """Static page model."""
-
-    title = models.CharField(max_length=255)
-    content = models.TextField()
-    author = models.ForeignKey(UserProfile)
-    published = models.BooleanField(default=False)
-    modified_at = models.DateTimeField(auto_now=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title

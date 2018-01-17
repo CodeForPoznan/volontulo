@@ -7,10 +7,8 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import Http404
 from django.shortcuts import redirect
 from django.shortcuts import render
-from django.template import TemplateDoesNotExist
 
 from apps.volontulo.forms import AdministratorContactForm
 from apps.volontulo.forms import EditProfileForm
@@ -58,21 +56,6 @@ def homepage(request):
             'MEDIA_URL': settings.MEDIA_URL,
         }
     )
-
-
-def static_pages(request, template_name):
-    """Generic view used for rendering static pages.
-
-    :param request: WSGIRequest instance
-    :param template_name: string Template name to display
-    """
-    try:
-        return render(
-            request,
-            'pages/{template_name}.html'.format(template_name=template_name)
-        )
-    except TemplateDoesNotExist:
-        raise Http404
 
 
 @login_required
@@ -223,17 +206,6 @@ def contact_form(request):
         {
             'contact_form': form,
         }
-    )
-
-
-def newsletter_signup(request):
-    """Newsletter signup page.
-
-    :param request: WSGIRequest instance
-    """
-    return render(
-        request,
-        'newsletter_signup.html'
     )
 
 

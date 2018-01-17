@@ -13,7 +13,6 @@ from apps.volontulo.views import api as api_views
 from apps.volontulo.views import auth as auth_views
 from apps.volontulo.views import offers as offers_views
 from apps.volontulo.views import organizations as orgs_views
-from apps.volontulo.views import pages as pages_views
 
 
 router = DefaultRouter()
@@ -145,60 +144,9 @@ urlpatterns = [
     # organizations/filter
     # organizations/<slug>/<id>/contact
 
-
-    # pages:
-    url(
-        r'^o/pages$',
-        pages_views.PageList.as_view(),
-        name='pages_list'
-    ),
-    url(
-        r'^o/pages/create$',
-        pages_views.PageCreate.as_view(),
-        name='pages_create'
-    ),
-    url(
-        r'^o/pages/(?P<pk>[0-9]+)/edit',
-        pages_views.PageEdit.as_view(),
-        name='pages_edit'
-    ),
-    url(
-        r'^o/pages/(?P<pk>[0-9]+)/delete',
-        pages_views.PageDelete.as_view(),
-        name='pages_delete'
-    ),
-    url(
-        r'^o/(?P<slug>[-\w]+),(?P<pk>[0-9]+).html$',
-        pages_views.PageDetails.as_view(),
-        name='pages_detail'
-    ),
-
-    # others:
-    url(
-        r'^o/o-nas$',
-        views.static_pages,
-        kwargs={'template_name': 'about-us'},
-        name='about-us'
-    ),
-    url(
-        r'^o/office$',
-        views.static_pages,
-        kwargs={'template_name': 'office'},
-        name='office'
-    ),
-    url(
-        r'^o/pages/(?P<template_name>[\w-]+)$',
-        views.static_pages,
-        name='static_page'
-    ),
     url(
         r'^o/contact$',
         views.contact_form,
         name='contact_form'
-    ),
-    url(
-        r'^o/newsletter$',
-        views.newsletter_signup,
-        name='newsletter_signup'
     ),
 ]

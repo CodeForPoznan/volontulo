@@ -79,12 +79,3 @@ def correct_slug(model_class, view_name, slug_field):
         return wrapping_func
 
     return decorator
-
-
-def is_admin_test(user):
-    """Check if passed user is administrator
-
-    :param user: An instance of AUTH_USER_MODEL representing
-    the currently logged-in user.
-    """
-    return user.is_authenticated() and user.userprofile.is_administrator
