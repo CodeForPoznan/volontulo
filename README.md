@@ -58,9 +58,9 @@ For Your convenience we suggest to use **virtualenv** and `backend/volontulo_org
 
 ## Instances
 
-* dev (dev.volontulo.pl)
-* RC (rc.volontulo.pl)
-* production (volontulo.pl)
+* dev (https://dev.volontulo.pl)
+* RC (https://rc.volontulo.pl)
+* production (https://volontulo.pl)
 
 ## Release cycles definition
 
@@ -71,3 +71,8 @@ Working agreement:
 * Regression lasts for one week and all of the regression bugs, that have been found, should be fixed with highest priority in week 6.
 * Afterwards application is to be tested and approved by the client. 
 * Sign-off from the client means that we push the code to the production after week 6.
+
+
+## Responsive design breakpoints
+
+Angular implementation use extensively Bootstrap 4 - we will comply with [standard Bootstrap 4 breakpoints described on its website](https://getbootstrap.com/docs/4.0/layout/overview/#responsive-breakpoints).
