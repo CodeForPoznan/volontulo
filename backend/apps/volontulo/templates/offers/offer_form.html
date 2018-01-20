@@ -72,15 +72,15 @@
                     </span>
                     <input type="text" value="{{ request.POST.started_at|date:"Y-m-d H:i:s"|default:offer.started_at|date:"Y-m-d H:i:s" }}" name="started_at" class="form-control" id="{{ form.started_at.id_for_label }}" />
                 </div>
+                {% if form.started_at.errors %}
+                    <div class="error-text">{{ form.started_at.errors }}</div>
+                {% endif %}
             </div>
             <div class="col-xs-4 col-sm-3">
                 <label for="action_ongoing_id">
                     <input type="radio" value="action_ongoing" name="action_start" id="action_ongoing_id" />
                     akcja już trwa
                 </label>
-                {% if form.started_at.errors %}
-                    <div class="error-text">{{ form.started_at.errors }}</div>
-                {% endif %}
             </div>
             <div class="col-xs-offset-3 col-xs-9 col-sm-offset-0 col-sm-3">
                 <p>Określ datę rozpoczęcia akcji (w formacie RRRR-MM-DD).</p>
@@ -95,15 +95,15 @@
                     </span>
                     <input type="text" value="{{ request.POST.finished_at|date:"Y-m-d H:i:s"|default:offer.finished_at|date:"Y-m-d H:i:s" }}" name="finished_at" class="form-control" id="{{ form.finished_at.id_for_label }}" />
                 </div>
+                {% if form.finished_at.errors %}
+                    <div class="error-text">{{ form.finished_at.errors }}</div>
+                {% endif %}
             </div>
             <div class="col-xs-4 col-sm-3">
                 <label for="constant_coop_id">
                     <input type="radio" value="constant_coop" name="action_finished" id="constant_coop_id" />
                     akcja nie kończy się (ciągła współpraca)
                 </label>
-                {% if form.finished_at.errors %}
-                    <div class="error-text">{{ form.finished_at.errors }}</div>
-                {% endif %}
             </div>
             <div class="col-xs-offset-3 col-xs-9 col-sm-offset-0 col-sm-3">
                 <p>Określ datę zakończenia akcji (w formacie RRRR-MM-DD).</p>
