@@ -6,7 +6,10 @@ from .base import *
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    'backend',
+]
 
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
 

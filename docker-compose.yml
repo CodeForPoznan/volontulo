@@ -3,9 +3,12 @@ frontend:
   # build: .
   entrypoint: ng serve --open --host=0.0.0.0
   # entrypoint: tail -f /dev/null
+  # entrypoint: npm run ssr
   working_dir: /volontulo/frontend
   ports:
     - 4200:4200
+  links:
+    - backend:backend
   volumes:
     - ./frontend:/volontulo/frontend
     - /volontulo/frontend/node_modules

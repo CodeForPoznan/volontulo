@@ -6,7 +6,7 @@
   "apps": [
     {
       "root": "src",
-      "outDir": "dist",
+      "outDir": "dist/browser",
       "assets": [
         "assets",
         "favicon.ico"
@@ -26,7 +26,36 @@
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
-        "prod": "environments/environment.prod.ts",
+        "dev.volontulo.pl": "environments/environment.dev.volontulo.pl.ts",
+        "rc.volontulo.pl": "environments/environment.rc.volontulo.pl.ts",
+        "volontulo.pl": "environments/environment.volontulo.pl.ts"
+      }
+    },
+    {
+      "platform": "server",
+      "root": "src",
+      "outDir": "dist/server",
+      "assets": [
+        "assets",
+        "favicon.ico"
+      ],
+      "index": "index.html",
+      "main": "main.server.ts",
+      "polyfills": "polyfills.ts",
+      "test": "test.ts",
+      "tsconfig": "tsconfig.server.json",
+      "testTsconfig": "tsconfig.spec.json",
+      "prefix": "volontulo",
+      "styles": [
+        "../node_modules/bootstrap/dist/css/bootstrap.min.css",
+        "assets/css/bootstrap-glyphicons.css",
+        "styles.css"
+      ],
+      "scripts": [],
+      "environmentSource": "environments/environment.ts",
+      "environments": {
+        "dev": "environments/environment.ts",
+        "ssr": "environments/environment.ssr.ts",
         "dev.volontulo.pl": "environments/environment.dev.volontulo.pl.ts",
         "rc.volontulo.pl": "environments/environment.rc.volontulo.pl.ts",
         "volontulo.pl": "environments/environment.volontulo.pl.ts"

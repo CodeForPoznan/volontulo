@@ -27,7 +27,6 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
     '.volontulo.pl',
-    '.volontuloapp.org',
 ]
 
 # Application definition

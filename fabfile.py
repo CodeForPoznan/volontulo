@@ -80,7 +80,7 @@ def update():
         cd('/var/www/volontulo/frontend'),
     ):
         run('npm install .')
-        run('ng build --prod --env={} --aot=false'.format(env.host_string))
+        run('ng build --prod --env={}'.format(env.host_string))
 
     run('systemctl restart uwsgi.service')
     run('systemctl restart nginx')
@@ -222,7 +222,7 @@ server {{
 
     server_name {0};
 
-    root /var/www/volontulo/frontend/dist;
+    root /var/www/volontulo/frontend/dist/browser;
     index index.html;
 
     location /static/ {{
