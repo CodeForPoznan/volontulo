@@ -15,7 +15,7 @@ export class OrganizationService {
   }
 
   getOrganization(id: number): Observable<Organization> {
-    return this.http.get(`${this.url}/${id}`, this.requestOptions).map(response => response.json());
+    return this.http.get(`${this.url}/${id}/`, this.requestOptions).map(response => response.json());
   }
 
   getOrganizationViewUrl(organization: Organization): string {
