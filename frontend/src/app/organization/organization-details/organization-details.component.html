@@ -1,0 +1,23 @@
+<div class="container">
+  <h2>Organizacja</h2>
+    <dl class="row offset-md-1">
+      <dt class="col-md-1">Nazwa</dt>
+      <dd class="col-md-5">
+        <span>{{ organization.name }}</span>
+      </dd>
+      <dt class="col-md-1">Adres</dt>
+      <dd class="col-md-5">
+        <address>{{ organization.address }}</address>
+      </dd>
+      <dt class="col-md-1">Opis</dt>
+      <dd class="col-md-11">
+        {{ organization.description }}
+      </dd>
+    </dl>
+  <div class="row">
+      <div class="col-md-10 offset-md-2" *ngIf="isUserOrgMember">
+        <a href="{{ djangoRoot }}/organizations/{{ organization.slug }}/{{ organization.id }}/edit" class="btn btn-primary">Edytuj organizację</a>
+        <a href="{{ djangoRoot }}/offers/create" class="btn btn-primary">Dodaj ofertę</a>
+      </div>
+    </div>
+</div>

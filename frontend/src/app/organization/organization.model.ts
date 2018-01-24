@@ -6,3 +6,10 @@ export interface Organization {
   name: string;
   url: string;
 }
+
+export interface OrganizationContactPayload {
+  name: string;
+  email: string;
+  phone_no: string;
+  message: string;
+}

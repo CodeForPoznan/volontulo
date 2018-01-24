@@ -1,0 +1,10 @@
+@import '~bootstrap/scss/bootstrap-grid';
+
+dt {
+  text-align: right;
+}
+@include media-breakpoint-down(sm) {
+  dt {
+    text-align: left;
+  }
+}

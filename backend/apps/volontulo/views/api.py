@@ -7,8 +7,9 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.contrib.auth import logout
+from django.shortcuts import get_object_or_404
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, detail_route
 from rest_framework.decorators import authentication_classes
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import AllowAny
@@ -19,6 +20,9 @@ from apps.volontulo import models
 from apps.volontulo import permissions
 from apps.volontulo import serializers
 from apps.volontulo.authentication import CsrfExemptSessionAuthentication
+from apps.volontulo.lib.email import send_mail
+from apps.volontulo.models import Organization
+from apps.volontulo.serializers import OrganizationContact
 from apps.volontulo.views import logged_as_admin
 
 
@@ -98,3 +102,22 @@ class OrganizationViewSet(viewsets.ModelViewSet):
     queryset = models.Organization.objects.all()
     serializer_class = serializers.OrganizationSerializer
     permission_classes = (permissions.OrganizationPermission,)
+
+    @staticmethod
+    @detail_route(methods=['POST'], permission_classes=(AllowAny,))
+    # pylint: disable=invalid-name
+    def contact(request, pk):
+        """Endpoint to send contact message to organization"""
+        org = get_object_or_404(Organization, id=pk)
+        serializer = OrganizationContact(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        send_mail(
+            request,
+            'volunteer_to_organisation',
+            [
+                user_profile.user.email
+                for user_profile in org.userprofiles.all()
+            ],
+            serializer.validated_data,
+        )
+        return Response(data=True, status=status.HTTP_201_CREATED)

@@ -1,0 +1,9 @@
+<volontulo-organization-details *ngIf="organization$ | async as organization"
+  [organization]="organization"
+  [isUserOrgMember]="isUserOrgMember$ | async">
+</volontulo-organization-details>
+<volontulo-organization-contact
+  *ngIf="!(isUserOrgMember$ | async)"
+  (contact)="onContact($event)"
+  [contactStatus]="contactStatus$ | async">
+</volontulo-organization-contact>

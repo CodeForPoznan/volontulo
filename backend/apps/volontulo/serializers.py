@@ -7,6 +7,7 @@
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 from rest_framework import serializers
+from rest_framework.fields import CharField, EmailField
 
 from apps.volontulo import models
 
@@ -102,3 +103,15 @@ class UserSerializer(serializers.ModelSerializer):
         """Returns organizations that user belongs to."""
         qs = obj.userprofile.organizations.all()
         return OrganizationSerializer(qs, many=True, context=self.context).data
+
+
+# pylint: disable=abstract-method
+class OrganizationContact(serializers.Serializer):
+    """Serializer for contact message"""
+    name = CharField(required=True, min_length=2, max_length=150,
+                     trim_whitespace=True)
+    email = EmailField(required=True)
+    phone_no = CharField(required=True, min_length=9, max_length=15,
+                         trim_whitespace=True)
+    message = CharField(required=True, min_length=2, max_length=500,
+                        trim_whitespace=True)
