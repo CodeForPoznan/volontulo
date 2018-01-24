@@ -14,7 +14,7 @@
     {% endif %}
     <div class="panels">
         <div class="offer-title">
-            <a href="{% url 'offers_view' slug=offer.title|slugify id_=offer.id %}">
+            <a href="{{ ANGULAR_ROOT }}/offers/{{ offer.title | slugify }}/{{ offer.id }}">
                 <h2 class="title">{{ offer.title }}</h2>
             </a>
         </div>

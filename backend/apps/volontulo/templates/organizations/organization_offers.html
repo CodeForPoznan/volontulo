@@ -14,12 +14,12 @@
     {% for o in offers %}
         <tr>
             <td>
-                <a class="crop-circle" href="{% url 'offers_view' o.title|slugify o.id  %}">
+                <a class="crop-circle" href="{{ ANGULAR_ROOT }}/offers/{{ o.title | slugify }}/{{ o.id }}">
                     <img src="/media/{{ o.images.all|main_image }}" alt="{{o.images.all|main_image|slugify|default:''}}" />
                 </a>
             </td>
             <td>
-                <a class="btn btn-link" href="{% url 'offers_view' o.title|slugify o.id  %}">{{ o.title }}</a>
+                <a class="btn btn-link" href="{{ ANGULAR_ROOT }}/offers/{{ o.title | slugify }}/{{ o.id }}">{{ o.title }}</a>
             </td>
             <td>
                 <div class="form-control-static">
@@ -40,7 +40,7 @@
             </td>
             <td class="text-right">
             {% if o.status_old == 'STAGED' %}
-                <a href="{% url 'offers_view' o.title|slugify o.id %}" class="btn btn-primary">Włącz się</a>
+                <a href="{{ ANGULAR_ROOT }}/offers/{{ o.title | slugify }}/{{ o.id }}" class="btn btn-primary">Włącz się</a>
             {% endif %}
             {# Only the user that can edit the organization can edit its offers #}
             {% if allow_edit %}

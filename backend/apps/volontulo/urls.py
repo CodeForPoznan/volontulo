@@ -97,11 +97,6 @@ urlpatterns = [
         name='offers_archived'
     ),
     url(
-        r'^o/offers/(?P<slug>[\w-]+)/(?P<id_>[0-9]+)$',
-        offers_views.OffersView.as_view(),
-        name='offers_view'
-    ),
-    url(
         r'^o/offers/(?P<slug>[\w-]+)/(?P<id_>[0-9]+)/edit$',
         offers_views.OffersEdit.as_view(),
         name='offers_edit'

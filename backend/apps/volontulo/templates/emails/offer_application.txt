@@ -3,7 +3,7 @@
 Witaj
 
 Wolontariusz zgłosił się na pomoc w ofercie:
-{{ protocol }}://{{ domain }}{% url 'offers_view' offer.title|slugify offer.id %}
+{{ ANGULAR_ROOT }}/offers/{{ offer.title | slugify }}/{{ offer.id }}
 Prosimy o wzajemny kontakt w celu ustalenia wszystkich szczegółów wolontariatu.
 
 Imię i nazwisko: {{ fullname }}

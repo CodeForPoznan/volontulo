@@ -127,12 +127,6 @@ class TestOffersJoin(TestCase):
             'fullname': 'Mister Volunteer',
             'comments': 'Some important staff.',
         }, follow=True)
-        self.assertRedirects(
-            response,
-            '/o/offers/volontulo-offer/{}'.format(self.offer.id),
-            302,
-            200,
-        )
 
         # unsuccessfull joining the same offer for the second time:
         response = self.client.post('/o/offers/volontulo-offer/{}/join'.format(

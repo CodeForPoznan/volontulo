@@ -11,7 +11,7 @@
     <b>Witaj</b><br>
 </center>
   <br>
-  Wolontariusz zgłosił się na pomoc w <a href="{{ protocol }}://{{ domain }}{% url 'offers_view' offer.title|slugify offer.id %}">tej ofercie</a>.<br>
+  Wolontariusz zgłosił się na pomoc w <a href="{{ ANGULAR_ROOT }}/offers/{{ offer.title | slugify }}/{{ offer.id }}">tej ofercie</a>.<br>
   <br>
   Prosimy o wzajemny kontakt w celu ustalenia wszystkich szczegółów wolontariatu.<br>
   <br>

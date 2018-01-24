@@ -19,12 +19,12 @@
         {% for offer in offers %}
             <tr>
                 <td>
-                    <a class="crop-circle" href="{% url 'offers_view' offer.title|slugify offer.id  %}">
+                    <a class="crop-circle" href="{{ ANGULAR_ROOT }}/offers/{{ offer.title | slugify }}/{{ offer.id }}">
                         <img src="/media/{{ offer.images.all|main_image }}" alt="{{offer.images.all|slugify|default:''}}" />
                     </a>
                 </td>
                 <td>
-                    <a class="btn btn-link" href="{% url 'offers_view' offer.title|slugify offer.id  %}">{{ offer.title }}</a>
+                    <a class="btn btn-link" href="{{ ANGULAR_ROOT }}/offers/{{ offer.title | slugify }}/{{ offer.id }}">{{ offer.title }}</a>
                 </td>
                 <td>
                     <div class="form-control-static">{{ offer.location }}</div>
@@ -49,7 +49,7 @@
                     </form>
                     {% endif %}
                 {% elif offer.offer_status == 'published' %}
-                    <a class="btn btn-warning" href="{% url 'offers_view' offer.title|slugify offer.id %}"><b>Włącz się</b></a>
+                    <a class="btn btn-warning" href="{{ ANGULAR_ROOT }}/offers/{{ offer.title | slugify }}/{{ offer.id }}"><b>Włącz się</b></a>
                 {% endif %}
                 </td>
             </tr>

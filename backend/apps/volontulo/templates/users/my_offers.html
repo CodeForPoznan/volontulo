@@ -5,8 +5,8 @@
         {% for offer in offers %}
             <div class="col-sm-6">
                 <div class="thumbnail">
-                    <a href="{% url 'offers_view' offer.title|slugify offer.id %}" class="heading-image" style="background-image:url({{ MEDIA_URL }}{{ offer.images.all|main_image }})"></a>
-                    <a href="{% url 'offers_view' offer.title|slugify offer.id %}">
+                    <a href="{{ ANGULAR_ROOT }}/offers/{{ offer.title | slugify }}/{{ offer.id }}" class="heading-image" style="background-image:url({{ MEDIA_URL }}{{ offer.images.all|main_image }})"></a>
+                    <a href="{{ ANGULAR_ROOT }}/offers/{{ offer.title | slugify }}/{{ offer.id }}">
                         <div class="panels">
                             <div class="offer-title">
                                 <h2 class="title">

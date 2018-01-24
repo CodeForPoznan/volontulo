@@ -24,7 +24,7 @@
                 <td>{{ o.time_period }}</td>
                 <td>{{ o.started_at }}</td>
                 <td>{{ o.finished_at }}</td>
-                <td><a href="{% url 'offers_view' o.title|slugify o.id %}">Podgląd</a></td>
+                <td><a href="{{ ANGULAR_ROOT }}/offers/{{ o.title | slugify }}/{{ o.id }}">Podgląd</a></td>
             </tr>
         {% endfor %}
         </table>

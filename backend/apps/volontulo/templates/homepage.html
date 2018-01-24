@@ -17,11 +17,11 @@
             <div class="col-sm-6 col-md-4 col-lg-3">
 
                 <div class="thumbnail">
-                    <a href="{% url 'offers_view' o.title|slugify o.id %}" class="heading-image" style="background-image:url({{ MEDIA_URL }}{{ o.images.all|main_image }})"></a>
+                    <a href="{{ ANGULAR_ROOT }}/offers/{{ o.title | slugify }}/{{ o.id }}" class="heading-image" style="background-image:url({{ MEDIA_URL }}{{ o.images.all|main_image }})"></a>
                     <div class="caption">
-                        <a role="button" class="btn btn-warning join-btn" href="{% url 'offers_view' o.title|slugify o.id %}">Włącz się</a>
+                        <a role="button" class="btn btn-warning join-btn" href="{{ ANGULAR_ROOT }}/offers/{{ o.title | slugify }}/{{ o.id }}">Włącz się</a>
                         <h3 class="heading">
-                            <a class="" href="{% url 'offers_view' o.title|slugify o.id %}">{{ o.title }}</a>
+                            <a class="" href="{{ ANGULAR_ROOT }}/offers/{{ o.title | slugify }}/{{ o.id }}">{{ o.title }}</a>
                         </h3>
                         <div class="media panel-default">
                             <div class="media-left panel-heading">

@@ -105,7 +105,7 @@ class TestOffersCreate(TestCase):
             'password': '123org',
         })
 
-        response = self.client.post('/o/offers/create', {
+        self.client.post('/o/offers/create', {
             'organization': self.organization.id,
             'description': 'desc',
             'requirements': 'required requirements',
@@ -118,7 +118,6 @@ class TestOffersCreate(TestCase):
             'finished_at': '',
         }, follow=True)
 
-        self.assertEqual(response.status_code, 200)
         offer = Offer.objects.get(description='desc')
         self.assertEqual(offer.action_status, 'ongoing')
 
@@ -129,7 +128,7 @@ class TestOffersCreate(TestCase):
             'password': '123org',
         })
         for i in range(1, 4):
-            response = self.client.post('/o/offers/create', {
+            self.client.post('/o/offers/create', {
                 'organization': self.organization.id,
                 'description': str(i),
                 'requirements': 'required requirements',
@@ -141,13 +140,8 @@ class TestOffersCreate(TestCase):
                 'started_at': '2015-11-01 11:11:11',
                 'finished_at': '2015-11-01 11:11:11',
             }, follow=True)
+
             offer = Offer.objects.get(description=str(i))
-            self.assertRedirects(
-                response,
-                '/o/offers/volontulo-offer/{}'.format(offer.id),
-                302,
-                200,
-            )
             self.assertEqual(
                 offer.organization,
                 self.organization_profile.organizations.all()[0],
