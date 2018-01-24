@@ -29,11 +29,14 @@ after_success:
   - codecov --file frontend/coverage/lcov.info
 
   - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" = false ]; then
-      export REPO=codeforpoznan/volontulo;
-      export TAG=latest;
       docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD;
-      docker build -f Dockerfile -t $REPO:$TAG .;
-      docker push $REPO;
+      cd backend
+      docker build -f Dockerfile -t codeforpoznan/volontulo-backend:latest .;
+      docker push codeforpoznan/volontulo-backend;
+      cd ../frontend
+      docker build -f Dockerfile -t codeforpoznan/volontulo-frontend:latest .;
+      docker push codeforpoznan/volontulo-frontend;
+      cd ..
 
       source ~/virtualenv/python2.7/bin/activate;
       pip install fabric;

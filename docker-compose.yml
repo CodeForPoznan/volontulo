@@ -1,24 +1,21 @@
 frontend:
-  image: codeforpoznan/volontulo
-  # build: .
-  entrypoint: ng serve --open --host=0.0.0.0
-  # entrypoint: tail -f /dev/null
+  image: codeforpoznan/volontulo-frontend
+  # build: frontend
+  command: bash docker-entrypoint.sh
+  # command: tail -f /dev/null
   # entrypoint: npm run ssr
-  working_dir: /volontulo/frontend
   ports:
     - 4200:4200
   links:
     - backend:backend
   volumes:
     - ./frontend:/volontulo/frontend
-    - /volontulo/frontend/node_modules
 
 backend:
-  image: codeforpoznan/volontulo
-  # build: .
-  entrypoint: bash docker-entrypoint.sh
-  # entrypoint: tail -f /dev/null
-  working_dir: /volontulo/backend
+  image: codeforpoznan/volontulo-backend
+  # build: backend
+  command: bash docker-entrypoint.sh
+  # command: tail -f /dev/null
   environment:
     DJANGO_SETTINGS_MODULE: volontulo_org.settings.dev
     VOLONTULO_SECRET_KEY: a63eb5ef-3b25-4595-846a-5d97d99486f0
