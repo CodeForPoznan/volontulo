@@ -30,13 +30,13 @@ after_success:
 
   - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" = false ]; then
       docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD;
-      cd backend
+      cd backend;
       docker build -f Dockerfile -t codeforpoznan/volontulo-backend:latest .;
       docker push codeforpoznan/volontulo-backend;
-      cd ../frontend
+      cd ../frontend;
       docker build -f Dockerfile -t codeforpoznan/volontulo-frontend:latest .;
       docker push codeforpoznan/volontulo-frontend;
-      cd ..
+      cd ..;
 
       source ~/virtualenv/python2.7/bin/activate;
       pip install fabric;
