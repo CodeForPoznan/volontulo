@@ -27,6 +27,7 @@ import { OfferDetailComponent } from './offers/offer-detail/offer-detail.compone
 import { IconComponent } from './icon/icon.component';
 import { IconLabelComponent } from './icon-label/icon-label.component';
 import { BannerComponent } from './banner/banner.component';
+import { OrganizationsComponent } from './organizations/organizations.component';
 import { FaqOrganizationsComponent } from './static/faq-organizations.component';
 import { OrganizationContactComponent } from './organization/organization-contact/organization-contact.component';
 import { OrganizationComponent } from './organization/organization.component';
@@ -79,6 +80,10 @@ const appRoutes: Routes = [
     component: OfferDetailComponent,
   },
   {
+    path: 'organizations',
+    component: OrganizationsComponent
+  },
+  {
     path: '**',
     component: RedirectComponent
   }
@@ -101,6 +106,7 @@ const appRoutes: Routes = [
     IconComponent,
     IconLabelComponent,
     BannerComponent,
+    OrganizationsComponent,
     FaqOrganizationsComponent,
     OrganizationContactComponent,
     OrganizationComponent,
