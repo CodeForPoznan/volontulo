@@ -4,39 +4,33 @@
     <div class="row">
       <div class="col-12 col-sm-4 mt-sm-0">
         <h3 class="nav-title">Informacje</h3>
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link" [routerLink]="['']">Strona główna</a>
-            <a class="nav-link" href="{{ djangoRoot }}/register">Załóż konto</a>
-            <a class="nav-link" href="{{ djangoRoot }}/contact">Kontakt z administratorem</a>
-            <a class="nav-link" [routerLink]="['/about-us']">O nas</a>
-            <a class="nav-link" [routerLink]="['/regulations']">Regulamin</a>
-          </li>
+        <ul class="nav list-unstyled flex-column">
+          <li class="nav-item"><a class="nav-link" [routerLink]="['']">Strona główna</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ djangoRoot }}/register">Załóż konto</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ djangoRoot }}/contact">Kontakt z administratorem</a></li>
+          <li class="nav-item"><a class="nav-link" [routerLink]="['/about-us']">O nas</a></li>
+          <li class="nav-item"><a class="nav-link" [routerLink]="['/regulations']">Regulamin</a></li>
         </ul>
       </div>
       <div class="col-12 col-sm-4 mt-4 mt-sm-0">
         <h3 class="nav-title">Strefa organizacji i instytucji</h3>
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link" href="{{ djangoRoot }}/register">Załóż konto</a>
-            <a class="nav-link" href="{{ djangoRoot }}/offers/create">Dodaj nową ofertę</a>
-            <a class="nav-link" [routerLink]="['/organizations']">Lista organizacji i instytucji</a>
-            <a class="nav-link" [routerLink]="['/faq-organizations']">FAQ dla organizacji i instytucji</a>
-            <a class="nav-link" [routerLink]="['/office']">Przyjdź na dyżur</a>
-          </li>
+        <ul class="nav list-unstyled flex-column">
+          <li><a class="nav-link" href="{{ djangoRoot }}/register">Załóż konto</a></li>
+          <li><a class="nav-link" href="{{ djangoRoot }}/offers/create">Dodaj nową ofertę</a></li>
+          <li class="nav-item"><a class="nav-link" [routerLink]="['/organizations']">Lista organizacji i instytucji</a></li>
+          <li class="nav-item"><a class="nav-link" [routerLink]="['/faq-organizations']">FAQ dla organizacji i instytucji</a></li>
+          <li class="nav-item"><a class="nav-link" [routerLink]="['/office']">Przyjdź na dyżur</a></li>
         </ul>
       </div>
       <div class="col-12 col-sm-4 mt-4 mt-sm-0">
         <h3 class="nav-title">Strefa wolontariusza</h3>
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link" href="{{ djangoRoot }}/register">Załóż konto</a>
-            <a class="nav-link" href="{{ djangoRoot }}/offers">Lista aktualnych ofert</a>
-            <a class="nav-link" href="{{ djangoRoot }}/offers/archived">Archiwum ofert</a>
-            <a class="nav-link" href="{{ djangoRoot }}/organizations">Lista organizacji i instytucji</a>
-            <a class="nav-link" [routerLink]="['/faq-volunteers']">FAQ dla wolontariuszy</a>
-            <a class="nav-link" [routerLink]="['/office']">Przyjdź na dyżur</a>
-          </li>
+        <ul class="nav list-unstyled flex-column">
+          <li class="nav-item"><a class="nav-link" href="{{ djangoRoot }}/register">Załóż konto</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ djangoRoot }}/offers">Lista aktualnych ofert</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ djangoRoot }}/offers/archived">Archiwum ofert</a></li>
+          <li class="nav-item"><a class="nav-link" [routerLink]="['/organizations']">Lista organizacji i instytucji</a></li>
+          <li class="nav-item"><a class="nav-link" [routerLink]="['/faq-volunteers']">FAQ dla wolontariuszy</a></li>
+          <li class="nav-item"><a class="nav-link" [routerLink]="['/office']">Przyjdź na dyżur</a></li>
         </ul>
       </div>
     </div>
