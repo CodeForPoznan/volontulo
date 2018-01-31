@@ -69,7 +69,7 @@ class OffersManager(models.Manager):
 
     def get_for_administrator(self):
         """Return all offers for administrator to allow management."""
-        return self.filter(offer_status='unpublished').all()
+        return self.all()
 
     def get_weightened(self):
         """Return all published offers ordered by weight."""

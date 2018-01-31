@@ -52,12 +52,12 @@ class TestPages(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'homepage.html')
         self.assertIn('offers', response.context)
-        self.assertEqual(len(response.context['offers']), 10)
+        self.assertEqual(len(response.context['offers']), 14)
 
         offers = {'NEW': 0, 'ACTIVE': 0, 'SUSPENDED': 0}
         for offer in response.context['offers']:
             offers[offer.status_old] += 1
 
-        self.assertEqual(offers['ACTIVE'], 0)
+        self.assertEqual(offers['ACTIVE'], 4)
         self.assertEqual(offers['NEW'], 5)
         self.assertEqual(offers['SUSPENDED'], 5)
