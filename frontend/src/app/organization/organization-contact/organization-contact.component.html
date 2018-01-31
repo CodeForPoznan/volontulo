@@ -86,6 +86,18 @@
           *ngIf="message.invalid && message.touched">Wiadomość nie może być pusta.</div>
         </div>
       </div>
+    <div class="form-group row d-none">
+      <div class="col-md-9 offset-md-3">
+        <label class="col-md-3 col-form-label" for="id_honey">Are you a bot?</label>
+        <input
+          type="text"
+          id="id_honey"
+          ngModel
+          name="honeyBunny"
+          class="form-control"
+          #honeyBunny="ngModel" />
+      </div>
+    </div>
     <div class="form-group row">
       <div class="col-md-9 offset-md-3">
         <button
