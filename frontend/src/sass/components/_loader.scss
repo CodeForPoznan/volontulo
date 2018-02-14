@@ -1,0 +1,25 @@
+.main-loader- {
+  $spinner-size: 116px;
+
+  &spinner {
+    @include spinner($spinner-size);
+  }
+
+  &image {
+    $height: 80px;
+    $width: 350px;
+
+    @include center-in-parent($width / 2, $spinner-size + 50px);
+
+    height: $height;
+    width: $width;
+
+    background: {
+      repeat: no-repeat;
+      size: contain;
+      /* We are using Base64 image from stylesheet so we don't have to wait for
+       image loading from the server */
+      image: url($volontuloLogoBase64Url);
+    }
+  }
+}
