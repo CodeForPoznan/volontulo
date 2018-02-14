@@ -49,7 +49,7 @@ def update():
 
     # Django app refresh:
     with cd('/var/www/volontulo'):
-        run('git checkout {}'.format(env_vars[env.host_string]['git_branch']))
+        run('git checkout -f {}'.format(env_vars[env.host_string]['git_branch']))
         run('git pull')
 
     with contextlib.nested(
@@ -124,7 +124,7 @@ def install():
     with cd('/var/www'):
         run('git clone https://github.com/CodeForPoznan/volontulo.git')
     with cd('/var/www/volontulo'):
-        run('git checkout {}'.format(env_vars[env.host_string]['git_branch']))
+        run('git checkout -f {}'.format(env_vars[env.host_string]['git_branch']))
 
     # Install proper Node:
     run('wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.5/install.sh | bash')
