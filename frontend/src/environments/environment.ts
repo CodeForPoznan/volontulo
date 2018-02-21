@@ -7,5 +7,6 @@ export const environment = {
   apiRoot: 'http://localhost:8000/api',
   djangoRoot: 'http://localhost:8000/o',
   production: false,
-  sentryDSN: null
+  sentryDSN: null,
+  googleAnalyticsAppID: null,
 };
