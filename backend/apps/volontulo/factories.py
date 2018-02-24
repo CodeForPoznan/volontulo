@@ -27,7 +27,7 @@ class UserProfileFactory(factory.DjangoModelFactory):
     user = factory.SubFactory(
         "apps.volontulo.factories.UserFactory",
         userprofile=None
-        )
+    )
 
     @factory.post_generation
     def organizations(self, create, extracted):
@@ -38,7 +38,6 @@ class UserProfileFactory(factory.DjangoModelFactory):
             for org in extracted:
                 self.organizations.add(org)
 
-    is_administrator = factory.fuzzy.FuzzyChoice(choices=[True, False])
     phone_no = factory.Faker("phone_number", locale="pl_PL")
 
 
@@ -83,7 +82,7 @@ class OrganizationFactory(factory.DjangoModelFactory):
             "neutrum": [
                 "Krajowe", "Wojewódzkie", "Powiatowe", "Regionalne",
                 "Wielkopolskie", "Osiedlowe", "Stołeczne"]
-            }
+        }
         noun_list = {
             "Fundacja": "feminine",
             "Rada": "feminine",
@@ -95,7 +94,7 @@ class OrganizationFactory(factory.DjangoModelFactory):
             "Ogród": "masculine",
             "Koło": "neutrum",
             "Obwód": "masculine"
-            }
+        }
         predicate2_dict = {
             "masculine": [
                 "Organizacyjny", "Rejestrowy", "Egzekutywny", "Wspierający",
@@ -106,12 +105,12 @@ class OrganizationFactory(factory.DjangoModelFactory):
             "neutrum": [
                 "Organizacyjne", "Rejestrowe", "Egzekutywne", "Wspierające",
                 "Transakcyjne", "Związkowe", "Zbiorcze"]
-            }
+        }
 
         propername_list = [
             "Wspiera się", "Totuus", "Zawsze Razem", "W Kupie Siła",
             "Al Capone", "UKF", "Smak Miesiąca"
-            ]
+        ]
 
         subject = (FuzzyChoice(noun_list.keys())).fuzz()
         predicate1 = (FuzzyChoice(predicate1_dict[noun_list[subject]])).fuzz()
@@ -168,21 +167,21 @@ class OfferFactory(factory.DjangoModelFactory):
     time_period = factory.Faker("text", max_nb_chars=150)
     status_old = factory.fuzzy.FuzzyChoice(
         choices=("NEW", "ACTIVE", "SUSPENDED")
-        )
+    )
     offer_status = factory.fuzzy.FuzzyChoice(
         choices=("unpublished", "published", "rejected")
-        )
+    )
     recruitment_status = factory.fuzzy.FuzzyChoice(
         choices=("open", "supplemental", "closed")
-        )
+    )
     action_status = factory.fuzzy.FuzzyChoice(
         choices=("future", "ongoing", "finished")
-        )
+    )
     votes = factory.fuzzy.FuzzyChoice(choices=(True, False))
     recruitment_start_date = factory.fuzzy.FuzzyDateTime(
         _start_date,
         _end_date
-        )
+    )
     recruitment_end_date = factory.fuzzy.FuzzyDateTime(
         _start_date,
         _end_date)
@@ -190,17 +189,17 @@ class OfferFactory(factory.DjangoModelFactory):
     reserve_recruitment_start_date = factory.fuzzy.FuzzyDateTime(
         _start_date,
         _end_date
-        )
+    )
     reserve_recruitment_end_date = factory.fuzzy.FuzzyDateTime(
         _start_date,
         _end_date
-        )
+    )
     action_ongoing = factory.fuzzy.FuzzyChoice(choices=(True, False))
     constant_coop = factory.fuzzy.FuzzyChoice(choices=(True, False))
     action_start_date = factory.fuzzy.FuzzyDateTime(
         _start_date,
         _end_date
-        )
+    )
     action_end_date = factory.fuzzy.FuzzyDateTime(_start_date, _end_date)
     volunteers_limit = factory.fuzzy.FuzzyInteger(0, 1000)
     reserve_volunteers_limit = factory.fuzzy.FuzzyInteger(0, 1000)
