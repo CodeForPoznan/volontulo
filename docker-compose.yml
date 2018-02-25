@@ -3,7 +3,7 @@ frontend:
   # build: frontend
   command: bash docker-entrypoint.sh
   # command: tail -f /dev/null
-  # entrypoint: npm run ssr
+  # command: npm run ssr
   ports:
     - 4200:4200
   links:
