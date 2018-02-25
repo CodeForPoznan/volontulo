@@ -19,8 +19,12 @@ docker-compose up
 and point your browser to [http://localhost:8000](http://localhost:8000) and [http://localhost:4200](http://localhost:4200)
 
 ## Initial admin credentials
- * **user**: admin@volontuloapp.org
- * **pass**: stx123
+We have 2 levels of admin users and 2 initial users - with and without Django Admin access:
+
+username               | password | Django Admin access
+---------------------- | -------- | -------------------
+hello@codeforpoznan.pl | cfp123   | yes
+wolontariat@wrk.org.pl | wrk123   | no
 
 ## Instances
 

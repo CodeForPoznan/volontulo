@@ -92,7 +92,11 @@ def install():
     # ensure that we have secrets configured:
     sys.path.insert(0, os.path.dirname(__file__))
     try:
-        from secrets import VOLONTULO_SENTRY_DSN
+        from secrets import (
+            CFP_ADMIN_PASSWORD,
+            VOLONTULO_SENTRY_DSN,
+            WRK_ADMIN_PASSWORD,
+        )
     except ImportError:
         print("Missing secrets")
         raise
@@ -273,6 +277,5 @@ server {{
         prefix('workon volontulo'),
         cd('/var/www/volontulo/backend'),
     ):
-        django_admin_pass = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(64))
-        run('echo "from django.contrib.auth import get_user_model; User = get_user_model(); u = User(username=\'admin\', is_staff=True, is_superuser=True); u.set_password(\'{}\'); u.save()" | python manage.py shell'.format(django_admin_pass))
-        print('Django Admin Password: {}'.format(django_admin_pass))
+        run('python manage.py create_admin hello@codeforpoznan.pl {} --django-admin'.format(CFP_ADMIN_PASSWORD))
+        run('python manage.py create_admin wolontariat@wrk.org.pl {}'.format(WRK_ADMIN_PASSWORD))

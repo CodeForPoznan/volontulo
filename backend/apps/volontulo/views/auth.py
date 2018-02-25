@@ -140,8 +140,8 @@ class Register(View):
                 username=username,
                 email=username,
                 password=password,
+                is_active=False,
             )
-            user.is_active = False
             user.save()
             profile = UserProfile(user=user)
             ctx['uuid'] = profile.uuid
