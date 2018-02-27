@@ -33,6 +33,8 @@ import { OrganizationContactComponent } from './organization/organization-contac
 import { OrganizationComponent } from './organization/organization.component';
 import { OfficeComponent } from './static/office/office.component';
 import { FaqVolunteersComponent } from './static/faq-volunteers.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { PasswordResetConfirmComponent } from './password-reset/password-reset-confirm.component';
 
 Raven.config(environment.sentryDSN).install();
 
@@ -84,9 +86,17 @@ const appRoutes: Routes = [
     component: OrganizationsComponent
   },
   {
+    path: 'password-reset/:uidb64/:token',
+    component: PasswordResetConfirmComponent,
+  },
+  {
+    path: 'password-reset',
+    component: PasswordResetComponent,
+  },
+  {
     path: '**',
     component: RedirectComponent
-  }
+  },
 ];
 
 @NgModule({
@@ -112,6 +122,8 @@ const appRoutes: Routes = [
     OrganizationComponent,
     OfficeComponent,
     FaqVolunteersComponent,
+    PasswordResetComponent,
+    PasswordResetConfirmComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'volontulo' }),

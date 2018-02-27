@@ -24,10 +24,12 @@ SUBJECTS = {
     'registration': 'Rejestracja na Volontulo',
     'contact_to_admin': 'Kontakt z administratorem',
     'volunteer_to_organisation': 'Kontakt od wolontariusza',
+    'password_reset': 'Reset hasła na Volontulo',
 }
 
 
-def send_mail(request, templates_name, recipient_list, context=None):
+def send_mail(request, templates_name, recipient_list, context=None,
+              send_copy_to_admin=True):
     """Proxy for sending emails."""
     fail_silently = FAIL_SILENTLY
     auth_user = AUTH_USER
@@ -36,20 +38,26 @@ def send_mail(request, templates_name, recipient_list, context=None):
 
     context = context or {}
     context.update({
+        'ANGULAR_ROOT': settings.ANGULAR_ROOT,
         'protocol': 'https' if request.is_secure() else 'http',
         'domain': get_current_site(request).domain,
     })
     text_template = get_template('emails/{}.txt'.format(templates_name))
     html_template = get_template('emails/{}.html'.format(templates_name))
 
-    bcc = list(get_administrators_emails().values())
     connection = connection or get_connection(
         username=auth_user,
         password=auth_password,
         fail_silently=fail_silently
     )
-    # required, if omitted then no emails from BCC are send
-    headers = {'bcc': ','.join(bcc)}
+    if send_copy_to_admin:
+        bcc = list(get_administrators_emails().values())
+        # required, if omitted then no emails from BCC are send
+        headers = {'bcc': ','.join(bcc)}
+    else:
+        bcc = []
+        headers = None
+
     email = EmailMultiAlternatives(
         SUBJECTS[templates_name],
         text_template.render(context),

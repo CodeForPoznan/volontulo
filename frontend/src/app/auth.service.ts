@@ -12,9 +12,9 @@ export class AuthService {
   private _loginUrl = `${environment.apiRoot}/login`;
   private _logoutUrl = `${environment.apiRoot}/logout`;
   private _currentUserUrl = `${environment.apiRoot}/current-user`;
+  private _passwordResetUrl = `${environment.apiRoot}/password-reset`;
   private _currentUser: User;
   public changeUserEvent: BehaviorSubject<User | null>;
-  public resetPasswordUrl = `${environment.djangoRoot}/password-reset`;
 
   public user$: Observable<User | null>;
 
@@ -46,6 +46,28 @@ export class AuthService {
           return this._currentUser;
         }
       });
+  }
+  resetPassword(username: string): Observable<string> {
+    return this.http.post(
+      this._passwordResetUrl, {username})
+      .map(response => {
+        if (response.status === 201) {
+          return 'success';
+        }
+      }).catch(err => Observable.of('error'));
+  }
+
+  confirmResetPassword(
+    password: string,
+    uidb64: string,
+    token: string): Observable<string> {
+    return this.http.post(
+      `${this._passwordResetUrl}/${uidb64}/${token}`, {password})
+      .map(response => {
+        if (response.status === 201) {
+          return 'success';
+        }
+      }).catch(err => Observable.of('error'));
   }
 
   currentUser(): User {

@@ -7,7 +7,12 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.contrib.auth import logout
+from django.contrib.auth.models import User
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import get_object_or_404
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from rest_framework import status
 from rest_framework.decorators import api_view, detail_route
 from rest_framework.decorators import authentication_classes
@@ -22,7 +27,8 @@ from apps.volontulo import serializers
 from apps.volontulo.authentication import CsrfExemptSessionAuthentication
 from apps.volontulo.lib.email import send_mail
 from apps.volontulo.models import Organization
-from apps.volontulo.serializers import OrganizationContact
+from apps.volontulo.serializers import \
+    OrganizationContactSerializer, UsernameSerializer, PasswordSerializer
 from apps.volontulo.views import logged_as_admin
 
 
@@ -81,6 +87,54 @@ def current_user(request):
     return Response(None, status=status.HTTP_200_OK)
 
 
+@api_view(['POST'])
+@authentication_classes((CsrfExemptSessionAuthentication,))
+@permission_classes((AllowAny,))
+def password_reset(request):
+    """REST API reset password view"""
+    serializer = UsernameSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    username = serializer.validated_data.get('username')
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        pass
+    else:
+        context = {
+            'email': username,
+            'domain': get_current_site(request).domain,
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'user': user,
+            'token': default_token_generator.make_token(user),
+            'protocol': 'https' if request.is_secure() else 'http',
+        }
+        send_mail(
+            request,
+            'password_reset',
+            [username],
+            context=context,
+            send_copy_to_admin=False)
+    return Response(None, status=status.HTTP_201_CREATED)
+
+
+@api_view(['POST'])
+@authentication_classes((CsrfExemptSessionAuthentication,))
+@permission_classes((AllowAny,))
+def password_reset_confirm(request, uidb64, token):
+    """REST API reset password confirm"""
+    serializer = PasswordSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    uid = force_text(urlsafe_base64_decode(uidb64))
+    try:
+        user = User.objects.get(pk=uid)
+    except User.DoesNotExist:
+        user = None
+    if user is not None and default_token_generator.check_token(user, token):
+        user.set_password(serializer.validated_data.get('password'))
+        user.save()
+    return Response(None, status=status.HTTP_201_CREATED)
+
+
 class OfferViewSet(viewsets.ModelViewSet):
 
     """REST API offers viewset."""
@@ -109,7 +163,7 @@ class OrganizationViewSet(viewsets.ModelViewSet):
     def contact(request, pk):
         """Endpoint to send contact message to organization"""
         org = get_object_or_404(Organization, id=pk)
-        serializer = OrganizationContact(data=request.data)
+        serializer = OrganizationContactSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         send_mail(
             request,
