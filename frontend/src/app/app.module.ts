@@ -1,5 +1,4 @@
-import { ErrorHandler, NgModule } from '@angular/core';
-import { OffersService } from './homepage-offer/offers.service';
+import { ErrorHandler, NgModule, PLATFORM_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -9,9 +8,10 @@ import { CookieModule } from 'ngx-cookie';
 import * as Raven from 'raven-js';
 
 import { environment } from '../environments/environment';
+import { OffersService } from './homepage-offer/offers.service';
 import { AppComponent } from './app.component';
 import { RedirectComponent } from './redirect.component';
-import { WindowService, WindowFactory } from './window.service';
+import { WindowFactory, WindowService } from './window.service';
 import { OrganizationService } from './organization/organization.service';
 import { OrganizationDetailsComponent } from './organization/organization-details/organization-details.component';
 import { HomepageOfferComponent } from './homepage-offer/homepage-offer.component';
@@ -138,7 +138,7 @@ const appRoutes: Routes = [
     AuthService,
     OffersService,
     OrganizationService,
-    { provide: WindowService, useFactory: WindowFactory },
+    { provide: WindowService, useFactory: WindowFactory, deps: [PLATFORM_ID]},
     { provide: ErrorHandler, useClass: RavenErrorHandler },
   ],
   bootstrap: [AppComponent]

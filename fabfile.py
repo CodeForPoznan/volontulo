@@ -80,7 +80,7 @@ def update():
         cd('/var/www/volontulo/frontend'),
     ):
         run('npm install .')
-        run('ng build --prod --env={}'.format(env.host_string))
+        run('./node_modules/.bin/ng build --prod --env={}'.format(env.host_string))
 
     run('systemctl restart uwsgi.service')
     run('systemctl restart nginx')
@@ -137,8 +137,6 @@ def install():
     run('echo \'[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"\' >> ~/.bash_profile')
     run('source ~/.bash_profile')
     run('nvm install {}'.format(NODE_VERSION))
-    with prefix('nvm use {}'.format(NODE_VERSION)):
-        run('npm install -g @angular/cli --unsafe-perm')
 
     # Install virtualenv:
     run('apt-get install -y python3-pip')
