@@ -57,7 +57,6 @@ urlpatterns = [
     url(r'^o$', views.homepage, name='homepage'),
 
     # login and loggged user space:
-    url(r'^o/login$', auth_views.login, name='login'),
     url(r'^o/logout$', auth_views.logout, name='logout'),
     url(r'^o/register$', auth_views.Register.as_view(), name='register'),
     url(

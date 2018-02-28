@@ -3,6 +3,9 @@
 """
 .. module:: test_edit_organization
 """
+
+from django.conf import settings
+
 from apps.volontulo.tests.views.test_organizations import TestOrganizations
 
 
@@ -14,26 +17,16 @@ class TestEditOrganization(TestOrganizations):
         response = self.client.get(
             '/o/organizations/organization-1/{}/edit'.format(
                 self.organization.id),
-            follow=True,
         )
-        self.assertEqual(response.status_code, 200)
+
         self.assertRedirects(
             response,
-            'http://testserver/o/login?'
-            'next=/o/organizations/organization-1/{}/edit'.format(
-                self.organization.id),
-            302,
-            200,
-        )
-        self.assertEqual(len(response.redirect_chain), 1)
-        self.assertEqual(
-            response.redirect_chain[0],
-            (
-                '/o/login?next=/o/organizations/organization-1/{}/edit'.format(
-                    self.organization.id
-                ),
-                302
+            '{}/login?next=http%3A//testserver'
+            '/o/organizations/organization-1/{}/edit'.format(
+                settings.ANGULAR_ROOT, self.organization.id
             ),
+            302,
+            fetch_redirect_response=False
         )
 
     def test__edit_organization_post_form_anonymous(self):
@@ -41,34 +34,24 @@ class TestEditOrganization(TestOrganizations):
         response = self.client.get(
             '/o/organizations/organization-1/{}/edit'.format(
                 self.organization.id),
-            follow=True,
         )
-        self.assertEqual(response.status_code, 200)
+
         self.assertRedirects(
             response,
-            'http://testserver/o/login?'
-            'next=/o/organizations/organization-1/{}/edit'.format(
-                self.organization.id),
-            302,
-            200,
-        )
-        self.assertEqual(len(response.redirect_chain), 1)
-        self.assertEqual(
-            response.redirect_chain[0],
-            (
-                '/o/login?next=/o/organizations/organization-1/{}/edit'.format(
-                    self.organization.id
-                ),
-                302
+            '{}/login?next=http%3A//testserver'
+            '/o/organizations/organization-1/{}/edit'.format(
+                settings.ANGULAR_ROOT, self.organization.id
             ),
+            302,
+            fetch_redirect_response=False
         )
 
     def test__edit_organization_get_form_volunteer(self):
         """Get organization edit form as volunteer."""
-        self.client.post('/o/login', {
-            'email': 'volunteer1@example.com',
-            'password': 'volunteer1',
-        })
+        self.client.login(
+            username='volunteer1@example.com',
+            password='volunteer1',
+        )
         response = self.client.get(
             '/o/organizations/organization-1/{}/edit'.format(
                 self.organization.id
@@ -99,10 +82,10 @@ class TestEditOrganization(TestOrganizations):
 
     def test__edit_organization_post_form_volunteer(self):
         """Post organization edit form as volunteer."""
-        self.client.post('/o/login', {
-            'email': 'volunteer1@example.com',
-            'password': 'volunteer1',
-        })
+        self.client.login(
+            username='volunteer1@example.com',
+            password='volunteer1',
+        )
         response = self.client.get(
             '/o/organizations/organization-1/{}/edit'.format(
                 self.organization.id
@@ -133,10 +116,10 @@ class TestEditOrganization(TestOrganizations):
 
     def test__edit_organization_get_form_other_organization(self):
         """Get organization edit form as other organization."""
-        self.client.post('/o/login', {
-            'email': 'organization2@example.com',
-            'password': 'organization2',
-        })
+        self.client.login(
+            username='organization2@example.com',
+            password='organization2',
+        )
         response = self.client.get(
             '/o/organizations/organization-1/{}/edit'.format(
                 self.organization.id
@@ -167,10 +150,10 @@ class TestEditOrganization(TestOrganizations):
 
     def test__edit_organization_post_form_other_organization(self):
         """Post organization edit form as other organization."""
-        self.client.post('/o/login', {
-            'email': 'organization2@example.com',
-            'password': 'organization2',
-        })
+        self.client.login(
+            username='organization2@example.com',
+            password='organization2',
+        )
         response = self.client.get(
             '/o/organizations/organization-1/{}/edit'.format(
                 self.organization.id),
@@ -200,10 +183,10 @@ class TestEditOrganization(TestOrganizations):
 
     def test__edit_organization_get_form_right_organization(self):
         """Get organization edit form as right organization."""
-        self.client.post('/o/login', {
-            'email': 'organization1@example.com',
-            'password': 'organization1',
-        })
+        self.client.login(
+            username='organization1@example.com',
+            password='organization1',
+        )
         response = self.client.get(
             '/o/organizations/organization-1/{}/edit'.format(
                 self.organization.id
@@ -231,10 +214,10 @@ class TestEditOrganization(TestOrganizations):
 
     def test__edit_organization_post_form_right_organization(self):
         """Post organization edit form as right organization."""
-        self.client.post('/o/login', {
-            'email': 'organization1@example.com',
-            'password': 'organization1',
-        })
+        self.client.login(
+            username='organization1@example.com',
+            password='organization1',
+        )
         # not enough data send
         form_params = {
             'name': '',

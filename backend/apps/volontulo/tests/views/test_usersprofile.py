@@ -3,6 +3,8 @@
 """
 .. module:: test_users
 """
+
+from django.conf import settings
 from django.test import Client
 from django.test import TestCase
 
@@ -28,26 +30,23 @@ class TestUsersProfile(TestCase):
 
     def test__logged_user_profile_anonymous(self):
         """Testing user profile page for anonymous."""
-        response = self.client.get('/o/me', follow=True)
+        response = self.client.get('/o/me')
 
         self.assertRedirects(
             response,
-            'http://testserver/o/login?next=/o/me',
+            '{}/login?next=http%3A//testserver/o/me'.format(
+                settings.ANGULAR_ROOT
+            ),
             302,
-            200,
-        )
-        self.assertEqual(len(response.redirect_chain), 1)
-        self.assertEqual(
-            response.redirect_chain[0],
-            ('/o/login?next=/o/me', 302),
+            fetch_redirect_response=False
         )
 
     def test__logged_user_profile(self):
         """Testing default views on user profile form."""
-        self.client.post('/o/login', {
-            'email': 'volunteer1@example.com',
-            'password': 'volunteer1',
-        })
+        self.client.login(
+            username='volunteer1@example.com',
+            password='volunteer1',
+        )
         response = self.client.get('/o/me')
 
         self.assertEqual(response.status_code, 200)
@@ -58,10 +57,10 @@ class TestUsersProfile(TestCase):
 
     def test__logged_user_profile_empty_volunteer(self):
         """Testing user profile page for volunteers."""
-        self.client.post('/o/login', {
-            'email': 'volunteer1@example.com',
-            'password': 'volunteer1',
-        })
+        self.client.login(
+            username='volunteer1@example.com',
+            password='volunteer1',
+        )
         response = self.client.get('/o/me')
 
         self.assertIn('offers', response.context)
@@ -73,10 +72,10 @@ class TestUsersProfile(TestCase):
 
     def test__logged_user_profile_filled_volunteer(self):
         """Testing user profile page for volunteers."""
-        self.client.post('/o/login', {
-            'email': 'volunteer1@example.com',
-            'password': 'volunteer1',
-        })
+        self.client.login(
+            username='volunteer1@example.com',
+            password='volunteer1',
+        )
         response = self.client.get('/o/me')
 
         self.assertIn('offers', response.context)
@@ -88,10 +87,10 @@ class TestUsersProfile(TestCase):
 
     def test__logged_user_profile_empty_organization(self):
         """Testing user profile page for empty organization."""
-        self.client.post('/o/login', {
-            'email': 'organization1@example.com',
-            'password': 'organization1',
-        })
+        self.client.login(
+            username='organization1@example.com',
+            password='organization1',
+        )
         response = self.client.get('/o/me')
 
         self.assertIn('offers', response.context)
@@ -102,10 +101,10 @@ class TestUsersProfile(TestCase):
 
     def test__logged_user_profile_filled_organization(self):
         """Testing user profile page for filled organization."""
-        self.client.post('/o/login', {
-            'email': 'organization2@example.com',
-            'password': 'organization2',
-        })
+        self.client.login(
+            username='organization2@example.com',
+            password='organization2',
+        )
         response = self.client.get('/o/me')
 
         self.assertIn('offers', response.context)
@@ -120,10 +119,10 @@ class TestUsersProfile(TestCase):
 
     def test__userprofile_phone_no(self):
         """Testing user profile page for filled organization."""
-        self.client.post('/o/login', {
-            'email': 'volunteer1@example.com',
-            'password': 'volunteer1',
-        })
+        self.client.login(
+            username='volunteer1@example.com',
+            password='volunteer1',
+        )
         response = self.client.get('/o/me')
 
         self.assertEqual(response.status_code, 200)
@@ -133,10 +132,10 @@ class TestUsersProfile(TestCase):
 
     def test__userprofile_first_and_last_name(self):
         """Testing user profile page for filled first and last name."""
-        self.client.post('/o/login', {
-            'email': 'volunteer1@example.com',
-            'password': 'volunteer1',
-        })
+        self.client.login(
+            username='volunteer1@example.com',
+            password='volunteer1',
+        )
         response = self.client.get('/o/me')
 
         self.assertEqual(response.status_code, 200)
@@ -148,10 +147,10 @@ class TestUsersProfile(TestCase):
     def test__no_email_field_on_edit_profile_form(self):
         """Test if Email field is not visible edit profile form."""
 
-        self.client.post('/o/login', {
-            'email': 'volunteer1@example.com',
-            'password': 'volunteer1',
-        })
+        self.client.login(
+            username='volunteer1@example.com',
+            password='volunteer1',
+        )
         response = self.client.get('/o/me')
 
         self.assertEqual(response.status_code, 200)

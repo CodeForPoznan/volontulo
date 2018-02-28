@@ -4,6 +4,7 @@
 .. module:: test_offer_create
 """
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.test import Client
 from django.test import TestCase
@@ -52,20 +53,20 @@ class TestOffersCreate(TestCase):
 
     def test_offers_create_get_method(self):
         """Test page for offer creation - tendering template with form."""
-        self.client.post('/o/login', {
-            'email': 'organization@example.com',
-            'password': '123org',
-        })
+        self.client.login(
+            username='organization@example.com',
+            password='123org',
+        )
         response = self.client.get('/o/offers/create')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'offers/offer_form.html')
 
     def test_offers_create_no_org_get_method(self):
         """Test page for offer creation - tendering template with form."""
-        self.client.post('/o/login', {
-            'email': 'no_organ@example.com',
-            'password': '123no_org',
-        })
+        self.client.login(
+            username='no_organ@example.com',
+            password='123no_org',
+        )
         response = self.client.get('/o/offers/create', follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertContains(
@@ -76,20 +77,20 @@ class TestOffersCreate(TestCase):
 
     def test_offers_create_anonymous_user_get_method(self):
         """Test access to page for offer creation without login."""
-        response = self.client.get('/o/offers/create', follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(
+        response = self.client.get('/o/offers/create')
+        self.assertRedirects(
             response,
-            "Aby założyć ofertę, musisz się zalogować lub zarejestrować."
+            '{}/login?next=/o/offers/create'.format(settings.ANGULAR_ROOT),
+            302,
+            fetch_redirect_response=False
         )
-        self.assertTemplateUsed(response, 'auth/login.html')
 
     def test_offers_create_invalid_form(self):
         """Test attempt of creation of new offer with invalid form."""
-        self.client.post('/o/login', {
-            'email': 'organization@example.com',
-            'password': '123org',
-        })
+        self.client.login(
+            username='organization@example.com',
+            password='123org',
+        )
         response = self.client.post('/o/offers/create', {})
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'offers/offer_form.html')
@@ -100,10 +101,10 @@ class TestOffersCreate(TestCase):
 
     def test_create_offer_without_date(self):
         """Test for creating offer without date."""
-        self.client.post('/o/login', {
-            'email': 'organization@example.com',
-            'password': '123org',
-        })
+        self.client.login(
+            username='organization@example.com',
+            password='123org',
+        )
 
         self.client.post('/o/offers/create', {
             'organization': self.organization.id,
@@ -123,10 +124,10 @@ class TestOffersCreate(TestCase):
 
     def test_offers_create_valid_form(self):
         """Test attempt of creation of new offer with valid form."""
-        self.client.post('/o/login', {
-            'email': 'organization@example.com',
-            'password': '123org',
-        })
+        self.client.login(
+            username='organization@example.com',
+            password='123org',
+        )
         for i in range(1, 4):
             self.client.post('/o/offers/create', {
                 'organization': self.organization.id,

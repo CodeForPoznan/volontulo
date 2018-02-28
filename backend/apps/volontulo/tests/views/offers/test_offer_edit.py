@@ -62,19 +62,19 @@ class TestOffersEdit(TestCase):
 
     def test_for_non_existing_offer(self):
         """Test if error 404 will be raised when offer dosn't exits."""
-        self.client.post('/o/login', {
-            'email': 'organization@example.com',
-            'password': '123org',
-        })
+        self.client.login(
+            username='organization@example.com',
+            password='123org',
+        )
         response = self.client.get('/o/offers/some-slug/42/edit')
         self.assertEqual(response.status_code, 404)
 
     def test_for_different_slug(self):
         """Test if redirect will be raised when offer has different slug."""
-        self.client.post('/o/login', {
-            'email': 'organization@example.com',
-            'password': '123org',
-        })
+        self.client.login(
+            username='organization@example.com',
+            password='123org',
+        )
         response = self.client.get(
             '/o/offers/different-slug/{}/edit'.format(self.offer.id))
         self.assertRedirects(
@@ -84,10 +84,10 @@ class TestOffersEdit(TestCase):
 
     def test_for_correct_slug(self):
         """Test of get request for offers/edit with correct slug."""
-        self.client.post('/o/login', {
-            'email': self.organization_user_email,
-            'password': self.organization_user_password
-        })
+        self.client.login(
+            username=self.organization_user_email,
+            password=self.organization_user_password,
+        )
         response = self.client.get(
             '/o/offers/volontulo-offer/{}/edit'.format(self.offer.id))
         self.assertEqual(response.status_code, 200)
@@ -95,10 +95,10 @@ class TestOffersEdit(TestCase):
 
     def test_offers_edit_invalid_form(self):
         """Test attempt of edition of offer with invalid form."""
-        self.client.post('/o/login', {
-            'email': 'organization@example.com',
-            'password': '123org',
-        })
+        self.client.login(
+            username='organization@example.com',
+            password='123org',
+        )
         response = self.client.post('/o/offers/volontulo-offer/{}/edit'.format(
             self.offer.id
         ), {
@@ -128,10 +128,10 @@ class TestOffersEdit(TestCase):
 
     def test_offers_edit_valid_form(self):
         """Test attempt of edition of offer with valid form."""
-        self.client.post('/o/login', {
-            'email': 'organization@example.com',
-            'password': '123org',
-        })
+        self.client.login(
+            username='organization@example.com',
+            password='123org',
+        )
         response = self.client.post('/o/offers/volontulo-offer/{}/edit'.format(
             self.offer.id
         ), {
@@ -169,10 +169,10 @@ class TestOffersEdit(TestCase):
 
     def test_offers_status_change(self):
         """Test status change made using offers/edit."""
-        self.client.post('/o/login', {
-            'email': 'organization@example.com',
-            'password': '123org',
-        })
+        self.client.login(
+            username='organization@example.com',
+            password='123org',
+        )
         response = self.client.post('/o/offers/volontulo-offer/{}/edit'.format(
             self.offer.id
         ), {

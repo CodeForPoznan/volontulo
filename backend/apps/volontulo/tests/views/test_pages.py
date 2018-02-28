@@ -44,10 +44,10 @@ class TestPages(TestCase):
 
     def test__homepage_for_administrator(self):
         """Home page for administrators."""
-        self.client.post('/o/login', {
-            'email': 'admin_user@example.com',
-            'password': 'admin_password',
-        })
+        self.client.login(
+            username='admin_user@example.com',
+            password='admin_password',
+        )
         response = self.client.get('/o')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'homepage.html')

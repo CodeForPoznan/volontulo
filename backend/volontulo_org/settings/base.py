@@ -138,9 +138,6 @@ AUTHENTICATION_BACKENDS = (
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-# settings required if we want to use @login_required decorator
-LOGIN_URL = 'login'
-
 SYSTEM_DOMAIN = 'localhost'
 
 RAVEN_CONFIG = {

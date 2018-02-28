@@ -51,10 +51,10 @@ class TestCreateOrganization(TestOrganizations):
 
     def test__get_empty_organization_view_by_volunteer(self):
         """Requesting for empty organization view by volunteer user."""
-        self.client.post('/o/login', {
-            'email': 'volunteer2@example.com',
-            'password': 'volunteer2',
-        })
+        self.client.login(
+            username='volunteer2@example.com',
+            password='volunteer2',
+        )
         response = self.client.get('/o/organizations/organization-1/{}'.format(
             self.organization.id
         ))
@@ -69,10 +69,10 @@ class TestCreateOrganization(TestOrganizations):
 
     def test__get_empty_organization_view_by_organization(self):
         """Request for empty organization view by organization user."""
-        self.client.post('/o/login', {
-            'email': 'organization1@example.com',
-            'password': 'organization1',
-        })
+        self.client.login(
+            username='organization1@example.com',
+            password='organization1',
+        )
         response = self.client.get(
             '/o/organizations/organization-1/{}'.format(self.organization.id),
             follow=True
@@ -86,11 +86,10 @@ class TestCreateOrganization(TestOrganizations):
         self.assertContains(response, 'Edytuj organizację')
         self.assertContains(response, 'Dodaj ofertę')
 
-        self.client.get('/o/logout')
-        self.client.post('/o/login', {
-            'email': 'organization2@example.com',
-            'password': 'organization2',
-        })
+        self.client.login(
+            username='organization2@example.com',
+            password='organization2',
+        )
         response = self.client.get(
             '/o/organizations/organization-1/{}'.format(self.organization.id),
             follow=True
@@ -104,10 +103,10 @@ class TestCreateOrganization(TestOrganizations):
 
     def test__get_filled_organization_view_by_organization(self):
         """Request for filled organization view by organization user."""
-        self.client.post('/o/login', {
-            'email': 'organization2@example.com',
-            'password': 'organization2',
-        })
+        self.client.login(
+            username='organization2@example.com',
+            password='organization2',
+        )
         response = self.client.get(
             '/o/organizations/organization-2/{}'.format(self.organization2.id),
             follow=True
@@ -166,10 +165,10 @@ class TestCreateOrganization(TestOrganizations):
 
     def test__post_contact_form_on_organization_view_by_volunteer(self):
         """Post contact form to organization view by volunteer user."""
-        self.client.post('/o/login', {
-            'email': 'volunteer1@example.com',
-            'password': 'volunteer1',
-        })
+        self.client.login(
+            username='volunteer1@example.com',
+            password='volunteer1',
+        )
         form_params = {
             'name': '',
             'email': '',
@@ -204,10 +203,10 @@ class TestCreateOrganization(TestOrganizations):
 
     def test__post_contact_form_on_organization_view_by_organization(self):
         """Post contact form to organization view by organization user."""
-        self.client.post('/o/login', {
-            'email': 'organization2@example.com',
-            'password': 'organization2',
-        })
+        self.client.login(
+            username='organization2@example.com',
+            password='organization2',
+        )
         form_params = {
             'name': 'Mister volunteer',
             'email': 'mister.volunteer@example.com',

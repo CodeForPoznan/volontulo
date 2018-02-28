@@ -9,3 +9,5 @@ from .base import *
 
 ANGULAR_ROOT = 'https://dev.volontulo.pl'
 SYSTEM_DOMAIN = 'dev.volontulo.pl'
+
+LOGIN_URL = '{}/login'.format(ANGULAR_ROOT)

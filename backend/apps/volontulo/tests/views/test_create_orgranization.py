@@ -3,8 +3,10 @@
 """
 .. module:: test_create_organization
 """
-from apps.volontulo.tests.views.test_organizations import TestOrganizations
 
+from django.conf import settings
+
+from apps.volontulo.tests.views.test_organizations import TestOrganizations
 from apps.volontulo.models import Organization
 
 
@@ -19,17 +21,19 @@ class TestCreateOrganization(TestOrganizations):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(
             response,
-            'http://testserver/o/login?next=/o/organizations/create',
+            '{}/login?next=http%3A//testserver/o/organizations/create'.format(
+                settings.ANGULAR_ROOT,
+            ),
             302,
-            200,
+            fetch_redirect_response=False,
         )
 
     def test__create_organization_get_form_authorized(self):
         """Test getting form for creating organization as authorized."""
-        self.client.post('/o/login', {
-            'email': 'volunteer1@example.com',
-            'password': 'volunteer1',
-        })
+        self.client.login(
+            username='volunteer1@example.com',
+            password='volunteer1',
+        )
         response = self.client.get('/o/organizations/create')
 
         self.assertTemplateUsed(
@@ -48,17 +52,19 @@ class TestCreateOrganization(TestOrganizations):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(
             response,
-            'http://testserver/o/login?next=/o/organizations/create',
+            '{}/login?next=http%3A//testserver/o/organizations/create'.format(
+                settings.ANGULAR_ROOT,
+            ),
             302,
-            200,
+            fetch_redirect_response=False,
         )
 
     def test__create_empty_organization_post_form(self):
         """Test posting form for creating empty (not filled) organization."""
-        self.client.post('/o/login', {
-            'email': 'volunteer1@example.com',
-            'password': 'volunteer1',
-        })
+        self.client.login(
+            username='volunteer1@example.com',
+            password='volunteer1',
+        )
         form_params = {
             'name': '',
             'address': '',
@@ -75,10 +81,10 @@ class TestCreateOrganization(TestOrganizations):
 
     def test__create_organization_post_form_fill_fields(self):
         """Test posting form and check fields population."""
-        self.client.post('/o/login', {
-            'email': 'volunteer1@example.com',
-            'password': 'volunteer1',
-        })
+        self.client.login(
+            username='volunteer1@example.com',
+            password='volunteer1',
+        )
         form_params = {
             'name': 'Halperin Organix',
             'address': 'East Street 123',
@@ -110,10 +116,10 @@ class TestCreateOrganization(TestOrganizations):
     def test__create_valid_organization_form_post(self):
         """Test posting valid form for creating organization."""
         org_name = 'Halperin Organix'
-        self.client.post('/o/login', {
-            'email': 'volunteer1@example.com',
-            'password': 'volunteer1',
-        })
+        self.client.login(
+            username='volunteer1@example.com',
+            password='volunteer1',
+        )
         form_params = {
             'name': org_name,
             'address': 'East Street 123',
@@ -142,10 +148,10 @@ class TestCreateOrganization(TestOrganizations):
     def test__create_organization_one_column_template(self):
         """Test validate one column template on create page."""
         # Disable for anonymous user
-        self.client.post('/o/login', {
-            'email': 'volunteer1@example.com',
-            'password': 'volunteer1',
-        })
+        self.client.login(
+            username='volunteer1@example.com',
+            password='volunteer1',
+        )
         response = self.client.get('/o/organizations/create')
 
         self.assertTemplateUsed(

@@ -76,8 +76,8 @@ class OffersCreate(View):
             )
 
             return redirect(
-                '{login}?next={path}'.format(
-                    login=reverse('login'), path=request.path
+                '{ANGULAR_ROOT}/login?next={path}'.format(
+                    ANGULAR_ROOT=settings.ANGULAR_ROOT, path=request.path
                 )
             )
 
@@ -135,7 +135,7 @@ class OffersCreate(View):
                     ANGULAR_ROOT=settings.ANGULAR_ROOT,
                     slug=slugify(offer.title),
                     id=str(offer.id),
-                    )
+                )
             )
         messages.error(
             request,
@@ -283,7 +283,7 @@ class OffersEdit(View):
                     ANGULAR_ROOT=settings.ANGULAR_ROOT,
                     slug=slugify(offer.title),
                     id=str(offer.id),
-                    )
+                )
             )
         elif request.POST.get('status_flag') == 'change_status':
             if request.POST.get('status') == 'published':
@@ -435,8 +435,9 @@ class OffersJoin(View):
                         "Zaloguj się, aby zapisać się do oferty."
                     )
                     return redirect(
-                        '{login}?next={path}'.format(
-                            login=reverse('login'), path=request.path
+                        '{ANGULAR_ROOT}/login?next={path}'.format(
+                            ANGULAR_ROOT=settings.ANGULAR_ROOT,
+                            path=request.path,
                         )
                     )
 
@@ -483,7 +484,7 @@ class OffersJoin(View):
                     ANGULAR_ROOT=settings.ANGULAR_ROOT,
                     slug=slugify(offer.title),
                     id=str(offer.id),
-                    )
+                )
             )
         else:
             errors = "<br />".join(form.errors)

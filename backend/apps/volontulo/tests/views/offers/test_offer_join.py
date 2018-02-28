@@ -4,6 +4,7 @@
 .. module:: test_offer_join
 """
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.test import Client
 from django.test import TestCase
@@ -84,10 +85,10 @@ class TestOffersJoin(TestCase):
 
     def test_correct_slug_for_logged_in_user(self):
         """Test get method of offer join for logged in user."""
-        self.client.post('/o/login', {
-            'email': 'volunteer@example.com',
-            'password': 'vol123',
-        })
+        self.client.login(
+            username='volunteer@example.com',
+            password='vol123',
+        )
         response = self.client.get('/o/offers/volontulo-offer/{}/join'.format(
             self.offer.id
         ))
@@ -113,10 +114,10 @@ class TestOffersJoin(TestCase):
 
     def test_offers_join_valid_form_and_logged_user(self):
         """Test attempt of joining offer with valid form and logged user."""
-        self.client.post('/o/login', {
-            'email': 'volunteer@example.com',
-            'password': 'vol123',
-        })
+        self.client.login(
+            username='volunteer@example.com',
+            password='vol123',
+        )
 
         # successfull joining offer:
         response = self.client.post('/o/offers/volontulo-offer/{}/join'.format(
@@ -187,17 +188,13 @@ class TestOffersJoin(TestCase):
         response = self.client.post(
             '/o/offers/volontulo-offer/{}/join'.format(self.offer.id),
             post_data,
-            follow=True,
         )
         self.assertRedirects(
             response,
-            '/o/login?next=/o/offers/volontulo-offer/{}/join'.format(
+            '{}/login?next=/o/offers/volontulo-offer/{}/join'.format(
+                settings.ANGULAR_ROOT,
                 self.offer.id
             ),
             302,
-            200,
-        )
-        self.assertContains(
-            response,
-            'Zaloguj się, aby zapisać się do oferty.',
+            fetch_redirect_response=False
         )

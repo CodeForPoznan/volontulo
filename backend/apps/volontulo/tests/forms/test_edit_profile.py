@@ -3,6 +3,7 @@
 """
 .. module:: test_edit_profile
 """
+
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.test import TransactionTestCase
@@ -82,10 +83,9 @@ class TestEditProfileForm(TransactionTestCase):
 
     def test__no_is_avatar_field_on_edit_profile_form(self):
         """Test if Is Avatar field is not visible."""
-
-        self.client.post('/o/login', {
-            'email': 'volunteer1@example.com',
-            'password': 'volunteer1',
-        })
+        self.client.login(
+            username='volunteer1@example.com',
+            password='volunteer1',
+        )
         response = self.client.get('/o/me')
         self.assertNotContains(response, 'is_avatar')

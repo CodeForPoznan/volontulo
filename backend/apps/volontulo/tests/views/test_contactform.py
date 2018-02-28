@@ -46,10 +46,10 @@ class TestPages(TestCase):
 
     def test__get_contact_with_administrator_form_by_volunteer(self):
         """Request contact with administrator form by volunteer user."""
-        self.client.post('/o/login', {
-            'email': 'volunteer1@example.com',
-            'password': 'volunteer1',
-        })
+        self.client.login(
+            username='volunteer1@example.com',
+            password='volunteer1',
+        )
         response = self.client.get('/o/contact')
 
         self.assertEqual(response.status_code, 200)
@@ -60,10 +60,10 @@ class TestPages(TestCase):
 
     def test__get_contact_with_administrator_form_by_organization(self):
         """Request contact with administrator form by organization user."""
-        self.client.post('/o/login', {
-            'email': 'organization1@example.com',
-            'password': 'organization1',
-        })
+        self.client.login(
+            username='organization1@example.com',
+            password='organization1',
+        )
         response = self.client.get('/o/contact')
 
         self.assertEqual(response.status_code, 200)
@@ -102,10 +102,10 @@ class TestPages(TestCase):
         """Post to contact with administrator form by volunteer user assuming
         validation error.
         """
-        self.client.post('/o/login', {
-            'email': 'volunteer1@example.com',
-            'password': 'volunteer1',
-        })
+        self.client.login(
+            username='volunteer1@example.com',
+            password='volunteer1',
+        )
 
         form_params = {
             'applicant': 'VOLUNTEER',
@@ -131,10 +131,10 @@ class TestPages(TestCase):
 
     def test__contact_with_admin_form_by_volunteer(self):
         """Post to contact with administrator form by volunteer user."""
-        self.client.post('/o/login', {
-            'email': 'volunteer1@example.com',
-            'password': 'volunteer1',
-        })
+        self.client.login(
+            username='volunteer1@example.com',
+            password='volunteer1',
+        )
         form_params = {
             'applicant': 'VOLUNTEER',
             'administrator': self.admin.id,
@@ -162,10 +162,10 @@ class TestPages(TestCase):
         """Post to contact with administrator form by organization user
         validation error.
         """
-        self.client.post('/o/login', {
-            'email': 'organization1@example.com',
-            'password': 'organization1',
-        })
+        self.client.login(
+            username='organization1@example.com',
+            password='organization1',
+        )
         # incorrect params
         form_params = {
             'applicant': 1,
@@ -193,10 +193,10 @@ class TestPages(TestCase):
         """Post to contact with administrator form by organization user
         validation success.
         """
-        self.client.post('/o/login', {
-            'email': self.admin.email,
-            'password': self.test_admin_password
-        })
+        self.client.login(
+            username=self.admin.email,
+            password=self.test_admin_password
+        )
 
         # correct params
         form_params = {
