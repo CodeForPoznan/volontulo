@@ -6,7 +6,6 @@
 
 from django.contrib import auth
 from django.contrib import messages
-from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -17,7 +16,6 @@ from django.utils.http import is_safe_url
 from django.views.generic import View
 
 from apps.volontulo.forms import UserForm
-from apps.volontulo.lib.email import FROM_ADDRESS
 from apps.volontulo.lib.email import send_mail
 from apps.volontulo.models import UserProfile
 
@@ -193,27 +191,3 @@ def activate(request, uuid):
             """Brak użytkownika spełniającego wymagane kryteria."""
         )
     return redirect('homepage')
-
-
-def password_reset(request):
-    """View responsible for password reset."""
-    return auth_views.password_reset(
-        request,
-        template_name='auth/password_reset.html',
-        post_reset_redirect='login',
-        from_email=FROM_ADDRESS,
-        subject_template_name='emails/password_reset.subject',
-        email_template_name='emails/password_reset.txt',
-        html_email_template_name='emails/password_reset.html',
-    )
-
-
-def password_reset_confirm(request, uidb64, token):
-    """Landing page for password reset."""
-    return auth_views.password_reset_confirm(
-        request,
-        uidb64,
-        token,
-        template_name='auth/password_reset_confirm.html',
-        post_reset_redirect='login',
-    )
