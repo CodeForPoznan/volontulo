@@ -9,8 +9,6 @@ particular script using Python 2.
 
 import contextlib
 import os
-import random
-import string
 import sys
 
 from fabric.api import cd
@@ -81,9 +79,12 @@ def update():
     ):
         run('npm install .')
         run('./node_modules/.bin/ng build --prod --env={}'.format(env.host_string))
+        run('./node_modules/.bin/ng build --prod --env={} --app 1 --output-hashing=false'.format(env.host_string))
+        run('./node_modules/.bin/webpack --config webpack.server.config.js --progress --colors')
 
     run('systemctl restart uwsgi.service')
     run('systemctl restart nginx')
+    run('systemctl restart pm2-www-data.service')
 
 
 def install():
@@ -104,6 +105,7 @@ def install():
     # Sytem upgrade:
     run('apt-get update -y')
     run('apt-get -o Dpkg::Options::="--force-confold" upgrade -y')
+    run('apt-get install -y python-minimal')  # <- old fronted npm install requires python 2 executable
 
     # Secrets:
     run('apt-get install -y pwgen')
@@ -119,7 +121,9 @@ def install():
     run('su - postgres -c "psql -c \\\\"CREATE DATABASE volontulo WITH  TEMPLATE=template0 ENCODING=\'utf-8\' owner volontulo;\\\\""')
 
     # Mail Transport Agent:
-    run('debconf-set-selections <<< "postfix postfix/mailname string $HOSTNAME"')
+    run('debconf-set-selections 
+        
+        "postfix postfix/mailname string $HOSTNAME"')
     run('debconf-set-selections <<< "postfix postfix/main_mailer_type string \'Internet Site\"')
     run('apt-get install -y postfix')
 
@@ -131,12 +135,29 @@ def install():
         run('git checkout -f {}'.format(env_vars[env.host_string]['git_branch']))
 
     # Install proper Node:
-    run('wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.5/install.sh | bash')
-    run('echo "export NVM_DIR=\"$HOME/.nvm\"" >> ~/.bash_profile')
+    run('echo "export NVM_DIR=\"/var/www/.nvm\"" >> ~/.bash_profile')
+    run('source ~/.bash_profile')
+    run('wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash')
     run('echo \'[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"\' >> ~/.bash_profile')
     run('echo \'[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"\' >> ~/.bash_profile')
     run('source ~/.bash_profile')
     run('nvm install {}'.format(NODE_VERSION))
+
+    # Install pm2
+    with prefix('nvm use {}'.format(NODE_VERSION)):
+        run('npm install -g pm2')
+    with cd('/var'):
+        run('chown www-data:www-data www')
+    with contextlib.nested(
+        prefix('nvm use {}'.format(NODE_VERSION)),
+        cd('/var/www/volontulo/frontend'),
+    ):
+        run('npm install .')
+        run('./node_modules/.bin/ng build --prod --env={}'.format(env.host_string))
+        run('./node_modules/.bin/ng build --prod --env={} --app 1 --output-hashing=false'.format(env.host_string))
+        run('./node_modules/.bin/webpack --config webpack.server.config.js --progress --colors')
+        run("sudo -u www-data bash -c 'export PATH=/var/www/.nvm/versions/node/v{}/bin:$PATH && export HOME=/var/www  && export VOLONTULO_PM2_HOST=127.0.0.1 && pm2 start dist/server && pm2 save'".format(NODE_VERSION))
+        run("env PATH=$PATH:/var/www/.nvm/versions/node/v{}/bin /var/www/.nvm/versions/node/v{}/lib/node_modules/pm2/bin/pm2 startup ubuntu -u www-data --hp /var/www".format(NODE_VERSION, NODE_VERSION))
 
     # Install virtualenv:
     run('apt-get install -y python3-pip')
@@ -256,7 +277,12 @@ server {{
     }}
 
     location / {{
-        try_files $uri /index.html;
+        proxy_pass http://localhost:4200;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
     }}
 }}
 """.format(env.host_string))

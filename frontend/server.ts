@@ -13,6 +13,7 @@ enableProdMode();
 // Express server
 const app = express();
 
+const HOST = process.env.VOLONTULO_PM2_HOST || '0.0.0.0';
 const PORT = process.env.PORT || 4200;
 const DIST_FOLDER = join(process.cwd(), 'dist');
 
@@ -60,6 +61,6 @@ app.get('*', (req, res) => {
 });
 
 // Start up the Node server
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Node Express server listening on http://0.0.0.0:${PORT}`);
+app.listen(PORT, HOST, () => {
+  console.log(`Node Express server listening on http://${HOST}:${PORT}`);
 });
