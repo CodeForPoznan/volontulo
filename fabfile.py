@@ -121,9 +121,7 @@ def install():
     run('su - postgres -c "psql -c \\\\"CREATE DATABASE volontulo WITH  TEMPLATE=template0 ENCODING=\'utf-8\' owner volontulo;\\\\""')
 
     # Mail Transport Agent:
-    run('debconf-set-selections 
-        
-        "postfix postfix/mailname string $HOSTNAME"')
+    run('debconf-set-selections <<< "postfix postfix/mailname string $HOSTNAME"')
     run('debconf-set-selections <<< "postfix postfix/main_mailer_type string \'Internet Site\"')
     run('apt-get install -y postfix')
 
