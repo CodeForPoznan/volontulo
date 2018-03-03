@@ -23,8 +23,6 @@ handler404 = 'apps.volontulo.views.page_not_found'
 handler500 = 'apps.volontulo.views.server_error'
 
 urlpatterns = [
-    url(r'^$', views.homepage_redirect, name='homepage_redirect'),
-
     # api:
     url(r'^api/', include(router.urls)),
     url(
@@ -52,9 +50,6 @@ urlpatterns = [
         api_views.password_reset_confirm,
         name='password_reset_confirm'
     ),
-
-    # homepage:
-    url(r'^o$', views.homepage, name='homepage'),
 
     # login and loggged user space:
     url(r'^o/logout$', auth_views.logout, name='logout'),

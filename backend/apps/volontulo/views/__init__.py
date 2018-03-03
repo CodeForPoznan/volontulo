@@ -7,7 +7,6 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.shortcuts import redirect
 from django.shortcuts import render
 
 from apps.volontulo.forms import AdministratorContactForm
@@ -28,33 +27,6 @@ def logged_as_admin(request):
     return (
         request.user.is_authenticated() and
         UserProfile.objects.get(user=request.user).is_administrator
-    )
-
-
-def homepage_redirect(request):  # pylint: disable=unused-argument
-    """Temporary redirect to old homepage."""
-    return redirect('{}/{}'.format(settings.ANGULAR_ROOT, 'index.html'))
-
-
-def homepage(request):
-    """Main view of app.
-
-    We will display page with few step CTA links?
-
-    :param request: WSGIRequest instance
-    """
-    if logged_as_admin(request):
-        offers = Offer.objects.get_for_administrator()
-    else:
-        offers = Offer.objects.get_weightened()
-
-    return render(
-        request,
-        'homepage.html',
-        {
-            'offers': offers,
-            'MEDIA_URL': settings.MEDIA_URL,
-        }
     )
 
 

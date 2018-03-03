@@ -4,6 +4,7 @@
 .. module:: auth
 """
 
+from django.conf import settings
 from django.contrib import auth
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -23,11 +24,7 @@ def logout(request):
     :param request: WSGIRequest instance
     """
     auth.logout(request)
-    messages.info(
-        request,
-        "Użytkownik został wylogowany!"
-    )
-    return redirect('homepage')
+    return redirect(settings.ANGULAR_ROOT)
 
 
 class Register(View):
@@ -41,11 +38,7 @@ class Register(View):
         :param user_form: UserForm instance
         """
         if request.user.is_authenticated():
-            messages.success(
-                request,
-                'Jesteś już zalogowany.'
-            )
-            return redirect('homepage')
+            return redirect(settings.ANGULAR_ROOT)
 
         return render(
             request,
@@ -116,7 +109,7 @@ class Register(View):
             'aktywacyjny. Aby w pełni wykorzystać konto należy je aktywować '
             'poprzez kliknięcie linku lub wklejenie go w przeglądarce.'
         )
-        return redirect('homepage')
+        return redirect(settings.ANGULAR_ROOT)
 
 
 def activate(request, uuid):
@@ -134,4 +127,4 @@ def activate(request, uuid):
             request,
             """Brak użytkownika spełniającego wymagane kryteria."""
         )
-    return redirect('homepage')
+    return redirect(settings.ANGULAR_ROOT)

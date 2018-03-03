@@ -3,6 +3,8 @@
 """
 .. module:: test_auth
 """
+
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.test import Client
 from django.test import TestCase
@@ -88,20 +90,13 @@ class TestRegister(TransactionTestCase):
             'email': 'acceptterms@example.com',
             'password': '123acceptterms',
             'terms_acceptance': True,
-        }, follow=True)
-        self.assertRedirects(response, '/o', 302, 200)
-        self.assertContains(
+        })
+        self.assertRedirects(
             response,
-            'Rejestracja przebiegła pomyślnie',
+            settings.ANGULAR_ROOT,
+            302,
+            fetch_redirect_response=False,
         )
-        self.assertContains(
-            response,
-            'Na podany przy rejestracji email został wysłany link '
-            'aktywacyjny. Aby w pełni wykorzystać konto należy je aktywować '
-            'poprzez kliknięcie linku lub wklejenie go w przeglądarce.'
-        )
-
-        self.assertIn('_auth_user_id', self.client.session)
         self.assertEqual(User.objects.all().count(), 1)
 
     def test_successful_registration(self):
@@ -110,20 +105,13 @@ class TestRegister(TransactionTestCase):
             'email': 'new@example.com',
             'password': '123new',
             'terms_acceptance': True,
-        }, follow=True)
-        self.assertRedirects(response, '/o', 302, 200)
-        self.assertContains(
+        })
+        self.assertRedirects(
             response,
-            'Rejestracja przebiegła pomyślnie',
+            settings.ANGULAR_ROOT,
+            302,
+            fetch_redirect_response=False,
         )
-        self.assertContains(
-            response,
-            'Na podany przy rejestracji email został wysłany link '
-            'aktywacyjny. Aby w pełni wykorzystać konto należy je aktywować '
-            'poprzez kliknięcie linku lub wklejenie go w przeglądarce.'
-        )
-
-        self.assertIn('_auth_user_id', self.client.session)
         self.assertEqual(User.objects.all().count(), 1)
 
     def test__register_authenticated_user(self):
@@ -135,23 +123,13 @@ class TestRegister(TransactionTestCase):
             username='volunteer1@example.com',
             password='volunteer1',
         )
-        response = self.client.get('/o/register', follow=True)
+        response = self.client.get('/o/register')
 
         self.assertRedirects(
             response,
-            '/o',
+            settings.ANGULAR_ROOT,
             302,
-            200,
-        )
-        self.assertEqual(len(response.redirect_chain), 1)
-        self.assertEqual(
-            response.redirect_chain[0],
-            ('/o', 302),
-        )
-        self.assertIn('_auth_user_id', self.client.session)
-        self.assertContains(
-            response,
-            'Jesteś już zalogowany.'
+            fetch_redirect_response=False,
         )
 
 
@@ -170,19 +148,13 @@ class TestLogout(TestCase):
 
     def test__logged_out_anonymous_user(self):
         """Testing logout view for anonymous user"""
-        response = self.client.get('/o/logout', follow=True)
+        response = self.client.get('/o/logout')
         self.assertRedirects(
             response,
-            'http://testserver/o',
+            settings.ANGULAR_ROOT,
             302,
-            200,
+            fetch_redirect_response=False,
         )
-        self.assertEqual(len(response.redirect_chain), 1)
-        self.assertEqual(
-            response.redirect_chain[0],
-            ('/o', 302),
-        )
-        self.assertNotIn('_auth_user_id', self.client.session)
 
     def test__logged_out_authenticated_user(self):
         """Testing logout view for authenticated user."""
@@ -190,18 +162,11 @@ class TestLogout(TestCase):
             username='volunteer1@example.com',
             password='volunteer1',
         )
-        response = self.client.get('/o/logout', follow=True)
+        response = self.client.get('/o/logout')
 
         self.assertRedirects(
             response,
-            '/o',
+            settings.ANGULAR_ROOT,
             302,
-            200,
+            fetch_redirect_response=False,
         )
-        self.assertEqual(len(response.redirect_chain), 1)
-        self.assertEqual(response.redirect_chain[0], ('/o', 302))
-        self.assertContains(
-            response,
-            "Użytkownik został wylogowany!"
-        )
-        self.assertNotIn('_auth_user_id', self.client.session)

@@ -346,7 +346,7 @@ class OffersDelete(View):
         ):
             offer.reject()
             messages.info(request, "Oferta została odrzucona.")
-            return redirect('homepage')
+            return redirect(settings.ANGULAR_ROOT)
 
         return HttpResponseForbidden()
 
@@ -368,7 +368,7 @@ class OffersAccept(View):
         ):
             offer.publish()
             messages.info(request, "Oferta została zaakceptowana.")
-            return redirect('homepage')
+            return redirect(settings.ANGULAR_ROOT)
 
         return HttpResponseForbidden()
 

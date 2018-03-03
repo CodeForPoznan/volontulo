@@ -4,6 +4,7 @@
 .. module:: organizations
 """
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
@@ -112,7 +113,7 @@ def organization_form(request, slug, id_):  # pylint: disable=unused-argument
             request.user.is_authenticated() and
             UserProfile.objects.get(user=request.user).organizations
     ):
-        return redirect('homepage')
+        return redirect(settings.ANGULAR_ROOT)
 
     if request.method == 'POST':
         if (
