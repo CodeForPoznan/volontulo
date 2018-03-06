@@ -8,6 +8,8 @@ django-cors-headers==2.1.0
 factory-boy==2.9.2
 ipdb==0.10.3
 pdbpp==0.9.1
+requests==2.18.4
+tqdm==4.19.6
 
 # tests
 astroid==1.5.3

@@ -3,6 +3,7 @@
 import random
 
 from django.core.management.base import BaseCommand
+from tqdm import tqdm
 
 from apps.volontulo.factories import OfferFactory
 from apps.volontulo.factories import OrganizationFactory
@@ -19,21 +20,21 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         """Populate database with fake objects."""
 
-        # create 5 organizations:
-        for _ in range(5):
+        self.stdout.write(self.style.SUCCESS('Creating 15 organizations'))
+        for _ in tqdm(range(15)):
             organization = OrganizationFactory.create()
             UserProfileFactory.create(
                 organizations=(organization,),
             )
 
-        # create 50 offers:
-        for _ in range(50):
+        self.stdout.write(self.style.SUCCESS('Creating 50 offers'))
+        for _ in tqdm(range(50)):
             OfferFactory.create(
                 organization=random.choice(Organization.objects.all())
             )
 
-        # create 150 volunteers:
-        for _ in range(150):
+        self.stdout.write(self.style.SUCCESS('Creating 150 volunteers'))
+        for _ in tqdm(range(150)):
             userprofile = UserProfileFactory.create()
             no_of_offers = random.randrange(10)
             for offer in random.sample(

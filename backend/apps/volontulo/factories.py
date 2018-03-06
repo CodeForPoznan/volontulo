@@ -9,10 +9,14 @@ import datetime
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 import factory
+from factory.django import ImageField
 from factory.fuzzy import FuzzyChoice
+import requests
 
-
-from apps.volontulo.models import Organization, UserProfile, Offer
+from apps.volontulo.models import Offer
+from apps.volontulo.models import OfferImage
+from apps.volontulo.models import Organization
+from apps.volontulo.models import UserProfile
 
 
 User = get_user_model()
@@ -53,7 +57,7 @@ class UserFactory(factory.DjangoModelFactory):
     username = factory.LazyAttribute(lambda obj: obj.email)
 
     is_active = True
-    password = "password123"
+    password = "pass123"
     userprofile = factory.RelatedFactory(UserProfileFactory, "user")
 
     @classmethod
@@ -132,6 +136,34 @@ class OrganizationFactory(factory.DjangoModelFactory):
     description = factory.Faker("paragraph")
 
 
+def placeimg_com_download(width, height, category):
+    """"placeimg.com downloader generator.
+
+    You can choose width, height and category and it will return argumentless
+    callable that will donwload such images and return file-like object.
+    """
+
+    def wrapped_func():
+        """Actual callable responsible for downloading images."""
+        return requests.get('https://placeimg.com/{}/{}/{}'.format(
+            width,
+            height,
+            category,
+        ), stream=True).raw
+
+    return wrapped_func
+
+
+class OfferImageFactory(factory.DjangoModelFactory):
+    """Factory for OfferImage."""
+
+    class Meta:  # pylint: disable=C0111
+        model = OfferImage
+
+    is_main = True
+    path = ImageField(from_func=placeimg_com_download(1000, 400, 'any'))
+
+
 class OfferFactory(factory.DjangoModelFactory):
     """Factory for Offer"""
 
@@ -204,3 +236,4 @@ class OfferFactory(factory.DjangoModelFactory):
     volunteers_limit = factory.fuzzy.FuzzyInteger(0, 1000)
     reserve_volunteers_limit = factory.fuzzy.FuzzyInteger(0, 1000)
     weight = factory.fuzzy.FuzzyInteger(0, 1000)
+    image = factory.RelatedFactory(OfferImageFactory, "offer")
