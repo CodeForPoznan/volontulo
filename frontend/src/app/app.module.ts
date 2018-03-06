@@ -30,7 +30,7 @@ import { IconComponent } from './icon/icon.component';
 import { IconLabelComponent } from './icon-label/icon-label.component';
 import { BannerComponent } from './banner/banner.component';
 import { OrganizationsComponent } from './organizations/organizations.component';
-import { HttpInterceptor } from './http-interceptor';
+import { HttpWithCredentialsInterceptor, HttpXsrfInterceptor } from './http-interceptor';
 import { FaqOrganizationsComponent } from './static/faq-organizations.component';
 import { OrganizationContactComponent } from './organization/organization-contact/organization-contact.component';
 import { OrganizationComponent } from './organization/organization.component';
@@ -135,10 +135,7 @@ registerLocaleData(localePl);
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    HttpClientXsrfModule.withOptions({
-      cookieName: 'csrftoken',
-      headerName: 'x-csrftoken',
-    }),
+    HttpClientXsrfModule.withOptions({ cookieName: 'csrftoken' }),
     NgbModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     CookieModule.forRoot()
@@ -150,7 +147,8 @@ registerLocaleData(localePl);
     { provide: LOCALE_ID, useValue: 'pl' },
     { provide: WindowService, useFactory: WindowFactory, deps: [PLATFORM_ID] },
     { provide: ErrorHandler, useClass: RavenErrorHandler },
-    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpWithCredentialsInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpXsrfInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })
