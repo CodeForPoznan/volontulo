@@ -7,19 +7,8 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse justify-content-end" id="mainNavbar">
-      <ul *ngIf="!currentUser; else anonymousBlock" class="nav navbar-nav">
-        <li class="nav-item">
-          <a href="{{ djangoRoot }}/register" class="btn btn-primary my-2 my-sm-0">Załóż konto</a>
-        </li>
-        <li>
-          <span class="nav-item navbar-text ml-2 mr-2">lub</span>
-        </li>
-        <li class="nav-item">
-          <a [routerLink]="['/login']" class="btn btn-outline-success my-2 my-sm-0">Zaloguj się</a>
-        </li>
-      </ul>
-      <ng-template #anonymousBlock>
-        <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav">
+        <ng-container *ngIf="currentUser$ | async as currentUser; else anonymousBlock">
           <li class="nav-item">
             <div ngbDropdown class="d-inline-block">
               <button class="btn btn-link" id="userDropdown" ngbDropdownToggle>
@@ -33,10 +22,19 @@
           <li class="nav-item">
             <a href="{{ djangoRoot }}/logout" class="btn btn-info my-2 my-sm-0">Wyloguj</a>
           </li>
-        </ul>
-      </ng-template>
-
+        </ng-container>
+        <ng-template #anonymousBlock>
+          <li class="nav-item">
+            <a href="{{ djangoRoot }}/register" class="btn btn-primary my-2 my-sm-0">Załóż konto</a>
+          </li>
+          <li>
+            <span class="nav-item navbar-text ml-2 mr-2">lub</span>
+          </li>
+          <li class="nav-item">
+            <a [routerLink]="['/login']" class="btn btn-outline-success my-2 my-sm-0">Zaloguj się</a>
+          </li>
+        </ng-template>
+      </ul>
     </div>
-
   </nav>
 </div>

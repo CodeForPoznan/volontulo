@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { AuthService } from '../auth.service';
+import { filter, skip } from 'rxjs/operators';
+import { SuccessOrFailureAction } from '../models';
 
 @Component({
   selector: 'volontulo-password-reset-confirm',
@@ -31,6 +33,14 @@ export class PasswordResetConfirmComponent implements OnInit {
         'confirmPassword': this.fb.control(null, Validators.required),
       }, {validator: this.checkPasswords})
     });
+
+    this.authService.confirmResetPassword$.pipe(
+      skip(1),
+      filter(action => action !== null),
+      filter((action: SuccessOrFailureAction) => action.result === 'success'),
+    ).subscribe(action => {
+      this.router.navigate(['login'])
+    });
   }
 
   checkPasswords(group: FormGroup): {[key: string]: boolean} {
@@ -41,13 +51,13 @@ export class PasswordResetConfirmComponent implements OnInit {
 
   onSubmit(): void {
     const password = this.resetForm.get('passwords.password').value;
-    this.authService.confirmResetPassword(password, this.uidb64, this.token)
-      .subscribe();
-    this.router.navigate(['login']);
+    this.authService.confirmResetPassword(password, this.uidb64, this.token);
   }
+
   isFormInputInvalid(inputStringId: string): boolean {
     return this.resetForm.get(inputStringId).invalid && this.resetForm.get(inputStringId).touched;
   }
+
   arePasswordsNotEqual(): boolean {
     return this.resetForm.get('passwords.confirmPassword').dirty
       && this.resetForm.get('passwords').errors

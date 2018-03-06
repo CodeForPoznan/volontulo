@@ -1,34 +1,33 @@
-import { Component } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Component, OnInit } from '@angular/core';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 
 import { LoginRequestModel } from '../auth.models';
 import { AuthService } from '../auth.service';
+import { Observable } from 'rxjs/Observable';
+import { filter, skip } from 'rxjs/operators';
 
 @Component({
   selector: 'volontulo-login',
   templateUrl: './login.component.html',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginModel: LoginRequestModel = {
     username: '',
     password: '',
   };
-  isAuthFailed: boolean;
+  loginError$: Observable<any>;
 
-  constructor(private authService: AuthService,
-  ) { }
+  constructor(private authService: AuthService) { }
 
-  login(): void {
-    this.authService.login(this.loginModel.username, this.loginModel.password)
-      .catch(error => {
-        if (error.status === 401) {
-          this.isAuthFailed = true;
-        }
-        return Observable.of(null);
-      })
-      .subscribe();
+  ngOnInit() {
+    this.loginError$ = this.authService.login$.pipe(
+      skip(1),
+      filter(action => action !== null && action.result !==  'success'),
+    );
   }
 
+  login(): void {
+    this.authService.login(this.loginModel.username, this.loginModel.password);
+  }
 }

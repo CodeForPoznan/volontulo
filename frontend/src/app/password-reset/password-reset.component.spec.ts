@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 
 import { PasswordResetComponent } from './password-reset.component';
 import { AuthService } from '../auth.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('PasswordResetComponent', () => {
   let component: PasswordResetComponent;
@@ -13,14 +15,13 @@ describe('PasswordResetComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
+        HttpClientTestingModule,
+        RouterTestingModule,
       ],
       declarations: [ PasswordResetComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        {
-          provide: AuthService,
-          useValue: {}
-        },
+        AuthService,
       ]
     })
     .compileComponents();

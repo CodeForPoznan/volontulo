@@ -1,4 +1,3 @@
-import { Component } from '@angular/core';
 import { TestBed, inject, async } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';

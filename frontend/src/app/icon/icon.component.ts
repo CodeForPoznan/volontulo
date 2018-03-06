@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'volontulo-icon',
@@ -7,5 +7,4 @@ import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/c
 })
 export class IconComponent {
   @Input() content: string;
-
 }

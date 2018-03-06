@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 
-import { environment } from '../../environments/environment';
 import { AuthService } from '../auth.service';
 import { User } from '../user.d';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'volontulo-header',
@@ -10,15 +10,10 @@ import { User } from '../user.d';
 })
 export class HeaderComponent {
 
-  public currentUser: User;
-  public djangoRoot: string;
+  public currentUser$: Observable<User | null>;
   public isNavbarCollapsed = true;
 
   constructor (private authService: AuthService) {
-    this.djangoRoot = environment.djangoRoot;
-    this.authService.changeUserEvent.subscribe(
-      user => { this.currentUser = user; }
-    );
+    this.currentUser$ = this.authService.user$;
   }
-
 }

@@ -1,6 +1,5 @@
 import { ErrorHandler, NgModule, PLATFORM_ID, LOCALE_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { registerLocaleData } from '@angular/common';
@@ -8,6 +7,7 @@ import localePl from '@angular/common/locales/pl';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CookieModule } from 'ngx-cookie';
 import * as Raven from 'raven-js';
+import { HTTP_INTERCEPTORS, HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 
 import { environment } from '../environments/environment';
 import { OffersService } from './homepage-offer/offers.service';
@@ -30,6 +30,7 @@ import { IconComponent } from './icon/icon.component';
 import { IconLabelComponent } from './icon-label/icon-label.component';
 import { BannerComponent } from './banner/banner.component';
 import { OrganizationsComponent } from './organizations/organizations.component';
+import { HttpInterceptor } from './http-interceptor';
 import { FaqOrganizationsComponent } from './static/faq-organizations.component';
 import { OrganizationContactComponent } from './organization/organization-contact/organization-contact.component';
 import { OrganizationComponent } from './organization/organization.component';
@@ -133,7 +134,11 @@ registerLocaleData(localePl);
     BrowserModule.withServerTransition({ appId: 'volontulo' }),
     FormsModule,
     ReactiveFormsModule,
-    HttpModule,
+    HttpClientModule,
+    HttpClientXsrfModule.withOptions({
+      cookieName: 'csrftoken',
+      headerName: 'x-csrftoken',
+    }),
     NgbModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     CookieModule.forRoot()
@@ -145,6 +150,7 @@ registerLocaleData(localePl);
     { provide: LOCALE_ID, useValue: 'pl' },
     { provide: WindowService, useFactory: WindowFactory, deps: [PLATFORM_ID] },
     { provide: ErrorHandler, useClass: RavenErrorHandler },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })

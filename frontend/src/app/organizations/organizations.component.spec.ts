@@ -1,6 +1,4 @@
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
-import { HttpModule } from '@angular/http';
-import { Subject } from 'rxjs/Subject';
 
 import { OrganizationsComponent } from './organizations.component';
 import { OrganizationService } from '../organization/organization.service';
@@ -17,14 +15,9 @@ describe('OrganizationsComponent', () => {
         {
           provide: OrganizationService,
           useValue: {
-            getOrganizations: jasmine.createSpy('getOrganizations')
+            getOrganizations: jasmine.createSpy('getOrganizations'),
           },
         },
-        {
-          provide: OrganizationService,
-          useValue: {
-          },
-        }
       ],
     })
     .compileComponents();
@@ -38,6 +31,5 @@ describe('OrganizationsComponent', () => {
 
   beforeEach(inject([OrganizationService], (_organizationsService) => {
     organizationService = _organizationsService;
-
   }));
 });

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewC
 import { NgForm } from '@angular/forms';
 
 import { OrganizationContactPayload } from '../organization.model';
+import { ContactStatus } from '../organization.interfaces';
 
 @Component({
   selector: 'volontulo-organization-contact',
@@ -11,23 +12,23 @@ import { OrganizationContactPayload } from '../organization.model';
 export class OrganizationContactComponent implements OnChanges {
   @ViewChild('contactForm') contactForm: NgForm;
   @Output() contact = new EventEmitter<OrganizationContactPayload>();
-  @Input() contactStatus: string;
+  @Input() contactStatus: ContactStatus;
   submitDisabled = false;
   alertSuccessClosed = true;
   alertErrorClosed = true;
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.contactStatus.currentValue === 'success') {
+    if (changes.contactStatus.currentValue.status === 'success') {
       this.alertSuccessClosed = false;
       this.contactForm.reset();
-    } else if (changes.contactStatus.currentValue === 'error') {
+    } else if (changes.contactStatus.currentValue.status === 'error') {
       this.alertErrorClosed = false;
     }
     this.submitDisabled = false;
   }
 
   onSubmit() {
-    if (this.contactForm.value.honeyBunny === '') {
+    if (!this.contactForm.value.honeyBunny) {
       this.contact.emit(this.contactForm.value as OrganizationContactPayload);
       this.submitDisabled = true;
     }

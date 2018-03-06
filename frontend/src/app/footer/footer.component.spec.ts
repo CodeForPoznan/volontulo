@@ -1,5 +1,3 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CommonModule } from '@angular/common';
 import { TestBed, inject, async } from '@angular/core/testing';

@@ -84,7 +84,7 @@ def current_user(request):
             status=status.HTTP_200_OK,
         )
 
-    return Response(None, status=status.HTTP_200_OK)
+    return Response({}, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
@@ -114,7 +114,7 @@ def password_reset(request):
             [username],
             context=context,
             send_copy_to_admin=False)
-    return Response(None, status=status.HTTP_201_CREATED)
+    return Response(dict(), status=status.HTTP_201_CREATED)
 
 
 @api_view(['POST'])
@@ -132,7 +132,7 @@ def password_reset_confirm(request, uidb64, token):
     if user is not None and default_token_generator.check_token(user, token):
         user.set_password(serializer.validated_data.get('password'))
         user.save()
-    return Response(None, status=status.HTTP_201_CREATED)
+    return Response({}, status=status.HTTP_201_CREATED)
 
 
 class OfferViewSet(viewsets.ModelViewSet):
@@ -174,4 +174,4 @@ class OrganizationViewSet(viewsets.ModelViewSet):
             ],
             serializer.validated_data,
         )
-        return Response(data=True, status=status.HTTP_201_CREATED)
+        return Response({}, status=status.HTTP_201_CREATED)

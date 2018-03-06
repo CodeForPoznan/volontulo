@@ -15,7 +15,8 @@ export class OrganizationsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.organizations$ = this.organizationService.getOrganizations();
+    this.organizations$ = this.organizationService.organizations$;
+    this.organizationService.getOrganizations();
   }
 
   getOrganizationViewUrl(organization: Organization): string {
