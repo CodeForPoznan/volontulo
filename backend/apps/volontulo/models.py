@@ -47,7 +47,7 @@ def upload_to_profiles(_, filename):
 
 class Organization(models.Model):
     """Model that handles ogranizations/institutions."""
-    name = models.CharField(max_length=150)
+    name = models.CharField(max_length=150, db_index=True)
     address = models.CharField(max_length=150)
     description = models.TextField()
 

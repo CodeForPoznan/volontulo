@@ -42,7 +42,8 @@ INSTALLED_APPS = (
     'cookielaw',
     'rest_framework',
     'apps.volontulo',
-    'raven.contrib.django.raven_compat'
+    'raven.contrib.django.raven_compat',
+    'django_filters'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -101,6 +102,9 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PARSER_CLASSES': (
         'djangorestframework_camel_case.parser.CamelCaseJSONParser',
+    ),
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
     ),
 }
 
