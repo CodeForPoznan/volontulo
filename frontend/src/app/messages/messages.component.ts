@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../../environments/environment';
+import { WindowService } from '../window.service';
 
 interface Message {
   message: string;
@@ -18,10 +19,12 @@ export class MessagesComponent {
   messages$: Observable<Message[]>;
   showMessages = true;
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+        @Inject(WindowService) private window: any) {
     this.messages$ = this.http.get<Message[]>(
       `${environment.apiRoot}/messages/`).map(response => {
-      setTimeout(() => this.showMessages = false, 25000);
+      window.setTimeout(() => this.showMessages = false, 25000);
       return response.map(message => {
         message.showMessage = true;
         return message;
