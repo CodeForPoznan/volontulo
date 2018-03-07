@@ -127,3 +127,9 @@ class UsernameSerializer(serializers.Serializer):
 class PasswordSerializer(serializers.Serializer):
     """Serializer for password reset"""
     password = CharField(required=True, min_length=2, max_length=150)
+
+
+class MessageSerializer(serializers.Serializer):
+    """Serializer for messages from Django contrib."""
+    message = CharField(required=True)
+    type = CharField(required=True, source='level_tag')
