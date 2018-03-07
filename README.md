@@ -46,3 +46,16 @@ Working agreement:
 ## Responsive design breakpoints
 
 Angular implementation use extensively Bootstrap 4 - we will comply with [standard Bootstrap 4 breakpoints described on its website](https://getbootstrap.com/docs/4.0/layout/overview/#responsive-breakpoints).
+
+## Running tests locally
+
+In order to run tests locally, execute one of the following commands:
+
+```bash
+make test_all  # backend and frontend tests
+make test_backend  # backend tests + linter
+make test_frontend  # frontend tests
+```
+
+They will run docker image from the corresponding service.
+It will run in one-off mode but failed tests will leave a container behind - remember to clean it from time to time.

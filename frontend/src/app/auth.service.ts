@@ -96,4 +96,12 @@ export class AuthService {
           this.confirmResetPasswordEvent.next({ result: 'failure', message: err });
         });
   }
+
+  logout() {
+    this.http.post<any>(this.logoutUrl, {})
+      .subscribe(_ => {
+        this.changeUserEvent.next(null);
+        this.router.navigate(['/']);
+      });
+  }
 }

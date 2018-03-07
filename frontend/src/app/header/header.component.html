@@ -19,8 +19,8 @@
               </div>
             </div>
           </li>
-          <li class="nav-item">
-            <a href="{{ djangoRoot }}/logout" class="btn btn-info my-2 my-sm-0">Wyloguj</a>
+          <li class="nav-item logout">
+            <a (click)="logout()" class="btn btn-info my-2 my-sm-0">Wyloguj</a>
           </li>
         </ng-container>
         <ng-template #anonymousBlock>

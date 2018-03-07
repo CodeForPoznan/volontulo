@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'volontulo-header',
   templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
 
@@ -15,5 +16,9 @@ export class HeaderComponent {
 
   constructor (private authService: AuthService) {
     this.currentUser$ = this.authService.user$;
+  }
+
+  public logout() {
+    this.authService.logout();
   }
 }
