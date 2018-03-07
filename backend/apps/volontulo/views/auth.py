@@ -93,10 +93,6 @@ class Register(View):
         # sending email to user:
         send_mail(request, 'registration', [user.email], context=ctx)
 
-        # automatically login new user:
-        user = auth.authenticate(username=username, password=password)
-        auth.login(request, user)
-
         # show info about successful creation of new user and redirect to
         # homepage:
         messages.success(
