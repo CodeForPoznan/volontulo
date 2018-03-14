@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../environments/environment';
@@ -18,16 +19,14 @@ export class AuthService {
   private resetPasswordUrl = `${environment.apiRoot}/password-reset`;
 
   private changeUserEvent = new BehaviorSubject<User | null>(null);
-  private loginEvent = new BehaviorSubject<SuccessOrFailureAction | null>(null);
-  private logoutEvent = new BehaviorSubject<SuccessOrFailureAction | null>(null);
-  private resetPasswordEvent = new BehaviorSubject<SuccessOrFailureAction | null>(null);
-  private confirmResetPasswordEvent = new BehaviorSubject<SuccessOrFailureAction | null>(null);
+  private loginEvent = new Subject<SuccessOrFailureAction>();
+  private resetPasswordEvent = new Subject<SuccessOrFailureAction>();
+  private confirmResetPasswordEvent = new Subject<SuccessOrFailureAction>();
 
   public user$: Observable<User | null> = this.changeUserEvent.asObservable();
-  public login$: Observable<SuccessOrFailureAction | null> = this.loginEvent.asObservable();
-  public logout$: Observable<SuccessOrFailureAction | null> = this.logoutEvent.asObservable();
-  public resetPassword$: Observable<SuccessOrFailureAction | null> = this.resetPasswordEvent.asObservable();
-  public confirmResetPassword$: Observable<SuccessOrFailureAction | null> = this.confirmResetPasswordEvent.asObservable();
+  public login$: Observable<SuccessOrFailureAction> = this.loginEvent.asObservable();
+  public resetPassword$: Observable<SuccessOrFailureAction> = this.resetPasswordEvent.asObservable();
+  public confirmResetPassword$: Observable<SuccessOrFailureAction> = this.confirmResetPasswordEvent.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -48,11 +47,11 @@ export class AuthService {
       .subscribe(
         user => {
           this.changeUserEvent.next(user);
-          this.loginEvent.next({ result: 'success'});
+          this.loginEvent.next({ success: true });
           this.router.navigate(['']);
         },
         err => {
-          this.loginEvent.next({ result: 'failure', message: err });
+          this.loginEvent.next({ success: false, message: err });
         }
       );
   }
@@ -63,17 +62,17 @@ export class AuthService {
       .subscribe(
         response => {
           if (response.status === 201) {
-            this.resetPasswordEvent.next({ result: 'success' });
+            this.resetPasswordEvent.next({ success: true });
           } else {
             this.resetPasswordEvent.next(
               {
-                result: 'failure',
-                message: `Backend return http code other than 201: ${ response.status }`
+                success: false,
+                message: `Backend return http code other than 201: ${response.status}`
               });
           }
         },
         err => {
-          this.resetPasswordEvent.next({ result: 'failure', message: err });
+          this.resetPasswordEvent.next({ success: false, message: err });
         });
   }
 
@@ -83,22 +82,22 @@ export class AuthService {
       .subscribe(
         response => {
           if (response.status === 201) {
-            this.confirmResetPasswordEvent.next({ result: 'success' });
+            this.confirmResetPasswordEvent.next({ success: true });
           } else {
             this.confirmResetPasswordEvent.next(
               {
-                result: 'failure',
-                message: `Backend return http code other than 201: ${ response.status }`
+                success: false,
+                message: `Backend return http code other than 201: ${response.status}`
               });
           }
         },
         err => {
-          this.confirmResetPasswordEvent.next({ result: 'failure', message: err });
+          this.confirmResetPasswordEvent.next({ success: false, message: err });
         });
   }
 
   logout() {
-    this.http.post<any>(this.logoutUrl, {})
+    this.http.post(this.logoutUrl, {})
       .subscribe(_ => {
         this.changeUserEvent.next(null);
         this.router.navigate(['/']);

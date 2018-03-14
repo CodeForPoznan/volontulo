@@ -2,6 +2,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 
 import { Organization, OrganizationContactPayload } from './organization.model';
@@ -12,13 +13,13 @@ import { environment } from '../../environments/environment';
 export class OrganizationService {
   private url = `${environment.apiRoot}/organizations/`;
 
-  private contactStatusEvent = new BehaviorSubject<ContactStatus | null>(null);
+  private contactStatusEvent = new Subject<ContactStatus>();
   private organizationEvent = new BehaviorSubject<Organization | null>(null);
-  private organizationsEvent = new BehaviorSubject<Organization[] | null>(null);
+  private organizationsEvent = new Subject<Organization[]>();
 
-  public contactStatus$: Observable<ContactStatus | null> = this.contactStatusEvent.asObservable();
+  public contactStatus$: Observable<ContactStatus> = this.contactStatusEvent.asObservable();
   public organization$: Observable<Organization | null> = this.organizationEvent.asObservable();
-  public organizations$: Observable<Organization[] | null> = this.organizationsEvent.asObservable();
+  public organizations$: Observable<Organization[]> = this.organizationsEvent.asObservable();
 
   constructor(private http: HttpClient) { }
 

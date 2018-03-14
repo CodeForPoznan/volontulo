@@ -22,8 +22,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.loginError$ = this.authService.login$.pipe(
-      skip(1),
-      filter(action => action !== null && action.result !==  'success'),
+      filter(action => !action.success),
     );
   }
 

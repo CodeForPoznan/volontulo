@@ -17,9 +17,7 @@ export class PasswordResetComponent implements OnInit {
 
   public ngOnInit() {
     this.authService.resetPassword$.pipe(
-      skip(1),
-      filter(action => action !== null),
-      filter(action => action.result === 'success'),
+      filter(action => action.success),
     ).subscribe(action => {
       this.alertSuccessVisible = true;
       this.resetForm.reset();

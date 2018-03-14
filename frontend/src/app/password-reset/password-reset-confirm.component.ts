@@ -35,9 +35,7 @@ export class PasswordResetConfirmComponent implements OnInit {
     });
 
     this.authService.confirmResetPassword$.pipe(
-      skip(1),
-      filter(action => action !== null),
-      filter((action: SuccessOrFailureAction) => action.result === 'success'),
+      filter((action: SuccessOrFailureAction) => action.success),
     ).subscribe(action => {
       this.router.navigate(['login'])
     });
