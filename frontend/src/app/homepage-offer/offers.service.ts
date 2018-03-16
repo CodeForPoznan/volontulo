@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../../environments/environment';
+import { loadDefaultImage } from './offer.utils';
 import { Offer } from './offers.model';
 
 
@@ -16,19 +17,12 @@ export class OffersService {
 
   getOffers(): Observable<Offer[]> {
     return this.http.get<Offer[]>(this.url)
-      .map(offers => offers.map(offer => this.loadDefaultImage(offer)));
+      .map(offers => offers.map(offer => loadDefaultImage(offer)));
   }
 
   getOffer(id: number): Observable<Offer> {
     return this.http.get<Offer>(`${this.url}${id}/`)
-      .map(offer => this.loadDefaultImage(offer));
-  }
-
-  loadDefaultImage(offer: Offer): Offer {
-    if (!offer.image) {
-        offer.image = 'assets/img/banner/volontulo_baner.png';
-    }
-    return offer;
+      .map(offer => loadDefaultImage(offer));
   }
 
   getJoinViewUrl(offer: Offer): string {

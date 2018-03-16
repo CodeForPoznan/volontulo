@@ -172,10 +172,12 @@ def initialize_administrator(
 
 def test_offer_list_fields(self, offer):
     """Test read's fields of offers REST API endpoint."""
+    self.assertIsInstance(offer.pop('action_status'), str)
     self.assertIsInstance(offer.pop('finished_at'), str)
     self.assertIsInstance(offer.pop('id'), int)
     self.assertIsInstance(offer.pop('image'), (str, type(None)))
     self.assertIsInstance(offer.pop('location'), str)
+    self.assertIsInstance(offer.pop('offer_status'), str)
     self.assertIsInstance(offer.pop('slug'), str)
     self.assertIsInstance(offer.pop('started_at'), str)
     self.assertIsInstance(offer.pop('title'), str)

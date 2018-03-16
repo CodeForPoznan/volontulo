@@ -6,6 +6,7 @@ import { Organization, OrganizationContactPayload } from './organization.model';
 import { OrganizationService } from './organization.service';
 import { ContactStatus } from './organization.interfaces';
 import { AuthService } from '../auth.service';
+import { Offer } from '../homepage-offer/offers.model';
 import { User } from '../user';
 import { combineLatest, skip, take } from 'rxjs/operators';
 
@@ -19,6 +20,7 @@ export class OrganizationComponent implements OnInit {
   user$: Observable<User | null>;
   organization$: Observable<Organization>;
   contactStatus$: Observable<ContactStatus>;
+  offers$: Observable<Offer[]>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -28,11 +30,14 @@ export class OrganizationComponent implements OnInit {
 
   ngOnInit() {
     this.user$ = this.authService.user$;
-
     this.organization$ = this.organizationService.organization$;
+    this.offers$ = this.organizationService.offers$;
 
     this.activatedRoute.params.subscribe(
-      params => this.organizationService.getOrganization(params.organizationId)
+      params => {
+        this.organizationService.getOrganization(params.organizationId);
+        this.organizationService.getOffersForOrganization(params.organizationId);
+      }
     );
 
     this.isUserOrgMember$ = this.organization$

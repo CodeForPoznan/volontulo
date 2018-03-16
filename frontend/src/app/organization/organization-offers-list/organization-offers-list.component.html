@@ -1,0 +1,49 @@
+<div class="container" *ngIf="offers.length; else noOffers;">
+  <table class="table table-striped mt-3">
+    <tr>
+      <th></th>
+      <th>Tytuł</th>
+      <th>Miejsce</th>
+      <th>Czas obowiązywania</th>
+      <th>Status</th>
+      <th></th>
+    </tr>
+    <tr *ngFor="let offer of offers">
+      <td>
+        <a class="volontulo-link-circle" [routerLink]="['/offers', offer.slug, offer.id]"
+            [style.backgroundImage]="'url(' + offer.image +')'">
+        </a>
+      </td>
+      <td> <a [routerLink]="['/offers', offer.slug, offer.id]">{{ offer.title }}</a></td>
+      <td> {{ offer.location }}</td>
+      <td>
+        Od {{ offer.startedAt ? (offer.startedAt | date: 'dd MMMM yyyy, hh:mm') : 'teraz' }}
+        do {{ offer.finishedAt ? (offer.finishedAt | date: 'dd MMMM yyyy, hh:mm') : 'ustalenia' }}
+      </td>
+      <td>
+        <span class="badge badge-warning">{{ offer.offerStatus }}</span>
+        <br>
+        <span class="badge badge-info">{{ offer.actionStatus }}</span>
+      </td>
+      <td>
+        <a
+          *ngIf="!isUserOrgMember && offer.actionStatus !== 'finished'"
+          [routerLink]="['/offers', offer.slug, offer.id]"
+          class="btn btn-primary"
+        >
+          Włącz się
+        </a>
+        <a
+          *ngIf="isUserOrgMember"
+          href="{{ djangoRoot }}/offers/{{ offer.slug }}/{{ offer.id }}/edit"
+          class="btn btn-info"
+        >
+          Edytuj
+        </a>
+      </td>
+    </tr>
+  </table>
+</div>
+<ng-template #noOffers>
+<div class="container mt-3">Ta organizacja nie utworzyła jeszcze żadnych ofert.</div>
+</ng-template>

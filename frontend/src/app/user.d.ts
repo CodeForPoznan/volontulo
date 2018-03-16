@@ -1,7 +1,7 @@
 import { Organization } from './organization/organization.model';
 
 export interface User {
-  is_administrator: boolean,
+  isAdministrator: boolean,
   organizations: Array<Organization>,
   username: string,
 }

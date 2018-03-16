@@ -1,0 +1,14 @@
+@import '~bootstrap/scss/bootstrap-grid';
+
+.volontulo-link-circle {
+  display: block;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: 50% 50%;
+}
+
+td:first-child {
+  vertical-align: middle;
+}

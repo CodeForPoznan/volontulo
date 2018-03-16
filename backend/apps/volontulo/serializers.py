@@ -46,10 +46,12 @@ class OfferSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Offer
         fields = (
+            'action_status',
             'finished_at',
             'id',
             'image',
             'location',
+            'offer_status',
             'organization',
             'slug',
             'started_at',

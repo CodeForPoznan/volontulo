@@ -39,6 +39,7 @@ import { OfficeComponent } from './static/office/office.component';
 import { FaqVolunteersComponent } from './static/faq-volunteers.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { PasswordResetConfirmComponent } from './password-reset/password-reset-confirm.component';
+import { OrganizationOffersListComponent } from './organization/organization-offers-list/organization-offers-list.component';
 
 Raven.config(environment.sentryDSN).install();
 
@@ -131,6 +132,7 @@ registerLocaleData(localePl);
     PasswordResetComponent,
     PasswordResetConfirmComponent,
     MessagesComponent,
+    OrganizationOffersListComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'volontulo' }),
