@@ -3,10 +3,12 @@
 import random
 
 from django.core.management.base import BaseCommand
+from factory.django import ImageField
 from tqdm import tqdm
 
 from apps.volontulo.factories import OfferFactory
 from apps.volontulo.factories import OrganizationFactory
+from apps.volontulo.factories import placeimg_com_download
 from apps.volontulo.factories import UserProfileFactory
 from apps.volontulo.models import Offer
 from apps.volontulo.models import Organization
@@ -30,7 +32,10 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS('Creating 50 offers'))
         for _ in tqdm(range(50)):
             OfferFactory.create(
-                organization=random.choice(Organization.objects.all())
+                organization=random.choice(Organization.objects.all()),
+                image__path=ImageField(
+                    from_func=placeimg_com_download(1000, 400, 'any')
+                )
             )
 
         self.stdout.write(self.style.SUCCESS('Creating 150 volunteers'))

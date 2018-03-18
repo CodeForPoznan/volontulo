@@ -5,6 +5,7 @@
 """
 
 import datetime
+import os
 
 from django.contrib.auth import get_user_model
 from django.utils import timezone
@@ -161,7 +162,10 @@ class OfferImageFactory(factory.DjangoModelFactory):
         model = OfferImage
 
     is_main = True
-    path = ImageField(from_func=placeimg_com_download(1000, 400, 'any'))
+    path = ImageField(from_path=os.path.join(
+        os.path.dirname(__file__),
+        'frontend/img/volontulo_baner.png'
+    ))
 
 
 class OfferFactory(factory.DjangoModelFactory):
