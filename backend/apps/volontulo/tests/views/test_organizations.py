@@ -6,7 +6,6 @@
 from django.test import Client
 from django.test import TestCase
 
-from apps.volontulo.models import Organization
 from apps.volontulo.tests import common
 
 
@@ -27,15 +26,6 @@ class TestOrganizations(TestCase):
     def setUp(self):
         """Set up each test."""
         self.client = Client()
-
-    def test__organization_list(self):
-        """Test getting organization list as anonymous."""
-        response = self.client.get('/o/organizations', follow=True)
-
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'organizations/list.html')
-        self.assertIn('organizations', response.context)
-        self.assertEqual(Organization.objects.all().count(), 2)
 
     def test__ensure_status_is_displayed_in_profile_view(self):
         """Test if offer status is displayed in a profile view."""

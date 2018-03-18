@@ -16,7 +16,7 @@
             <ul class="nav-list list-unstyled">
                 <li><a href="{% url 'register' %}">Załóż konto</a></li>
                 <li><a href="{% url 'offers_create' %}">Dodaj nową ofertę</a></li>
-                <li><a href="{% url 'organizations_list' %}">Lista organizacji i instytucji</a></li>
+                <li><a href="{{ ANGULAR_ROOT }}/organizations">Lista organizacji i instytucji</a></li>
                 <li><a href="{{ ANGULAR_ROOT }}/faq-organizations">FAQ dla organizacji i instytucji</a></li>
                 <li><a href="{{ ANGULAR_ROOT }}/office">Przyjdź na dyżur</a></li>
             </ul>
@@ -27,7 +27,7 @@
                  <li><a href="{% url 'register' %}">Załóż konto</a></li>
                  <li><a href="{% url 'offers_list' %}">Lista aktualnych ofert</a></li>
                  <li><a href="{% url 'offers_archived' %}">Archiwum ofert</a></li>
-                 <li><a href="{% url 'organizations_list' %}">Lista organizacji i instytucji</a></li>
+                 <li><a href="{{ ANGULAR_ROOT }}/organizations">Lista organizacji i instytucji</a></li>
                  <li><a href="{{ ANGULAR_ROOT }}/faq-volunteers">FAQ dla wolontariuszy</a></li>
                  <li><a href="{{ ANGULAR_ROOT }}/office">Przyjdź na dyżur</a></li>
             </ul>

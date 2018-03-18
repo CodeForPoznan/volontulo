@@ -111,11 +111,6 @@ urlpatterns = [
 
     # organizations' namespace:
     url(
-        r'^o/organizations$',
-        orgs_views.organizations_list,
-        name='organizations_list'
-    ),
-    url(
         r'^o/organizations/create$',
         orgs_views.OrganizationsCreate.as_view(),
         name='organizations_create',

@@ -22,19 +22,6 @@ from apps.volontulo.models import UserProfile
 from apps.volontulo.utils import correct_slug
 
 
-def organizations_list(request):
-    """View responsible for listing all organizations.
-
-    :param request: WSGIRequest instance
-    """
-    organizations = Organization.objects.all()
-    return render(
-        request,
-        "organizations/list.html",
-        {'organizations': organizations},
-    )
-
-
 class OrganizationsCreate(View):
     """Class view supporting creation of new organization."""
 
