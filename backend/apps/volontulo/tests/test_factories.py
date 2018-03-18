@@ -269,8 +269,9 @@ class PlaceimComDownloadTestCase(TestCase):
 
     """Test factories helper responsible for downloading random images."""
 
+    @staticmethod
     @mock.patch('requests.get')
-    def test_external_url_request(self, get_mock):
+    def test_external_url_request(get_mock):
         """Test if proper url is requested."""
         image_from_function = placeimg_com_download(1000, 400, 'any')
 
