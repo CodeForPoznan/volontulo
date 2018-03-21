@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 .. module:: test_update
 """
@@ -17,16 +15,14 @@ class _TestOffersUpdateAPIView(TestOffersCommons, APITestCase):
     def setUp(self):
         """Set up each test."""
         super(_TestOffersUpdateAPIView, self).setUp()
-        self.offer_payload = (
-            b'{"finishedAt":"2105-11-28T12:13:14Z",'
-            b'"image":null,'
-            b'"location":"",'
-            b'"organization":"http://testserver/api/organizations/1/",'
-            b'"slug":"volontulo-offer",'
-            b'"startedAt":"2105-10-24T09:10:11Z",'
-            b'"title":"volontulo offer",'
-            b'"url":"http://testserver/api/offers/1/"}'
-        )
+        self.offer_payload = b"""{
+            "benefits": "offer benefits",
+            "description": "offer description",
+            "location": "offer location",
+            "organization": {"id": %d},
+            "timeCommitment": "offer time commitment",
+            "title": "offer title"
+        }""" % self.organization.id
 
 
 class TestAdminUserOffersUpdateAPIView(_TestOffersUpdateAPIView):
@@ -41,15 +37,15 @@ class TestAdminUserOffersUpdateAPIView(_TestOffersUpdateAPIView):
     def test_offer_update_status(self):
         """Test offer's update status for admin user.
 
-        API for now is read-only.
+        Admin user without connected organization is allowed to edit any offer.
         """
         response = self.client.put(
-            '/api/offers/1/',
+            '/api/offers/{}/'.format(self.active_offer.id),
             self.offer_payload,
             content_type='application/json',
         )
 
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
 class TestOrganizationUserOffersUpdateAPIView(_TestOffersUpdateAPIView):
@@ -67,15 +63,15 @@ class TestOrganizationUserOffersUpdateAPIView(_TestOffersUpdateAPIView):
     def test_offer_update_status(self):
         """Test offer's update status for user with organization.
 
-        API for now is read-only.
+        Regular user with connected organization is allowed to edit its offer.
         """
         response = self.client.put(
-            '/api/offers/1/',
+            '/api/offers/{}/'.format(self.active_offer.id),
             self.offer_payload,
             content_type='application/json',
         )
 
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
 class TestRegularUserOffersUpdateAPIView(_TestOffersUpdateAPIView):
@@ -93,10 +89,11 @@ class TestRegularUserOffersUpdateAPIView(_TestOffersUpdateAPIView):
     def test_offer_update_status(self):
         """Test offer's update status for regular user.
 
-        API for now is read-only.
+        Regular user without connected organization is not allowed to edit
+        offer.
         """
         response = self.client.put(
-            '/api/offers/1/',
+            '/api/offers/{}/'.format(self.active_offer.id),
             self.offer_payload,
             content_type='application/json',
         )
@@ -111,10 +108,10 @@ class TestAnonymousUserOffersUpdateAPIView(_TestOffersUpdateAPIView):
     def test_offer_update_status(self):
         """Test offer's update status for anonymous user.
 
-        API for now is read-only.
+        Anonymous user is not allowed to edit offer.
         """
         response = self.client.put(
-            '/api/offers/1/',
+            '/api/offers/{}/'.format(self.active_offer.id),
             self.offer_payload,
             content_type='application/json',
         )

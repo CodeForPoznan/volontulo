@@ -35,8 +35,7 @@ class TestAdminUserOffersListAPIView(_TestOffersListAPIView):
     def test_offer_list_length(self):
         """Test offers list length for admin user.
 
-        Because we set up only 2 unpublished offers, they will be visible only
-        for admin user.
+        All existing offers are visible for admin user.
         """
         response = self.client.get('/api/offers/')
 
@@ -59,13 +58,13 @@ class TestOrganizationUserOffersListAPIView(_TestOffersListAPIView):
     def test_offer_list_length(self):
         """Test offers list length for user with organization.
 
-        Because we set up only 2 unpublished offers, they will be visible only
-        for admin user.
+        Because we set up only 1 unpublished offer create for user's
+        organization and 1 published, user with organization will see 2 offers.
         """
         response = self.client.get('/api/offers/')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 0)
+        self.assertEqual(len(response.data), 2)
 
 
 class TestRegularUserOffersListAPIView(_TestOffersListAPIView):
@@ -83,13 +82,13 @@ class TestRegularUserOffersListAPIView(_TestOffersListAPIView):
     def test_offer_list_length(self):
         """Test offers list length for regular user.
 
-        Because we set up only 2 unpublished offers, they will be visible only
-        for admin user.
+        Because we set up only 1 unpublished offer and 1 published, only one
+        will be visible for regular user.
         """
         response = self.client.get('/api/offers/')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 0)
+        self.assertEqual(len(response.data), 1)
 
 
 class TestAnonymousUserOffersListAPIView(_TestOffersListAPIView):
@@ -99,10 +98,10 @@ class TestAnonymousUserOffersListAPIView(_TestOffersListAPIView):
     def test_offer_list_length(self):
         """Test offers list length for anonymous user.
 
-        Because we set up only 2 unpublished offers, they will be visible only
-        for admin user.
+        Because we set up only 1 unpublished offer and 1 published, only one
+        will be visible for anonymous user.
         """
         response = self.client.get('/api/offers/')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 0)
+        self.assertEqual(len(response.data), 1)

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 .. module:: test_read
 """
@@ -7,7 +5,6 @@
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from apps.volontulo.models import Offer
 from apps.volontulo.tests.views.offers.commons import TestOffersCommons
 from apps.volontulo.tests import common
 
@@ -33,13 +30,12 @@ class TestAdminUserOffersReadAPIView(_TestOffersReadAPIView):
     def test_offer_read_status(self):
         """Test offer's read status for admin user.
 
-        Because we set up only 2 unpublished offers, offer will be visible only
-        for admin user.
+        All existing offers are visible for admin user.
         """
-        offer = Offer.objects.first()
-        response = self.client.get('/api/offers/{id}/'.format(id=offer.id))
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self._test_offer_read_fields(response.data)
+        for offer in (self.inactive_offer, self.active_offer):
+            response = self.client.get('/api/offers/{id}/'.format(id=offer.id))
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+            self._test_offer_read_fields(response.data)
 
 
 class TestOrganizationUserOffersReadAPIView(_TestOffersReadAPIView):
@@ -57,12 +53,13 @@ class TestOrganizationUserOffersReadAPIView(_TestOffersReadAPIView):
     def test_offer_read_status(self):
         """Test offer's read status for user with organization.
 
-        Because we set up only 2 unpublished offers, offer will be visible only
-        for admin user.
+        Because we set up only 1 published offers and 1 unpublished in user
+        organization, they all will be visible for him/her.
         """
-        response = self.client.get('/api/offers/1/')
-
-        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        for offer in (self.inactive_offer, self.active_offer):
+            response = self.client.get('/api/offers/{id}/'.format(id=offer.id))
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+            self._test_offer_read_fields(response.data)
 
 
 class TestRegularUserOffersReadAPIView(_TestOffersReadAPIView):
@@ -77,14 +74,17 @@ class TestRegularUserOffersReadAPIView(_TestOffersReadAPIView):
             password='123volunteer'
         )
 
-    def test_offer_read_status(self):
-        """Test offer's read status for regular user.
+    def test_published_offer_read_status(self):
+        """Test published offer's read status for regular user."""
+        response = self.client.get(
+            '/api/offers/{id}/'.format(id=self.active_offer.id))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self._test_offer_read_fields(response.data)
 
-        Because we set up only 2 unpublished offers, offer will be visible only
-        for admin user.
-        """
-        response = self.client.get('/api/offers/1/')
-
+    def test_unpublished_offer_read_status(self):
+        """Test unpublished offer's read status for regular user."""
+        response = self.client.get(
+            '/api/offers/{id}/'.format(id=self.inactive_offer.id))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
@@ -92,12 +92,15 @@ class TestAnonymousUserOffersReadAPIView(_TestOffersReadAPIView):
 
     """Tests for REST API's read offer view for anonymous user."""
 
-    def test_offer_read_status(self):
-        """Test offer's read status for anonymous user.
+    def test_published_offer_read_status(self):
+        """Test published offer's read status for anonymous user."""
+        response = self.client.get(
+            '/api/offers/{id}/'.format(id=self.active_offer.id))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self._test_offer_read_fields(response.data)
 
-        Because we set up only 2 unpublished offers, offer will be visible only
-        for admin user.
-        """
-        response = self.client.get('/api/offers/1/')
-
+    def test_unpublished_offer_read_status(self):
+        """Test unpublished offer's read status for anonymous user."""
+        response = self.client.get(
+            '/api/offers/{id}/'.format(id=self.inactive_offer.id))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

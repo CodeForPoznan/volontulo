@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.messages import get_messages
 from django.contrib.sites.shortcuts import get_current_site
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -148,10 +149,12 @@ def messages_view(request):
     )
 
 
+@authentication_classes((CsrfExemptSessionAuthentication,))
 class OfferViewSet(viewsets.ModelViewSet):
 
     """REST API offers viewset."""
 
+    queryset = models.Offer.objects.order_by('weight')
     serializer_class = serializers.OfferSerializer
     permission_classes = (permissions.OfferPermission,)
     filter_backends = (DjangoFilterBackend,)
@@ -164,13 +167,21 @@ class OfferViewSet(viewsets.ModelViewSet):
         'requirements',
         'started_at',
         'recruitment_end_date'
-        )
+    )
 
     def get_queryset(self):
         """Queryset depends on user role."""
+        qs = super(OfferViewSet, self).get_queryset()
+
         if logged_as_admin(self.request):
-            return models.Offer.objects.get_for_administrator()
-        return models.Offer.objects.get_weightened()
+            return qs
+        user = self.request.user
+        if user.is_authenticated():
+            return qs.filter(
+                Q(offer_status='published') |
+                Q(organization__in=user.userprofile.organizations.all())
+            )
+        return qs.filter(offer_status='published')
 
 
 class OrganizationViewSet(viewsets.ModelViewSet):

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 .. module:: test_create
 """
@@ -17,16 +15,14 @@ class _TestOffersCreateAPIView(TestOffersCommons, APITestCase):
     def setUp(self):
         """Set up each test."""
         super(_TestOffersCreateAPIView, self).setUp()
-        self.offer_payload = (
-            b'{"finishedAt":"2105-11-28T12:13:14Z",'
-            b'"image":null,'
-            b'"location":"",'
-            b'"organization":"http://testserver/api/organizations/1/",'
-            b'"slug":"volontulo-offer",'
-            b'"startedAt":"2105-10-24T09:10:11Z",'
-            b'"title":"volontulo offer",'
-            b'"url":"http://testserver/api/offers/1/"}'
-        )
+        self.offer_payload = b"""{
+            "benefits": "offer benefits",
+            "description": "offer description",
+            "location": "offer location",
+            "organization": {"id": %d},
+            "timeCommitment": "offer time commitment",
+            "title": "offer title"
+        }""" % self.organization.id
 
 
 class TestAdminUserOffersCreateAPIView(_TestOffersCreateAPIView):
@@ -41,7 +37,8 @@ class TestAdminUserOffersCreateAPIView(_TestOffersCreateAPIView):
     def test_offer_create_status(self):
         """Test offer's create status for admin user.
 
-        API for now is read-only.
+        Admin user without connected organization is not allowed to create
+        offer.
         """
         response = self.client.post(
             '/api/offers/',
@@ -67,7 +64,8 @@ class TestOrganizationUserOffersCreateAPIView(_TestOffersCreateAPIView):
     def test_offer_create_status(self):
         """Test offer's create status for user with organization.
 
-        API for now is read-only.
+        Regular user with connected organization is allowed to create offer for
+        it.
         """
         response = self.client.post(
             '/api/offers/',
@@ -75,7 +73,7 @@ class TestOrganizationUserOffersCreateAPIView(_TestOffersCreateAPIView):
             content_type='application/json',
         )
 
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
 
 class TestRegularUserOffersCreateAPIView(_TestOffersCreateAPIView):
@@ -93,7 +91,8 @@ class TestRegularUserOffersCreateAPIView(_TestOffersCreateAPIView):
     def test_offer_create_status(self):
         """Test offer's create status for regular user.
 
-        API for now is read-only.
+        Regular user without connected organization is not allowed to create
+        offer.
         """
         response = self.client.post(
             '/api/offers/',
@@ -111,7 +110,7 @@ class TestAnonymousUserOffersCreateAPIView(_TestOffersCreateAPIView):
     def test_offer_create_status(self):
         """Test offer's create status for anonymous user.
 
-        API for now is read-only.
+        Anonymous user is not allowed to create offer.
         """
         response = self.client.post(
             '/api/offers/',

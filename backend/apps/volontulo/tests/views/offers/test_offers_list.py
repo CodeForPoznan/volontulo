@@ -28,7 +28,7 @@ class TestOffersList(TestOffersCommons, TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'offers/offers_list.html')
         self.assertIn('offers', response.context)
-        self.assertEqual(len(response.context['offers']), 0)
+        self.assertEqual(len(response.context['offers']), 1)
 
     def test_offer_list_for_anonymous_user(self):
         """Test offers' list for anonymus user."""
