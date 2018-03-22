@@ -26,27 +26,27 @@ urlpatterns = [
     # api:
     url(r'^api/', include(router.urls)),
     url(
-        r'^api/login',
+        r'^api/login/$',
         api_views.login_view,
         name='api_login'
     ),
     url(
-        r'^api/logout',
+        r'^api/logout/$',
         api_views.logout_view,
         name='api_logout'
     ),
     url(
-        r'^api/current-user',
+        r'^api/current-user/$',
         api_views.current_user,
         name='current_user'
     ),
     url(
-        r'^api/password-reset$',
+        r'^api/password-reset/$',
         api_views.password_reset,
         name='password_reset'
     ),
     url(
-        r'^api/password-reset/(?P<uidb64>[0-9A-Za-z]+)/(?P<token>.+)$',
+        r'^api/password-reset/(?P<uidb64>[0-9A-Za-z]+)/(?P<token>.+)/$',
         api_views.password_reset_confirm,
         name='password_reset_confirm'
     ),

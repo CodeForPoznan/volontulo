@@ -13,10 +13,10 @@ import { SuccessOrFailureAction } from './models';
 
 @Injectable()
 export class AuthService {
-  private currentUserUrl = `${environment.apiRoot}/current-user`;
-  private loginUrl = `${environment.apiRoot}/login`;
-  private logoutUrl = `${environment.apiRoot}/logout`;
-  private resetPasswordUrl = `${environment.apiRoot}/password-reset`;
+  private currentUserUrl = `${environment.apiRoot}/current-user/`;
+  private loginUrl = `${environment.apiRoot}/login/`;
+  private logoutUrl = `${environment.apiRoot}/logout/`;
+  private resetPasswordUrl = `${environment.apiRoot}/password-reset/`;
 
   private changeUserEvent = new BehaviorSubject<User | null>(null);
   private loginEvent = new Subject<SuccessOrFailureAction>();

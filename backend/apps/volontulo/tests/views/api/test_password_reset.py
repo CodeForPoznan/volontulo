@@ -27,7 +27,7 @@ class TestPasswordReset(TestCase):
     def test_password_reset_400_bad_request(self):
         """ Test for sending bad request """
         res = self.client.post(
-            '/api/password-reset',
+            '/api/password-reset/',
             json.dumps({'username': 'You-Know-Who'}),
             content_type='application/json'
         )
@@ -35,13 +35,13 @@ class TestPasswordReset(TestCase):
 
     def test_password_reset_405_if_method_not_allowed(self):
         """ Test for using wrong method """
-        res = self.client.get('/api/password-reset')
+        res = self.client.get('/api/password-reset/')
         self.assertEqual(res.status_code, 405)
 
     def test_password_reset_415_if_incorrect_format(self):
         """ Test for sending username in incorrect format """
         res = self.client.post(
-            '/api/password-reset',
+            '/api/password-reset/',
             {'username': 'you_know_who@slytherin.com'}
         )
         self.assertEqual(res.status_code, 415)
@@ -49,7 +49,7 @@ class TestPasswordReset(TestCase):
     def test_password_reset_201_created(self):
         """ Test for sending username in correct format """
         res = self.client.post(
-            '/api/password-reset',
+            '/api/password-reset/',
             json.dumps({'username': self.user.username}),
             content_type='application/json'
         )
@@ -59,7 +59,7 @@ class TestPasswordReset(TestCase):
     def test_send_email(self, mock_send):
         """ Test for sending email """
         res = self.client.post(
-            '/api/password-reset',
+            '/api/password-reset/',
             json.dumps({'username': self.user.username}),
             content_type='application/json'
         )
@@ -69,7 +69,7 @@ class TestPasswordReset(TestCase):
     def test_password_reset_confirm_400_bad_request(self):
         """ Test for sending incorrect password """
         res = self.client.post(
-            '/api/password-reset/{}/{}'.format(self.uid, self.token),
+            '/api/password-reset/{}/{}/'.format(self.uid, self.token),
             json.dumps({'password': 'Q'}),
             content_type='application/json'
         )
@@ -78,14 +78,14 @@ class TestPasswordReset(TestCase):
     def test_password_reset_confirm_405_if_method_not_allowed(self):
         """ Test for using wrong method """
         res = self.client.get(
-            '/api/password-reset/{}/{}'.format(self.uid, self.token)
+            '/api/password-reset/{}/{}/'.format(self.uid, self.token)
         )
         self.assertEqual(res.status_code, 405)
 
     def test_password_reset_confirm_404(self):
         """ Test for page not found  """
         res = self.client.post(
-            '/api/password-reset/999',
+            '/api/password-reset/999/',
             json.dumps({'password': 'AvadaKedavra'}),
             content_type='application/json')
         self.assertEqual(res.status_code, 404)
@@ -93,7 +93,7 @@ class TestPasswordReset(TestCase):
     def test_password_reset_confirm_201_created(self):
         """ Test for sending password in correct format """
         res = self.client.post(
-            '/api/password-reset/{}/{}'.format(self.uid, self.token),
+            '/api/password-reset/{}/{}/'.format(self.uid, self.token),
             json.dumps({'password': 'AvadaKedavra'}),
             content_type='application/json')
         self.assertEqual(res.status_code, 201)
