@@ -1,0 +1,17 @@
+{
+  "/api/*": {
+    "target": "http://backend:8000",
+    "secure": false,
+    "logLevel": "debug"
+  },
+  "/static/*": {
+    "target": "http://backend:8000",
+    "secure": false,
+    "logLevel": "error"
+  },
+  "/media/*": {
+    "target": "http://backend:8000",
+    "secure": false,
+    "logLevel": "error"
+  }
+}

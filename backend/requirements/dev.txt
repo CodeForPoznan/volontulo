@@ -4,7 +4,6 @@ colorama==0.3.9
 django-coverage==1.2.4
 django-debug-toolbar==1.8
 django-extensions==1.9.1
-django-cors-headers==2.1.0
 factory-boy==2.9.2
 ipdb==0.10.3
 pdbpp==0.9.1
