@@ -1,10 +1,7 @@
-.cookie-law-banner {
-  background: #fff;
-  color: #656D78;
-  font-size: 0.8em;
-  box-shadow: inset 0 -20px 20px -20px rgba(67, 74, 84, 0.1);
-}
+@import "~sass/variables";
 
-.cookie-law-button {
-  margin-left: 10px;
+.cookie-law-banner {
+  color: gray('600');
+  font-size: $font-size-sm;
+  box-shadow: inset 0 -20px 20px -20px rgba(67, 74, 84, 0.1);
 }

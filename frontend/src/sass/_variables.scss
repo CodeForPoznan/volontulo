@@ -1,2 +1,4 @@
 /* Global variables */
-$base-font-size: 16px;
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";

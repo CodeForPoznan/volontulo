@@ -1,14 +1,18 @@
 <div [ngClass]="{'d-none': shouldHide}" class="cookie-law-banner mb-2">
   <div class="container">
     <h6 class="d-none">Informacja o cookies</h6>
-    <p class="py-2 d-flex">
-      Nasza strona zapisuje niewielkie pliki tekstowe, nazywane ciasteczkami (ang. cookies) na Twoim urządzeniu w celu
-      lepszego dostosowania treści oraz dla celów statystycznych. Możesz wyłączyć możliwość ich zapisu, zmieniając
-      ustawienia Twojej przeglądarki. Korzystanie z naszej strony bez zmiany ustawień oznacza zgodę na przechowywanie
-      cookies w Twoim urządzeniu.
-      <button type="button" (click)="acceptCookieLaw()" class="btn btn-info btn-sm align-self-center">
-        Zgadzam się
-      </button>
-    </p>
+    <div class="py-2 d-md-flex">
+      <p class="text-justify text-md-left mb-md-0">
+        Nasza strona zapisuje niewielkie pliki tekstowe, nazywane ciasteczkami (ang. cookies) na Twoim urządzeniu w celu
+        lepszego dostosowania treści oraz dla celów statystycznych. Możesz wyłączyć możliwość ich zapisu, zmieniając
+        ustawienia Twojej przeglądarki. Korzystanie z naszej strony bez zmiany ustawień oznacza zgodę na przechowywanie
+        cookies w Twoim urządzeniu.
+      </p>
+      <div class="d-flex align-items-center justify-content-center">
+        <button type="button" (click)="acceptCookieLaw()" class="btn btn-info btn-sm align-self-center ml-md-3">
+          Zgadzam się
+        </button>
+      </div>
+    </div>
   </div>
 </div>
