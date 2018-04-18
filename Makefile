@@ -1,6 +1,7 @@
 # Test commands
 test_backend:
 	docker-compose run --rm backend python3 manage.py test
+	docker-compose run --rm backend pylint apps
 
 test_frontend:
 	docker-compose run --rm frontend node_modules/.bin/ng test --single-run

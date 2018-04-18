@@ -53,9 +53,6 @@ coverage.xml
 # Django stuff:
 *.log
 
-# Sphinx documentation
-docs/_build/
-
 # PyBuilder
 target/
 
@@ -67,7 +64,6 @@ target/
 backend/apps/volontulo/node_modules/
 backend/apps/volontulo/static/
 backend/media
-backend/static
 
 frontend/node_modules/
 frontend/tmp/

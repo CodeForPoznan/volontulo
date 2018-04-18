@@ -11,17 +11,10 @@ ALLOWED_HOSTS = [
     'backend',
 ]
 
-DEBUG_TOOLBAR_PATCH_SETTINGS = False
-
 INSTALLED_APPS += (
-    'debug_toolbar',
     'django_coverage',
     'django_extensions',
     'django_nose',
-)
-
-MIDDLEWARE_CLASSES += (
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'

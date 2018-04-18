@@ -164,7 +164,7 @@ class OfferImageFactory(factory.DjangoModelFactory):
     is_main = True
     path = ImageField(from_path=os.path.join(
         os.path.dirname(__file__),
-        'frontend/img/volontulo_baner.png'
+        'static/volontulo/img/volontulo_baner.png'
     ))
 
 

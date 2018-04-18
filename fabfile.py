@@ -56,21 +56,12 @@ def update():
     ):
         run('pip install --upgrade -r requirements/base.txt')
 
-    # Gulp frontend refresh:
-    with contextlib.nested(
-        prefix('nvm use {}'.format(NODE_VERSION)),
-        cd('/var/www/volontulo/backend/apps/volontulo'),
-    ):
-        run('npm install .')
-        run('node node_modules/.bin/gulp build')
-
     # Django site refresh:
     with contextlib.nested(
         cd('/var/www/volontulo/backend'),
         prefix('workon volontulo')
     ):
         run('python manage.py migrate --traceback')
-        run('python manage.py collectstatic --traceback --noinput')
 
     # Angular assets refresh:
     with contextlib.nested(
