@@ -1,0 +1,64 @@
+<div class="container">
+  <ngb-alert type="warning" *ngIf="message" (close)="message = ''">
+    {{ message }}
+  </ngb-alert>
+  <h2 class="mb-4">{{ (organization$ | async)?.id ? 'Edytuj' : 'Utwórz' }} organizację {{ (organization$ | async)?.name }}</h2>
+  <form (ngSubmit)="onSubmit()" [formGroup]="createForm">
+    <div class="form-group row">
+      <label for="id_name" class="col-md-1 col-form-label">Nazwa</label>
+      <div class="col-md-4">
+        <input
+          type="text"
+          id="id_name"
+          formControlName="name"
+          class="form-control form-control-lg"
+          [ngClass]="{'is-invalid': isFormInputInvalid('name')}"
+          />
+        <div
+          class="invalid-feedback"
+          *ngIf="isFormInputInvalid('name')">Pole jest wymagane.
+        </div>
+      </div>
+      <label for="id_address" class="col-md-1 col-form-label">Adres</label>
+      <div class="col-md-6">
+        <input
+          type="text"
+          id="id_address"
+          formControlName="address"
+          class="form-control form-control-lg"
+          [ngClass]="{'is-invalid': isFormInputInvalid('address')}"
+          />
+        <div
+          class="invalid-feedback"
+          *ngIf="isFormInputInvalid('address')">Pole jest wymagane.
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-1 col-form-label" for="id_description">Opis</label>
+      <div class="col-md-11">
+        <textarea
+          formControlName="description"
+          id="id_description"
+          class="form-control"
+          [ngClass]="{'is-invalid': isFormInputInvalid('description')}"
+          rows="5"></textarea>
+        <div
+          class="invalid-feedback"
+          *ngIf="isFormInputInvalid('description')">Opis jest wymagany.
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-11 offset-md-1">
+        <button
+          type="submit"
+          name="submit"
+          class="btn btn-primary"
+          [disabled]="createForm.invalid">
+          {{ (organization$ | async)?.id ? 'Aktualizuj' : 'Utwórz' }}
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

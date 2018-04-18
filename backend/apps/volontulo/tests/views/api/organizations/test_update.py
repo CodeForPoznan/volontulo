@@ -17,11 +17,11 @@ class _TestOrganizationsUpdateAPIView(TestOffersCommons, APITestCase):
     def setUp(self):
         """Set up each test."""
         super(_TestOrganizationsUpdateAPIView, self).setUp()
-        self.organization_payload = (
-            b'{"name": "TM",'
-            b'"slug": "tm",'
-            b'"url": "http://localhost:8000/api/organizations/1/"}'
-        )
+        self.organization_payload = b"""{
+            "name": "TM",
+            "description": "Opis",
+            "address": "ul. Koperkowa 7"
+        }"""
 
 
 class TestAdminUserOrganizationsUpdateAPIView(_TestOrganizationsUpdateAPIView):
@@ -39,12 +39,12 @@ class TestAdminUserOrganizationsUpdateAPIView(_TestOrganizationsUpdateAPIView):
         API for now is read-only.
         """
         response = self.client.put(
-            '/api/organizations/1/',
+            '/api/organizations/{}/'.format(self.organization.id),
             self.organization_payload,
             content_type='application/json',
         )
 
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
 class TestOrganizationUserOrganizationsUpdateAPIView(
@@ -66,12 +66,11 @@ class TestOrganizationUserOrganizationsUpdateAPIView(
         API for now is read-only.
         """
         response = self.client.put(
-            '/api/organizations/1/',
+            '/api/organizations/{}/'.format(self.organization.id),
             self.organization_payload,
             content_type='application/json',
         )
-
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
 class TestRegularUserOrganizationsUpdateAPIView(
@@ -93,11 +92,10 @@ class TestRegularUserOrganizationsUpdateAPIView(
         API for now is read-only.
         """
         response = self.client.put(
-            '/api/organizations/1/',
+            '/api/organizations/{}/'.format(self.organization.id),
             self.organization_payload,
             content_type='application/json',
         )
-
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
 
@@ -112,7 +110,7 @@ class TestAnonymousUserOrganizationsUpdateAPIView(
         API for now is read-only.
         """
         response = self.client.put(
-            '/api/organizations/1/',
+            '/api/organizations/{}/'.format(self.organization.id),
             self.organization_payload,
             content_type='application/json',
         )

@@ -12,7 +12,6 @@ from apps.volontulo import views
 from apps.volontulo.views import api as api_views
 from apps.volontulo.views import auth as auth_views
 from apps.volontulo.views import offers as offers_views
-from apps.volontulo.views import organizations as orgs_views
 
 router = DefaultRouter()
 router.register(r'offers', api_views.OfferViewSet, base_name='offer')
@@ -109,22 +108,6 @@ urlpatterns = [
     # users/slug-id
     # users/slug-id/contact
 
-    # organizations' namespace:
-    url(
-        r'^o/organizations/create$',
-        orgs_views.OrganizationsCreate.as_view(),
-        name='organizations_create',
-    ),
-    url(
-        r'^o/organizations/(?P<slug>[\w-]+)/(?P<id_>[0-9]+)$',
-        orgs_views.organization_view,
-        name='organization_view'
-    ),
-    url(
-        r'^o/organizations/(?P<slug>[\w-]+)/(?P<id_>[0-9]+)/edit$',
-        orgs_views.organization_form,
-        name='organization_form'
-    ),
     # organizations/filter
 
     url(

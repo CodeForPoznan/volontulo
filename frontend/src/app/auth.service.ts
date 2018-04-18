@@ -42,6 +42,10 @@ export class AuthService {
       });
   }
 
+  setCurrentUser(user: User) {
+    this.changeUserEvent.next(user);
+  }
+
   login(username: string, password: string): void {
     this.http.post<User>(this.loginUrl, { username, password })
       .subscribe(

@@ -94,9 +94,9 @@ class OffersCreate(View):
             messages.info(request, mark_safe(
                 "Nie masz jeszcze żadnej założonej organizacji"
                 " na {0}. Aby założyć organizację,"
-                " <a href='{1}'>kliknij tu.</a>".format(
+                " <a href='{1}/organizations/create/'>kliknij tu.</a>".format(
                     settings.SYSTEM_DOMAIN,
-                    reverse('organizations_create')
+                    settings.ANGULAR_ROOT,
                 )
             ))
             return redirect('offers_list')

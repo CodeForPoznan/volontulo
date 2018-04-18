@@ -17,11 +17,11 @@ class _TestOrganizationsCreateAPIView(TestOffersCommons, APITestCase):
     def setUp(self):
         """Set up each test."""
         super(_TestOrganizationsCreateAPIView, self).setUp()
-        self.organization_payload = (
-            b'{"name": "TM",'
-            b'"slug": "tm",'
-            b'"url": "http://localhost:8000/api/organizations/1/"}'
-        )
+        self.organization_payload = b"""{
+            "name": "TM",
+            "description": "Opis",
+            "address": "ul. Koperkowa 7"
+        }"""
 
 
 class TestAdminUserOrganizationsCreateAPIView(_TestOrganizationsCreateAPIView):
@@ -44,7 +44,7 @@ class TestAdminUserOrganizationsCreateAPIView(_TestOrganizationsCreateAPIView):
             content_type='application/json',
         )
 
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
 
 class TestOrganizationUserOrganizationsCreateAPIView(
@@ -71,7 +71,7 @@ class TestOrganizationUserOrganizationsCreateAPIView(
             content_type='application/json',
         )
 
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
 
 class TestRegularUserOrganizationsCreateAPIView(
@@ -98,7 +98,7 @@ class TestRegularUserOrganizationsCreateAPIView(
             content_type='application/json',
         )
 
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
 
 class TestAnonymousUserOrganizationsCreateAPIView(

@@ -15,9 +15,9 @@
       </dd>
     </dl>
   <div class="row">
-      <div class="col-md-10 offset-md-2" *ngIf="isUserOrgMember">
-        <a href="{{ djangoRoot }}/organizations/{{ organization.slug }}/{{ organization.id }}/edit" class="btn btn-primary">Edytuj organizację</a>
-        <a href="{{ djangoRoot }}/offers/create" class="btn btn-primary">Dodaj ofertę</a>
-      </div>
+    <div class="col-md-10 offset-md-2" *ngIf="isUserOrgMember">
+      <a [routerLink]="['/organizations', organization.slug, organization.id, 'edit']" class="btn btn-primary">Edytuj organizację</a>
+      <a href="{{ djangoRoot }}/offers/create" class="btn btn-primary">Dodaj ofertę</a>
     </div>
+  </div>
 </div>
