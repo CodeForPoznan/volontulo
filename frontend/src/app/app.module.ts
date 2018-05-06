@@ -45,10 +45,14 @@ import { OrganizationOffersListComponent } from './organization/organization-off
 
 Raven.config(environment.sentryDSN).install();
 
-export class RavenErrorHandler implements ErrorHandler {
+class RavenErrorHandler implements ErrorHandler {
   handleError(err: any): void {
     Raven.captureException(err);
   }
+}
+
+export function ErrorHandlerFactory(): ErrorHandler {
+  return environment.production ? new RavenErrorHandler() : new ErrorHandler();
 }
 
 const appRoutes: Routes = [
@@ -163,7 +167,7 @@ registerLocaleData(localePl);
     UserService,
     { provide: LOCALE_ID, useValue: 'pl' },
     { provide: WindowService, useFactory: WindowFactory, deps: [PLATFORM_ID] },
-    { provide: ErrorHandler, useClass: RavenErrorHandler },
+    { provide: ErrorHandler, useFactory: ErrorHandlerFactory },
     { provide: HTTP_INTERCEPTORS, useClass: HttpWithCredentialsInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: HttpXsrfInterceptor, multi: true },
   ],
