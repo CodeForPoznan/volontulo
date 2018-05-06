@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { FaqOrganizationsComponent } from './faq-organizations.component';
 
@@ -8,7 +9,8 @@ describe('FaqOrganizationsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FaqOrganizationsComponent ]
+      imports: [ NgbAccordionModule.forRoot() ],
+      declarations: [ FaqOrganizationsComponent ],
     })
     .compileComponents();
   }));

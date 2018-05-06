@@ -1,0 +1,13 @@
+<div class="container-fluid mt-4 mb-4">
+  <h2 class="mb-3">Często zadawane pytania przez <strong>{{ title }}</strong></h2>
+  <ngb-accordion #acc="ngbAccordion">
+    <ngb-panel *ngFor="let faq of faqs">
+      <ng-template ngbPanelTitle>
+        <span class="badge badge-primary">Pytanie</span> {{ faq.question }}
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <span class="badge badge-info">Odpowiedź</span> <span [innerHTML]="faq.answer"></span>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+</div>
