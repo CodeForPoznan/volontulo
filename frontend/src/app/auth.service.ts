@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../environments/environment';
 import { User } from './user.d';
+import { deepFreeze } from './utils/object.utils';
 import { SuccessOrFailureAction } from './models';
 
 
@@ -35,7 +36,7 @@ export class AuthService {
     this.http.get<User>(this.currentUserUrl)
       .subscribe(user => {
         if (user.username) {
-          this.changeUserEvent.next(user);
+          this.changeUserEvent.next(deepFreeze(user));
         } else {
           this.changeUserEvent.next(null);
         }
@@ -43,14 +44,14 @@ export class AuthService {
   }
 
   setCurrentUser(user: User) {
-    this.changeUserEvent.next(user);
+    this.changeUserEvent.next(deepFreeze(user));
   }
 
   login(username: string, password: string): void {
     this.http.post<User>(this.loginUrl, { username, password })
       .subscribe(
         user => {
-          this.changeUserEvent.next(user);
+          this.changeUserEvent.next(deepFreeze(user));
           this.loginEvent.next({ success: true });
           this.router.navigate(['']);
         },
