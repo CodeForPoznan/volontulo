@@ -17,3 +17,7 @@
 html {
   font-size: $font-size-base;
 }
+
+input[type=file] {
+  visibility: hidden;
+}

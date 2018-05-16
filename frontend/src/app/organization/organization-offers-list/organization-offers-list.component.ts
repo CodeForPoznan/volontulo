@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { Offer } from '../../homepage-offer/offers.model';
+import { ApiOffer } from '../../homepage-offer/offers.model';
 import { environment } from '../../../environments/environment';
 import { User } from '../../user';
 
@@ -12,7 +12,7 @@ import { User } from '../../user';
 
 export class OrganizationOffersListComponent {
   @Input() isUserOrgMember: boolean;
-  @Input() offers: Offer[];
+  @Input() offers: ApiOffer[];
   @Input() user: User;
   djangoRoot: string = environment.djangoRoot;
 }

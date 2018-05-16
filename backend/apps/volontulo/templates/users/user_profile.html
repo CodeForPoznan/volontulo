@@ -65,7 +65,7 @@
             {% if userprofile.is_in_organization %}
                 <div class="h4">
                     <h4>Organizowane oferty</h4>
-                    <a href="{% url 'offers_create' %}" class="btn btn-primary btn-sm">Utwórz ofertę</a>
+                    <a href="{{ ANGULAR_ROOT }}/offers/create" class="btn btn-primary btn-sm">Utwórz ofertę</a>
                 </div>
                 {% include 'organizations/organization_offers.html' with offers=created_offers %}
             {% else %}

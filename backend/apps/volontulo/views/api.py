@@ -139,6 +139,7 @@ def password_reset_confirm(request, uidb64, token):
     return Response({}, status=status.HTTP_201_CREATED)
 
 
+@authentication_classes((CsrfExemptSessionAuthentication,))
 @api_view(['GET'])
 @permission_classes((AllowAny,))
 def messages_view(request):

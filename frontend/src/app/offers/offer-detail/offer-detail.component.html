@@ -9,9 +9,11 @@
                     <div class="header-labels">
                         <volontulo-icon-label icon="place">{{ offer.location }}</volontulo-icon-label>
                         <volontulo-icon-label icon="access_time">{{ offer.startedAt | date:'shortDate' }} - {{ offer.finishedAt | date:'shortDate' }}</volontulo-icon-label>
-<!-- TODO: restore the link for users who can edit the offer when permission check implemented in the frontend 
-<a href="{{ djangoRoot }}/offers/{{ offer.slug }}/{{ offer.id }}/edit" class="btn btn-sm">
-<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edytuj ofertę</a>-->
+                        <volontulo-icon-label icon="edit" *ngIf="(isUserOrgMember$ | async)">
+                            <a [routerLink]="['edit']" class="btn btn-sm">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                            Edytuj ofertę</a>
+                        </volontulo-icon-label>
                     </div>
                 </div>
             </div>

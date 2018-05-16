@@ -1,0 +1,19 @@
+@import '~bootstrap/scss/bootstrap-grid';
+
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
+
+textarea.ng-invalid.ng-touched{
+  border: 1px solid red;
+}
+
+label {
+  text-align: right;
+}
+
+@include media-breakpoint-down(sm) {
+  label {
+  text-align: left;
+  }
+}

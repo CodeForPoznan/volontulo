@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { Organization, OrganizationContactPayload } from './organization.model';
 import { ContactStatus, CreateOrEditOrganization } from './organization.interfaces';
-import { Offer } from '../homepage-offer/offers.model';
+import { ApiOffer } from '../homepage-offer/offers.model';
 import { loadDefaultImage } from '../homepage-offer/offer.utils';
 import { environment } from '../../environments/environment';
 
@@ -18,13 +18,13 @@ export class OrganizationService {
   private contactStatusEvent = new Subject<ContactStatus>();
   private organizationEvent = new BehaviorSubject<Organization | null>(null);
   private organizationsEvent = new Subject<Organization[]>();
-  private offersEvent = new Subject<Offer[]>();
+  private offersEvent = new Subject<ApiOffer[]>();
   private createOrganizationEvent = new Subject<CreateOrEditOrganization>();
 
   public contactStatus$: Observable<ContactStatus> = this.contactStatusEvent.asObservable();
   public organization$: Observable<Organization | null> = this.organizationEvent.asObservable();
   public organizations$: Observable<Organization[]> = this.organizationsEvent.asObservable();
-  public offers$: Observable<Offer[]> = this.offersEvent.asObservable();
+  public offers$: Observable<ApiOffer[]> = this.offersEvent.asObservable();
   public createOrEditOrganization$: Observable<CreateOrEditOrganization> = this.createOrganizationEvent.asObservable();
 
   constructor(private http: HttpClient) { }
@@ -86,7 +86,7 @@ export class OrganizationService {
   }
 
   getOffersForOrganization(id: number) {
-    return this.http.get<Offer[]>(`${this.url}${id}/offers/`)
+    return this.http.get<ApiOffer[]>(`${this.url}${id}/offers/`)
       .map(offers => offers.map(offer => loadDefaultImage(offer)))
       .subscribe(offers => this.offersEvent.next(offers));
   }

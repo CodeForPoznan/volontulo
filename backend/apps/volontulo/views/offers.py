@@ -6,17 +6,16 @@
 
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.admin.models import ADDITION, CHANGE
+from django.contrib.admin.models import ADDITION
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
-from django.http import Http404, HttpResponseForbidden
+from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from django.views.generic import View
 
 from apps.volontulo.forms import (
-    CreateOfferForm, OfferApplyForm, OfferImageForm
+    CreateOfferForm, OfferApplyForm
 )
 from apps.volontulo.lib.email import send_mail
 from apps.volontulo.models import Offer, OfferImage, UserProfile
@@ -200,133 +199,6 @@ class OffersReorder(View):
                 "Uporządkowano oferty."
             )
         return redirect('offers_list')
-
-
-class OffersEdit(View):
-    """Class view supporting change of a offer."""
-
-    def dispatch(self, request, *args, **kwargs):
-        """Dispatch method overriden to check offer edit permission"""
-        try:
-            is_edit_allowed = request.user.userprofile.can_edit_offer(
-                offer_id=kwargs['id_'])
-        except Offer.DoesNotExist:
-            is_edit_allowed = False
-        if not is_edit_allowed:
-            raise Http404()
-        return super().dispatch(request, *args, **kwargs)
-
-    @staticmethod
-    @correct_slug(Offer, 'offers_edit', 'title')
-    def get(request, slug, id_):  # pylint: disable=unused-argument
-        """Method responsible for rendering form for offer to be changed.
-
-        :param request: WSGIRequest instance
-        :param slug: string Offer title slugified
-        :param id_: int Offer database unique identifier (primary key)
-        """
-        offer = Offer.objects.get(id=id_)
-        if offer.id or request.user.userprofile.is_administrator:
-            organizations = [offer.organization]
-        else:
-            organizations = request.user.userprofile.organizations.all()
-
-        return render(
-            request,
-            'offers/offer_form.html',
-            {
-                'offer': offer,
-                'offer_form': CreateOfferForm(),
-                'organization': offer.organization,
-                'organizations': organizations,
-                'offer_image_form': OfferImageForm(),
-                'images': OfferImage.objects.filter(offer=offer).all(),
-                'MEDIA_URL': settings.MEDIA_URL,
-            }
-        )
-
-    @staticmethod
-    def post(request, slug, id_):  # pylint: disable=unused-argument
-        """Method resposible for saving changed offer.
-
-        :param request: WSGIRequest instance
-        :param slug: string Offer title slugified
-        :param id_: int Offer database unique identifier (primary key)
-        """
-        offer = Offer.objects.get(id=id_)
-        if request.POST.get('submit') == 'save_image' and request.FILES:
-            form = OfferImageForm(request.POST, request.FILES)
-            if form.is_valid():
-                offer.save_offer_image(
-                    form.save(commit=False),
-                    form.cleaned_data['is_main']
-                )
-                messages.success(request, "Dodano zdjęcie do galerii.")
-            else:
-                messages.error(
-                    request,
-                    "Problem w trakcie dodawania grafiki: {}".format(
-                        "<br />".join(form.errors)
-                    )
-                )
-
-            return redirect(
-                reverse(
-                    'offers_edit',
-                    args=[slugify(offer.title), offer.id]
-                )
-            )
-        elif request.POST.get('close_offer') == 'close':
-            offer.close_offer()
-            return redirect(
-                '{ANGULAR_ROOT}/offers/{slug}/{id}'.format(
-                    ANGULAR_ROOT=settings.ANGULAR_ROOT,
-                    slug=slugify(offer.title),
-                    id=str(offer.id),
-                )
-            )
-        elif request.POST.get('status_flag') == 'change_status':
-            if request.POST.get('status') == 'published':
-                offer.publish()
-                if request.user.userprofile.is_administrator:
-                    return redirect('offers_reorder', offer.id)
-            elif request.POST.get('status') == 'rejected':
-                offer.reject()
-            return redirect('offers_list')
-
-        form = CreateOfferForm(
-            request.POST, instance=offer
-        )
-
-        if form.is_valid():
-            offer = form.save()
-            offer.unpublish()
-            offer.save()
-            save_history(request, offer, action=CHANGE)
-            messages.success(request, "Oferta została zmieniona.")
-        else:
-            messages.error(
-                request,
-                "Formularz zawiera niepoprawnie wypełnione pola: {}".format(
-                    "<br />".join(form.errors)
-                )
-            )
-
-        if offer.id or request.user.userprofile.is_administrator:
-            organizations = [offer.organization]
-        else:
-            organizations = request.user.userprofile.organizations.all()
-
-        return render(
-            request,
-            'offers/offer_form.html',
-            {
-                'offer': offer,
-                'form': form,
-                'organizations': organizations,
-                'offer_image_form': OfferImageForm(),
-            }
-        )
 
 
 class OffersDelete(View):

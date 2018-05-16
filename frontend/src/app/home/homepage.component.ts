@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { OffersService } from '../homepage-offer/offers.service';
-import { Offer } from '../homepage-offer/offers.model';
+import { ApiOffer } from '../homepage-offer/offers.model';
 
 @Component({
   selector: 'volontulo-home',
@@ -11,16 +11,12 @@ import { Offer } from '../homepage-offer/offers.model';
 })
 
 export class HomePageComponent implements OnInit {
-  offers: Array<Offer> = [];
+  offers: Array<ApiOffer> = [];
 
   constructor(private offersService: OffersService) { }
 
   ngOnInit() {
     this.offersService.getOffers()
-      .subscribe(
-        offers => {
-          this.offers = offers;
-        }
-      );
+      .subscribe(offers => this.offers = offers);
   }
 }

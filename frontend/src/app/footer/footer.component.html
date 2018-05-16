@@ -16,7 +16,7 @@
         <h3 class="nav-title">Strefa organizacji i instytucji</h3>
         <ul class="nav list-unstyled flex-column">
           <li><a class="nav-link" href="{{ djangoRoot }}/register">Załóż konto</a></li>
-          <li><a class="nav-link" href="{{ djangoRoot }}/offers/create">Dodaj nową ofertę</a></li>
+          <li><a class="nav-link" [routerLink]="['offers', 'create']">Dodaj nową ofertę</a></li>
           <li class="nav-item"><a class="nav-link" [routerLink]="['/organizations']">Lista organizacji i instytucji</a></li>
           <li class="nav-item"><a class="nav-link" [routerLink]="['/faq-organizations']">FAQ dla organizacji i instytucji</a></li>
           <li class="nav-item"><a class="nav-link" [routerLink]="['/office']">Przyjdź na dyżur</a></li>

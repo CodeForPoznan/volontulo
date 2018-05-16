@@ -39,6 +39,7 @@ import { OrganizationContactComponent } from './organization/organization-contac
 import { OrganizationComponent } from './organization/organization.component';
 import { OfficeComponent } from './static/office/office.component';
 import { FaqVolunteersComponent } from './static/faq-volunteers.component';
+import { CreateOfferComponent } from './offers/create-offer/create-offer.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { PasswordResetConfirmComponent } from './password-reset/password-reset-confirm.component';
 import { OrganizationOffersListComponent } from './organization/organization-offers-list/organization-offers-list.component';
@@ -102,6 +103,14 @@ const appRoutes: Routes = [
     component: OfferDetailComponent,
   },
   {
+    path: 'offers/create',
+    component: CreateOfferComponent,
+  },
+  {
+    path: 'offers/:offerSlug/:offerId/edit',
+    component: CreateOfferComponent,
+  },
+  {
     path: 'organizations',
     component: OrganizationsComponent
   },
@@ -144,6 +153,7 @@ registerLocaleData(localePl);
     OrganizationComponent,
     OfficeComponent,
     FaqVolunteersComponent,
+    CreateOfferComponent,
     PasswordResetComponent,
     PasswordResetConfirmComponent,
     MessagesComponent,
