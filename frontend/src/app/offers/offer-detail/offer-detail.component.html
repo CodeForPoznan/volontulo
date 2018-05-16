@@ -50,14 +50,26 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4">  
             <div class="card text-center">
-                <div class="alert alert-danger">
-                    <h2>Możesz pomóc?</h2><br>
-                    Twoja pomoc jest ważna.<br>
-                    <b><h3>Potrzebujemy Ciebie!</h3></b><br>
-                    <a class="btn btn-light" href="{{ getJoinViewUrl(offer) }}">Zgłoś się na ten wolontariat</a>
-                </div>
-                <h3 class="card-header">Rekrutacja trwa do: {{ offer.recruitmentEndDate | date:'shortDate' }}</h3>
+                <div *ngIf="offer.joined; else didNotJoin">
+                    <div class="alert alert-primary">
+                        <h2>Pomagasz już w tej inicjatywie</h2>
+                        <p>Dziękujemy za zaangażowanie!</p>
+                        <a [routerLink]="['/organizations', offer.organization.slug, offer.organization.id]" class="btn btn-light" >Zadaj pytanie</a>
+                        <hr>
+                        <a [routerLink]="['/faq-volunteers']" class="btn btn-light" >Częste pytania i odpowiedzi</a>
+                    </div>
             </div>
+              <ng-template #didNotJoin>
+                <div class="alert alert-danger"> 
+                    <h2>Możesz pomóc?</h2>
+                    <p>Twoja pomoc jest ważna. Potrzebujemy Ciebie!</p>
+                    <a class="btn btn-light" href="{{ getJoinViewUrl(offer) }}"
+                    >Zgłoś się na ten wolontariat</a>
+                </div>
+             </ng-template>
+            <h3 class="card-body">Rekrutacja trwa do: 
+            {{ offer.recruitmentEndDate | date:'shortDate' }}</h3>
+        </div>
             <div class="card">
                 <h3 class="card-header">Organizator</h3>
                 <div class="card-body">

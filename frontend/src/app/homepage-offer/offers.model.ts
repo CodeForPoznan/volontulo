@@ -3,6 +3,7 @@ import { Organization } from '../organization/organization.model';
 
 export class BaseOffer {
     id: number;
+    joined: boolean;
     location: string;
     organization: Organization;
     slug: string;

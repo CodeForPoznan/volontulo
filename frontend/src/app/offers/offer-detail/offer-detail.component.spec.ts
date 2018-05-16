@@ -15,7 +15,9 @@ describe('OfferDetailComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [
+        RouterTestingModule
+      ],
       declarations: [
         OfferDetailComponent,
         IconLabelComponent,
