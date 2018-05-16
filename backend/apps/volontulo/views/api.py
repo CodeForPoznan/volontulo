@@ -4,7 +4,7 @@
 .. module:: api
 """
 from django.contrib import messages
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth import login
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
@@ -23,6 +23,7 @@ from rest_framework.decorators import permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import viewsets
+from rest_framework.views import APIView
 
 from apps.volontulo import models
 from apps.volontulo import permissions
@@ -30,8 +31,10 @@ from apps.volontulo import serializers
 from apps.volontulo.authentication import CsrfExemptSessionAuthentication
 from apps.volontulo.lib.email import send_mail
 from apps.volontulo.models import Organization
-from apps.volontulo.serializers import \
-    OrganizationContactSerializer, UsernameSerializer, PasswordSerializer
+from apps.volontulo.serializers import (
+    OrganizationContactSerializer, UsernameSerializer, PasswordSerializer,
+    ContactSerializer,
+)
 from apps.volontulo.views import logged_as_admin
 
 
@@ -232,3 +235,40 @@ class OrganizationViewSet(viewsets.ModelViewSet):
                 many=True,
                 context={'request': request}).data,
             status=status.HTTP_200_OK)
+
+
+class Contact(APIView):
+    """Get all contact-related info and send contact message to admin."""
+    permission_classes = (AllowAny, )
+
+    def get(self, request):  # pylint:disable=no-self-use,unused-argument
+        """Return emails of administrators and possible contact entities."""
+        query = get_user_model().objects.filter(
+            userprofile__is_administrator=True,
+        ).order_by('email')
+        return Response({
+            'administrator_emails': list(
+                query.values_list('email', flat=True)
+            ),
+            'applicant_types': ContactSerializer.APPLICANT_CHOICES,
+        }, status.HTTP_200_OK)
+
+    def post(self, request):  # pylint:disable=no-self-use,unused-argument
+        """Sends contact email."""
+        serializer = ContactSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+
+        admin = User.objects.get(email=data['administrator_email'])
+        # For now send the same message to both user and administrator
+        send_mail(
+            request,
+            'contact_to_admin',
+            [
+                admin.email,
+                data['applicant_email'],
+            ],
+            data,
+            send_copy_to_admin=False,
+        )
+        return Response({}, status.HTTP_201_CREATED)

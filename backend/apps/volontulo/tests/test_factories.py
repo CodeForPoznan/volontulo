@@ -148,11 +148,11 @@ class OfferFactoryTestCase(TestCase):
 
     def test_if_users_have_been_created(self):
         """Test if fake users have been created."""
-        self.assertTrue(len(User.objects.all()) == 2)
+        self.assertEqual(User.objects.count(), 2)
 
     def test_if_fake_organization_has_been_created(self):
         """Test fake organization created by SubFactory."""
-        self.assertTrue(len(Organization.objects.all()) == 2)
+        self.assertEqual(Organization.objects.count(), 2)
 
     def test_if_offer_has_been_created(self):
         """Test if offer has been created."""

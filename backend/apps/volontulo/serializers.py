@@ -13,9 +13,10 @@ from django.core.exceptions import ValidationError
 from django.utils.text import slugify
 from rest_framework import serializers
 from rest_framework.exceptions import PermissionDenied
-from rest_framework.fields import CharField, EmailField
+from rest_framework.fields import CharField, EmailField, ChoiceField
 
 from apps.volontulo import models
+from apps.volontulo.validators import validate_admin_email
 
 
 class OrganizationSerializer(serializers.HyperlinkedModelSerializer):
@@ -290,3 +291,20 @@ class MessageSerializer(serializers.Serializer):
     """Serializer for messages from Django contrib."""
     message = CharField(required=True)
     type = CharField(required=True, source='level_tag')
+
+
+class ContactSerializer(serializers.Serializer):
+    """Serializer for contact message."""
+    VOLUNTEER = 'volunteer'
+    ORGANIZATION = 'organization'
+    APPLICANT_CHOICES = (VOLUNTEER, ORGANIZATION)
+
+    applicant_type = ChoiceField(APPLICANT_CHOICES, required=True)
+    applicant_email = EmailField(required=True, max_length=150)
+    applicant_name = CharField(required=True, min_length=3, max_length=150)
+    administrator_email = EmailField(
+        required=True,
+        validators=[validate_admin_email],
+    )
+    message = CharField(required=True, min_length=10, max_length=2000)
+    phone_no = CharField(max_length=20)

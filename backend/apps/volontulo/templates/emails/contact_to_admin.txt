@@ -5,10 +5,10 @@ Witaj
 Dziękujemy za pytanie. Nasz doradca skontaktuje się z Tobą mailowo lub telefonicznie.
 Twoja wiadomość znajduje się poniżej:
 
-Imię i nazwisko: {{ name}},
-Email: {{ email }},
+Imię i nazwisko: {{ applicant_name }},
+Email: {{ applicant_email }},
 Numer telefonu: {{ phone_no }},
-Aplikant: {{ applicant }},
-Wiadomość: 
+Aplikant: {% if applicant_type == 'VOLUNTEER' %}wolontariusz{% elif applicant_type == 'ORGANIZATION' %}organizacja{% endif %},
+Wiadomość:
 {{ message }}
 {% endblock %}
