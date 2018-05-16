@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/CodeForPoznan/volontulo.svg)](https://travis-ci.org/CodeForPoznan/volontulo)
 [![codecov.io](http://codecov.io/github/CodeForPoznan/volontulo/coverage.svg?branch=master)](http://codecov.io/github/CodeForPoznan/volontulo?branch=master)
 
-![Volontulo logo](/backend/apps/volontulo/frontend/img/volo_logo.png)
+![Volontulo logo](/frontend/src/assets/img/volo_logo.png)
 
 Web portal for collaboration of community volunteers with organizations and institutions. 
 
