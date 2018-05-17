@@ -83,7 +83,7 @@ export class AuthService {
 
   confirmResetPassword(password: string, uidb64: string, token: string) {
     this.http.post(
-      `${this.resetPasswordUrl}/${uidb64}/${token}`, { password }, { observe: 'response' })
+      `${this.resetPasswordUrl}${uidb64}/${token}/`, { password }, { observe: 'response' })
       .subscribe(
         response => {
           if (response.status === 201) {
