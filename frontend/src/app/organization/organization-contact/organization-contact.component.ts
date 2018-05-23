@@ -18,10 +18,10 @@ export class OrganizationContactComponent implements OnChanges {
   alertErrorClosed = true;
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.contactStatus.currentValue.status === 'success') {
+    if (changes.contactStatus.currentValue && changes.contactStatus.currentValue.status === 'success') {
       this.alertSuccessClosed = false;
       this.contactForm.reset();
-    } else if (changes.contactStatus.currentValue.status === 'error') {
+    } else if (changes.contactStatus.currentValue && changes.contactStatus.currentValue.status === 'error') {
       this.alertErrorClosed = false;
     }
     this.submitDisabled = false;
