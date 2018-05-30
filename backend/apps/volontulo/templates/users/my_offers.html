@@ -48,13 +48,13 @@
                             <h3 class="panel-title">Zaangażowanie czasowe</h3>
                             <p>{{ offer.time_commitment }}</p>
                         {% endif %}
-                        <div class="text-right">Organizator: <a class="text-warning" href="{% url 'organization_view' slug=offer.organization.name|slugify id_=offer.organization.id %}">{{ offer.organization.name }}</a></div>
+                            <h3 class="text-left">Organizator: <a class="text-warning" href="{{ ANGULAR_ROOT }}/organizations/{{ offer.organization | slugify }}/{{ offer.organization.id }}">{{ offer.organization.name }}</a></h3>
                     </div>
                 </div>
             </div>
         {% endfor %}
     </div>
-    
+
 {% else %}
     <p>Zgłoś się w jednej z dostępnych ofert wolontariatu i zapełnij to miejsce.</p>
 {% endif %}
