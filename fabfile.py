@@ -86,6 +86,7 @@ def install():
     try:
         from secrets import (
             CFP_ADMIN_PASSWORD,
+            DKIM_PRIVATE_KEY,
             VOLONTULO_SENTRY_DSN,
             WRK_ADMIN_PASSWORD,
         )
@@ -115,6 +116,56 @@ def install():
     run('debconf-set-selections <<< "postfix postfix/mailname string $HOSTNAME"')
     run('debconf-set-selections <<< "postfix postfix/main_mailer_type string \'Internet Site\"')
     run('apt-get install -y postfix')
+
+    # DKIM support for MTA:
+    run('apt-get install -y opendkim opendkim-tools')
+    files.append('/etc/opendkim.conf',
+"""
+AutoRestart             Yes
+AutoRestartRate         10/1h
+UMask                   002
+Syslog                  yes
+SyslogSuccess           Yes
+LogWhy                  Yes
+
+Canonicalization        relaxed/simple
+
+ExternalIgnoreList      refile:/etc/opendkim/TrustedHosts
+InternalHosts           refile:/etc/opendkim/TrustedHosts
+KeyTable                refile:/etc/opendkim/KeyTable
+SigningTable            refile:/etc/opendkim/SigningTable
+
+Mode                    sv
+PidFile                 /var/run/opendkim/opendkim.pid
+SignatureAlgorithm      rsa-sha256
+
+UserID                  opendkim:opendkim
+
+Socket                  inet:12301@localhost
+""")
+    run('echo "SOCKET=\"inet:12301@localhost\"" >> /etc/default/opendkim')
+    run('echo "milter_protocol = 2" >> /etc/postfix/main.cf')
+    run('echo "milter_default_action = accept" >> /etc/postfix/main.cf')
+    run('echo "smtpd_milters = inet:localhost:12301" >> /etc/postfix/main.cf')
+    run('echo "non_smtpd_milters = inet:localhost:12301" >> /etc/postfix/main.cf')
+    run('mkdir /etc/opendkim')
+    run('mkdir /etc/opendkim/keys')
+    run('echo "127.0.0.1/8" >> /etc/opendkim/TrustedHosts')
+    run('echo "localhost" >> /etc/opendkim/TrustedHosts')
+    run('echo "mail._domainkey.{} {}:mail:/etc/opendkim/keys/{}/mail.private" >> /etc/opendkim/KeyTable'.format(
+        env.host_string
+    ))
+    run('echo "*@{} mail._domainkey.{}" >> /etc/opendkim/SigningTable'.format(env.host_string))
+    run('mkdir /etc/opendkim/keys/{}'.format(env.host_string))
+    files.append(
+        '/etc/opendkim/keys/{}/mail.private'.format(env.host_string),
+        DKIM_PRIVATE_KEY,
+    )
+    run('chown opendkim:opendkim /etc/opendkim/keys/{}/mail.private'.format(
+        env.host_string
+    ))
+    run('service postfix restart')
+    run('service opendkim restart')
 
     # Fetch Volontulo code:
     run('apt-get install -y nginx')
@@ -292,3 +343,14 @@ server {{
     ):
         run('python manage.py create_admin hello@codeforpoznan.pl {} --django-admin'.format(CFP_ADMIN_PASSWORD))
         run('python manage.py create_admin wolontariat@wrk.org.pl {}'.format(WRK_ADMIN_PASSWORD))
+
+
+    print("""
+Remember to:
+ * enable Google monitoring for mail deliverability in Google Postmaster Tools
+   (see: https://support.google.com/mail/answer/6258950)
+ * add valid reverse DNS record for server IP address
+   (see: https://www.ovh.com/world/dedicated-servers/reverse_personnalise.xml)
+ * add DKIM public key to the DNS zone
+   (see: https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy#add-the-public-key-to-the-domain-39-s-dns-records)
+    """)
