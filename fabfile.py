@@ -116,6 +116,7 @@ def install():
     run('debconf-set-selections <<< "postfix postfix/mailname string $HOSTNAME"')
     run('debconf-set-selections <<< "postfix postfix/main_mailer_type string \'Internet Site\"')
     run('apt-get install -y postfix')
+    run('echo "myhostname = {}" >> /etc/postfix/main.cf'.format(env.host_string))
 
     # DKIM support for MTA:
     run('apt-get install -y opendkim opendkim-tools')
@@ -334,6 +335,16 @@ server {{
     run('certbot --authenticator standalone --installer nginx -m hello@codeforpoznan.pl --agree-tos --no-eff-email -d {} --redirect --pre-hook "service nginx stop" --post-hook "service nginx start"'.format(env.host_string))
     run('(crontab -l 2>/dev/null; echo \'0 0 * * * certbot renew --post-hook "systemctl reload nginx"\') | crontab -')
 
+    # Add TLS to postfix:
+    run("postconf -e 'smtpd_tls_cert_file = /etc/letsencrypt/live/{}/fullchain.pem'".format(env.host_string))
+    run("postconf -e 'smtpd_tls_key_file = /etc/letsencrypt/live/{}/privkey.pem'".format(env.host_string))
+    run("postconf -e 'smtp_tls_security_level = may")
+    run("postconf -e 'smtpd_tls_security_level = may")
+    run("postconf -e 'smtp_tls_note_starttls_offer = yes")
+    run("postconf -e 'smtpd_tls_loglevel = 1")
+    run("postconf -e 'smtpd_tls_received_header = yes")
+    run('service postfix restart')
+
     execute(update)
 
     # Create Django admin:
@@ -353,4 +364,8 @@ Remember to:
    (see: https://www.ovh.com/world/dedicated-servers/reverse_personnalise.xml)
  * add DKIM public key to the DNS zone
    (see: https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy#add-the-public-key-to-the-domain-39-s-dns-records)
+ * add proper SPF record to the DNS zone
+   (see: https://www.liquidweb.com/kb/what-is-an-spf-record/)
+ * add proper DMARC record to the DNS zone
+   (see: https://dmarcguide.globalcyberalliance.org/#/)
     """)
