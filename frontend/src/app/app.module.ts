@@ -43,6 +43,8 @@ import { CreateOfferComponent } from './offers/create-offer/create-offer.compone
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { PasswordResetConfirmComponent } from './password-reset/password-reset-confirm.component';
 import { OrganizationOffersListComponent } from './organization/organization-offers-list/organization-offers-list.component';
+import { LoggedInGuard } from './guards/loggedInGuard.service';
+import { LoggedOutGuard } from './guards/loggedOutGuard.service';
 
 Raven.config(environment.sentryDSN).install();
 
@@ -59,11 +61,12 @@ export function ErrorHandlerFactory(): ErrorHandler {
 const appRoutes: Routes = [
   {
     path: '',
-    component: HomePageComponent
+    component: HomePageComponent,
   },
   {
     path: 'organizations/:organizationSlug/:organizationId/edit',
     component: OrganizationCreateComponent,
+    canActivate: [LoggedInGuard],
   },
   {
     path: 'organizations/:organizationSlug/:organizationId',
@@ -73,6 +76,7 @@ const appRoutes: Routes = [
   {
     path: 'organizations/create',
     component: OrganizationCreateComponent,
+    canActivate: [LoggedInGuard],
   },
   {
     path: 'faq-organizations',
@@ -88,15 +92,16 @@ const appRoutes: Routes = [
   },
   {
     path: 'about-us',
-    component: AboutUsComponent
+    component: AboutUsComponent,
   },
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [LoggedOutGuard],
   },
   {
     path: 'regulations',
-    component: RegulationsComponent
+    component: RegulationsComponent,
   },
   {
     path: 'offers/:offerSlug/:offerId',
@@ -105,14 +110,16 @@ const appRoutes: Routes = [
   {
     path: 'offers/create',
     component: CreateOfferComponent,
+    canActivate: [LoggedInGuard],
   },
   {
     path: 'offers/:offerSlug/:offerId/edit',
     component: CreateOfferComponent,
+    canActivate: [LoggedInGuard],
   },
   {
     path: 'organizations',
-    component: OrganizationsComponent
+    component: OrganizationsComponent,
   },
   {
     path: 'password-reset/:uidb64/:token',
@@ -121,6 +128,7 @@ const appRoutes: Routes = [
   {
     path: 'password-reset',
     component: PasswordResetComponent,
+    canActivate: [LoggedOutGuard],
   },
   {
     path: '**',
@@ -175,6 +183,8 @@ registerLocaleData(localePl);
     OffersService,
     OrganizationService,
     UserService,
+    LoggedInGuard,
+    LoggedOutGuard,
     { provide: LOCALE_ID, useValue: 'pl' },
     { provide: WindowService, useFactory: WindowFactory, deps: [PLATFORM_ID] },
     { provide: ErrorHandler, useFactory: ErrorHandlerFactory },

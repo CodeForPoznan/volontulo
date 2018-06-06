@@ -91,7 +91,7 @@ def current_user(request):
             status=status.HTTP_200_OK,
         )
 
-    return Response({}, status=status.HTTP_200_OK)
+    return Response(None, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
