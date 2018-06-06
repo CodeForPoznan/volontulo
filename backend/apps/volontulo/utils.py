@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
-u"""
+"""
 .. module:: utils
 """
-from django.contrib.admin.models import LogEntry
+
 from django.contrib.auth.models import User
-from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.utils.text import slugify
@@ -44,17 +43,6 @@ def get_administrators_emails():
             emails[str(admin.id)] = admin.email
 
     return emails
-
-
-def save_history(req, obj, action):
-    """Save model changes history."""
-    LogEntry.objects.log_action(
-        user_id=req.user.pk,
-        content_type_id=ContentType.objects.get_for_model(obj).pk,
-        object_id=obj.pk,
-        object_repr=str(obj),
-        action_flag=action
-    )
 
 
 def correct_slug(model_class, view_name, slug_field):
