@@ -35,7 +35,7 @@
         </a>
         <a
           *ngIf="isUserOrgMember"
-          href="{{ djangoRoot }}/offers/{{ offer.slug }}/{{ offer.id }}/edit"
+          [routerLink]="['/offers', offer.slug, offer.id,'edit']"
           class="btn btn-info"
         >
           Edytuj
