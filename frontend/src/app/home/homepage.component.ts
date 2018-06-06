@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { OffersService } from '../homepage-offer/offers.service';
-import { ApiOffer } from '../homepage-offer/offers.model';
+import { Offer } from '../homepage-offer/offers.model';
 
 @Component({
   selector: 'volontulo-home',
@@ -11,7 +11,7 @@ import { ApiOffer } from '../homepage-offer/offers.model';
 })
 
 export class HomePageComponent implements OnInit {
-  offers: Array<ApiOffer> = [];
+  offers: Offer[] = [];
 
   constructor(private offersService: OffersService) { }
 

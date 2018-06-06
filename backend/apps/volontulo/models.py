@@ -156,32 +156,15 @@ class Offer(models.Model):
     reserve_volunteers_limit = models.IntegerField(
         default=0, null=True, blank=True)
     weight = models.IntegerField(default=0, null=True, blank=True)
+    image = models.ImageField(
+        upload_to=upload_to_offers,
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         """Offer string representation."""
         return self.title
-
-    def set_main_image(self, is_main):
-        """Set main image flag unsetting other offers images.
-
-        :param is_main: Boolean flag resetting offer main image
-        """
-        if is_main:
-            OfferImage.objects.filter(offer=self).update(is_main=False)
-            return True
-        return False
-
-    def save_offer_image(self, gallery, is_main=False):
-        """Handle image upload for user profile page.
-
-        :param gallery: UserProfile model instance
-        :param userprofile: UserProfile model instance
-        :param is_main: Boolean main image flag
-        """
-        gallery.offer = self
-        gallery.is_main = self.set_main_image(is_main)
-        gallery.save()
-        return self
 
     def create_new(self):
         """Set status while creating new offer."""
@@ -313,15 +296,3 @@ class UserGallery(models.Model):
     def __str__(self):
         """String representation of an image."""
         return str(self.image)
-
-
-class OfferImage(models.Model):
-    """Handling offer image."""
-    offer = models.ForeignKey(Offer, related_name='images')
-    path = models.ImageField(upload_to=upload_to_offers)
-    is_main = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        """String representation of an image."""
-        return str(self.path)

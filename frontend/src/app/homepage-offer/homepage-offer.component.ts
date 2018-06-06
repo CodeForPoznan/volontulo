@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { ApiOffer } from './offers.model';
+import { Offer } from './offers.model';
 import { OffersService } from './offers.service';
 import { OrganizationService } from '../organization/organization.service';
 
@@ -12,6 +12,6 @@ import { OrganizationService } from '../organization/organization.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomepageOfferComponent {
-  @Input() offer: ApiOffer;
+  @Input() offer: Offer;
 }
 

@@ -1,6 +1,6 @@
-import { ApiOffer } from './offers.model';
+import { Offer } from './offers.model';
 
-export function loadDefaultImage(offer: ApiOffer): ApiOffer {
+export function loadDefaultImage(offer: Offer): Offer {
     if (!offer.image) {
         offer.image = 'assets/img/banner/volontulo_baner.png';
     }

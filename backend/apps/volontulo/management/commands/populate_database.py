@@ -33,7 +33,7 @@ class Command(BaseCommand):
         for _ in tqdm(range(50)):
             OfferFactory.create(
                 organization=random.choice(Organization.objects.all()),
-                image__path=ImageField(
+                image=ImageField(
                     from_func=placeimg_com_download(1000, 400, 'any')
                 )
             )

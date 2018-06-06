@@ -1,37 +1,29 @@
-import { Image } from './image.model'
 import { Organization } from '../organization/organization.model';
 
-export class BaseOffer {
+export class Offer {
+    actionOngoing: boolean;
+    actionStatus: string;
+    benefits: string;
+    constantCoop: boolean;
+    description: string;
+    finishedAt: string | null;
     id: number;
+    image: string;
     joined: boolean;
     location: string;
+    offerStatus: string;
     organization: Organization;
+    recruitmentEndDate: string | null;
+    recruitmentStartDate: string | null;
+    requirements: string;
+    reserveRecruitment: boolean;
+    reserveRecruitmentEndDate: string | null;
+    reserveRecruitmentStartDate: string | null;
+    reserveVolunteersLimit: number;
     slug: string;
     startedAt: string | null;
-    finishedAt: string | null;
+    timeCommitment: string;
     title: string;
     url: string;
-    recruitmentEndDate: string | null;
-    timeCommitment: string;
-    requirements: string;
-    benefits: string;
-    description: string;
-    recruitmentStartDate: string | null;
-    reserveRecruitment: boolean;
-    reserveRecruitmentStartDate: string | null;
-    reserveRecruitmentEndDate: string | null;
-    actionOngoing: boolean;
-    constantCoop: boolean;
     volunteersLimit: number;
-    reserveVolunteersLimit: number;
-    actionStatus: string;
-    offerStatus: string;
-}
-
-export class ApiOffer extends BaseOffer {
-    image: string;
-}
-
-export class AppOffer extends BaseOffer {
-    image: Image | null;
 }

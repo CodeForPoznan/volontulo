@@ -21,7 +21,7 @@ class TestOfferSerializer(TestCase):
         self.assertEqual(urlparse(OfferSerializer(
             offer,
             context={'request': RequestFactory().get('/')},
-        ).data['image']).path, offer.images.get(is_main=True).path.url)
+        ).data['image']).path, offer.image.url)
 
     def test_slug(self):
         """Test slug method."""

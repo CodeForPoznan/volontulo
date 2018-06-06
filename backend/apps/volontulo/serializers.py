@@ -67,24 +67,19 @@ class OrganizationField(serializers.Field):
             )
 
 
-class OfferImageField(serializers.Field):
+class ImageField(serializers.Field):
 
     """Custom field for offer's image serialization."""
 
     def to_representation(self, value):
         """Transform internal value into serializer representation."""
-        image = (
-            value.filter(is_main=True).first() or
-            value.first()
-        )
         return self.context['request'].build_absolute_uri(
-            location=image.path.url
-        ) if image else None
+            location=value.url
+        ) if value else None
 
     def to_internal_value(self, data):
         """Transform  serializer representation into internal value."""
-        data['content'] = base64.b64decode(data['content'])
-        return data
+        return io.BytesIO(base64.b64decode(data))
 
 
 class OfferSerializer(serializers.HyperlinkedModelSerializer):
@@ -101,7 +96,7 @@ class OfferSerializer(serializers.HyperlinkedModelSerializer):
         nie może zacząć się przed podstawową"""
 
     slug = serializers.SerializerMethodField()
-    image = OfferImageField(source='images', allow_null=True, required=False)
+    image = ImageField(allow_null=True, required=False)
     organization = OrganizationField()
 
     class Meta:
@@ -201,24 +196,12 @@ class OfferSerializer(serializers.HyperlinkedModelSerializer):
                 raise serializers.ValidationError(error_desc)
 
     def save(self, **kwargs):
-        image_set = 'images' in self.validated_data
-        if image_set:
-            image = self.validated_data.pop('images')
-
+        image = self.validated_data.pop('image', None)
         instance = super(OfferSerializer, self).save(**kwargs)
 
-        if image_set:
-            instance.images.all().delete()
-            if image:
-                instance_image = models.OfferImage(
-                    offer=instance,
-                    is_main=True,
-                )
-                instance_image.path.save(
-                    image['filename'],
-                    io.BytesIO(image['content'])
-                )
-                instance_image.save()
+        if image:
+            instance.image.save('no-name-required', image)
+            instance.save()
         return instance
 
     @staticmethod

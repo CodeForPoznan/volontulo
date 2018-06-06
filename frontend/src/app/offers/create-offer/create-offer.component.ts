@@ -1,7 +1,7 @@
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/do';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AppOffer, ApiOffer, BaseOffer } from 'app/homepage-offer/offers.model';
+import { Offer } from 'app/homepage-offer/offers.model';
 import { AuthService } from 'app/auth.service';
 import { User } from 'app/user';
 import { OffersService } from 'app/homepage-offer/offers.service';
@@ -11,7 +11,6 @@ import { FileReaderEvent, FileReaderEventTarget } from '../../models';
 import { FormGroup } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
-import { Image } from 'app/homepage-offer/image.model';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -24,7 +23,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
   public inEditMode = false;
   public isAdmin = false;
   public isFileToBig = false;
-  public offer: AppOffer = new AppOffer;
+  public offer: Offer = new Offer();
   public user: User;
   public userSubscription: Subscription;
   public form: FormGroup;
@@ -75,8 +74,8 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
     .filter(offerId => offerId !== undefined)
     .switchMap(offerId => this.offersService.getOffer(offerId))
     .do(offer => this.toDataUrl(offer.image))
-    .subscribe((response: BaseOffer) => {
-      this.offer = response as AppOffer;
+    .subscribe((response: Offer) => {
+      this.offer = response;
       this.inEditMode = true;
       this.form.patchValue(this.offer);
     });
@@ -93,33 +92,29 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
     this.http.get(url, {responseType: 'blob'})
     .subscribe(response => {
       reader.onloadend = () => {
-        this.offer.image = {
-        content: reader.result,
-        filename: 'image.jpg'
-      } as Image;
+        this.offer.image = reader.result;
     }
       reader.readAsDataURL(response);
     })
   };
 
-  onSubmit(offer: AppOffer) {
+  onSubmit(offer: Offer) {
     if (!this.form.valid) {
       return
     }
     if (this.offer.image) {
-      this.form.value.image = { ...this.offer.image };
-      this.form.value.image.content = this.form.value.image.content.replace(/.*,/, '');
+      this.form.value.image = this.offer.image.replace(/.*,/, '');
     }
     if (this.inEditMode) {
       this.offersService.editOffer(this.form.value, offer.id)
       .subscribe(
-        (response: ApiOffer) => this.router.navigate(['offers/' + response.slug + '/' + response.id]),
+        (response: Offer) => this.router.navigate(['offers/' + response.slug + '/' + response.id]),
         err => this.error = err.error.nonFieldErrors
     );
     } else {
       this.offersService.createOffer(this.form.value)
       .subscribe(
-        (response: ApiOffer) => this.router.navigate(['offers/' + response.slug + '/' + response.id]),
+        (response: Offer) => this.router.navigate(['offers/' + response.slug + '/' + response.id]),
         err => this.error = err.error.nonFieldErrors
       );
     }
@@ -132,10 +127,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
       if (file.size > 1048576) {
         return this.isFileToBig = true;
       }
-      this.offer.image = {
-        content: (a.currentTarget as FileReaderEventTarget).result,
-        filename: 'image.jpg',
-      } as Image;
+      this.offer.image = (a.currentTarget as FileReaderEventTarget).result;
      }
     reader.readAsDataURL(file)
     this.isFileToBig = false;

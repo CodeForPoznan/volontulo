@@ -17,14 +17,14 @@
   <div class="form-group row">
     <label for="title" class="col-sm-3 col-form-label">*Tytuł oferty:</label>
     <div class="col-sm-6">
-      <input 
+      <input
         type="text"
         class="form-control"
-        placeholder="Tytuł oferty..." 
+        placeholder="Tytuł oferty..."
         id="title"
         formControlName ="title"
         required>
-      <span class="form-text text-muted" 
+      <span class="form-text text-muted"
       *ngIf="isFormInputInvalid('title')">
         To pole jest obowiązkowe.</span>
     </div>
@@ -33,14 +33,14 @@
 <div class="form-group row">
     <label for="location" class="col-sm-3 col-form-label">*Miejsce odbywania wolontariatu:</label>
     <div class="col-sm-6">
-      <input 
+      <input
         type="text"
         class="form-control"
-        placeholder="Miejsce odbywania wolontariatu..." 
-        id="location" 
+        placeholder="Miejsce odbywania wolontariatu..."
+        id="location"
         formControlName="location"
         required>
-        <span class="form-text text-muted" 
+        <span class="form-text text-muted"
         *ngIf="isFormInputInvalid('location')">
           To pole jest obowiązkowe.</span>
     </div>
@@ -57,7 +57,7 @@
         <option  *ngFor="let organization of user?.organizations" [ngValue]="organization">
           {{ organization?.name }}</option>
       </select>
-      <span class="form-text text-muted" 
+      <span class="form-text text-muted"
       *ngIf="isFormInputInvalid('organization')">
         To pole jest obowiązkowe.</span>
    </div>
@@ -69,7 +69,7 @@
     <div class="col-sm-3">
       <div class="form-check form-check-inline">
         <div class="input-group">
-          <input 
+          <input
             placeholder="RRRR-MM-DD"
             type="datetime"
             id="startedAt"
@@ -79,7 +79,7 @@
             required>
         </div>
       </div>
-      <span class="form-text text-muted" 
+      <span class="form-text text-muted"
       *ngIf="isFormInputInvalid('startedAt')">
         To pole jest obowiązkowe.</span>
     </div>
@@ -100,7 +100,7 @@
     <div class="col-sm-3">
       <div class="form-check form-check-inline">
         <div class="input-group">
-          <input 
+          <input
             type="datetime"
             placeholder="RRRR-MM-DD"
             class="form-control"
@@ -109,13 +109,13 @@
             required>
         </div>
       </div>
-      <span class="form-text text-muted" 
+      <span class="form-text text-muted"
       *ngIf="isFormInputInvalid('finishedAt')">
         To pole jest obowiązkowe.</span>
       </div>
       <div class="col-sm-3">
       <div class="form-check">
-          <input  
+          <input
           type="radio"
           id="constantCoop"
           value="true"
@@ -135,7 +135,7 @@
             <div class="form-group row">
               <label for="recruitmentStartDate" class="col-sm-3 col-form-label">Początek:</label>
               <div class="col-sm-9">
-                <input 
+                <input
                 type="datetime"
                 placeholder="RRRR-MM-DD"
                 class="form-control"
@@ -147,7 +147,7 @@
             <div class="form-group row">
               <label for="recruitmentEndDate" class="col-sm-3 col-form-label">Koniec:</label>
               <div class="col-sm-9">
-                <input 
+                <input
                 type="datetime"
                 placeholder="RRRR-MM-DD"
                 class="form-control"
@@ -159,7 +159,7 @@
             <div class="form-group row">
               <label for="volunteersLimit" class="col-sm-3 col-form-label">Limit wolontariuszy:</label>
               <div class="col-sm-6">
-                <input 
+                <input
                   type="number"
                   class="form-control"
                   id="volunteersLimit"
@@ -177,7 +177,7 @@
             <div class="form-group row">
               <label for="reserveRecruitmentStartDate" class="col-sm-3 col-form-label">Początek:</label>
               <div class="col-sm-9">
-                <input 
+                <input
                 type="datetime"
                 placeholder="RRRR-MM-DD"
                 class="form-control"
@@ -188,7 +188,7 @@
             <div class="form-group row">
               <label for="reserveRecruitmentEndDate" class="col-sm-3 col-form-label">Koniec:</label>
               <div class="col-sm-9">
-                <input 
+                <input
                 type="datetime"
                 placeholder="RRRR-MM-DD"
                 class="form-control"
@@ -199,7 +199,7 @@
             <div class="form-group row">
               <label for="reserveVolunteersLimit" class="col-sm-3 col-form-label">Limit wolontariuszy:</label>
               <div class="col-sm-6">
-                <input 
+                <input
                   type="number"
                   class="form-control"
                   id="reserveVolunteersLimit"
@@ -220,12 +220,12 @@
       <textarea
         type="text"
         class="form-control"
-        placeholder="Opis oferty..." 
+        placeholder="Opis oferty..."
         id="description"
         formControlName="description"
         required>
       </textarea>
-      <span class="form-text text-muted" 
+      <span class="form-text text-muted"
       *ngIf="isFormInputInvalid('description')">
         To pole jest obowiązkowe.</span>
     </div>
@@ -237,12 +237,12 @@
         <textarea
           type="text"
           class="form-control"
-          placeholder="Wymagania czasowe..." 
+          placeholder="Wymagania czasowe..."
           id="timeCommitment"
           formControlName="timeCommitment"
           required>
         </textarea>
-        <span class="form-text text-muted" 
+        <span class="form-text text-muted"
         *ngIf="isFormInputInvalid('timeCommitment')">
           To pole jest obowiązkowe.</span>
       </div>
@@ -254,12 +254,12 @@
       <textarea
         type="text"
         class="form-control"
-        placeholder="Korzyści dla wolontariusza..." 
+        placeholder="Korzyści dla wolontariusza..."
         id="benefits"
         formControlName="benefits"
         required>
       </textarea>
-      <span class="form-text text-muted" 
+      <span class="form-text text-muted"
       *ngIf="isFormInputInvalid('benefits')">
         To pole jest obowiązkowe.</span>
     </div>
@@ -271,7 +271,7 @@
       <textarea
         type="text"
         class="form-control"
-        placeholder="Wymagania wobec wolontariusza..." 
+        placeholder="Wymagania wobec wolontariusza..."
         id="requirements"
         formControlName="requirements">
         </textarea>
@@ -281,22 +281,22 @@
     <div class="form-group row">
     <label for="image" class="col-sm-3 col-form-label">Zdjęcie:</label>
     <div class="col-sm-6">
-      <div *ngIf="offer?.image?.content">
+      <div *ngIf="offer?.image">
           Podgląd:
-          <img class="card-img" src="{{ offer.image.content }}">
+          <img class="card-img" src="{{ offer.image }}">
       </div>
       <div class="input-group">
         <div class="btn btn-secondary">
             <label for="image">Wybierz plik z komputera</label>
         </div>
-        <input 
+        <input
           type="file"
           id="image"
           (change)="onFileSelected($event)"
           accept="image/x-png,image/jpeg"
           >
       </div>
-      <span class="form-text text-muted" 
+      <span class="form-text text-muted"
           *ngIf="isFileToBig">
           Rozmiar pliku nie może przekraczać 1MB.
       </span>

@@ -15,7 +15,6 @@ from factory.fuzzy import FuzzyChoice
 import requests
 
 from apps.volontulo.models import Offer
-from apps.volontulo.models import OfferImage
 from apps.volontulo.models import Organization
 from apps.volontulo.models import UserProfile
 
@@ -155,19 +154,6 @@ def placeimg_com_download(width, height, category):
     return wrapped_func
 
 
-class OfferImageFactory(factory.DjangoModelFactory):
-    """Factory for OfferImage."""
-
-    class Meta:  # pylint: disable=C0111
-        model = OfferImage
-
-    is_main = True
-    path = ImageField(from_path=os.path.join(
-        os.path.dirname(__file__),
-        'static/volontulo/img/volontulo_baner.png'
-    ))
-
-
 class OfferFactory(factory.DjangoModelFactory):
     """Factory for Offer"""
 
@@ -240,4 +226,7 @@ class OfferFactory(factory.DjangoModelFactory):
     volunteers_limit = factory.fuzzy.FuzzyInteger(0, 1000)
     reserve_volunteers_limit = factory.fuzzy.FuzzyInteger(0, 1000)
     weight = factory.fuzzy.FuzzyInteger(0, 1000)
-    image = factory.RelatedFactory(OfferImageFactory, "offer")
+    image = ImageField(from_path=os.path.join(
+        os.path.dirname(__file__),
+        'static/volontulo/img/volontulo_baner.png'
+    ))

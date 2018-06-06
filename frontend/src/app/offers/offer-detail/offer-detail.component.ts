@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../../../environments/environment';
-import { ApiOffer } from '../../homepage-offer/offers.model';
+import { Offer } from '../../homepage-offer/offers.model';
 import { OffersService } from '../../homepage-offer/offers.service';
 import { User } from 'app/user';
 import { AuthService } from 'app/auth.service';
@@ -16,7 +16,7 @@ import { combineLatest } from 'rxjs/operators/combineLatest';
   styleUrls: ['./offer-detail.component.scss'],
 })
 export class OfferDetailComponent implements OnInit {
-  public offer$: Observable<ApiOffer>;
+  public offer$: Observable<Offer>;
   public getJoinViewUrl = this.offersService.getJoinViewUrl;
   isUserOrgMember$: Observable<boolean>;
   user$: Observable<User | null>;

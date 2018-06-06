@@ -6,7 +6,7 @@ import { Organization, OrganizationContactPayload } from './organization.model';
 import { OrganizationService } from './organization.service';
 import { ContactStatus } from './organization.interfaces';
 import { AuthService } from '../auth.service';
-import { ApiOffer } from '../homepage-offer/offers.model';
+import { Offer } from '../homepage-offer/offers.model';
 import { User } from '../user';
 import { combineLatest, skip, take } from 'rxjs/operators';
 
@@ -20,7 +20,7 @@ export class OrganizationComponent implements OnInit {
   user$: Observable<User | null>;
   organization$: Observable<Organization>;
   contactStatus$: Observable<ContactStatus>;
-  offers$: Observable<ApiOffer[]>;
+  offers$: Observable<Offer[]>;
 
   constructor(
     private activatedRoute: ActivatedRoute,

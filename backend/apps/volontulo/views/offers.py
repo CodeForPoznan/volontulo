@@ -14,11 +14,11 @@ from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from django.views.generic import View
 
-from apps.volontulo.forms import (
-    CreateOfferForm, OfferApplyForm
-)
+from apps.volontulo.forms import CreateOfferForm
+from apps.volontulo.forms import OfferApplyForm
 from apps.volontulo.lib.email import send_mail
-from apps.volontulo.models import Offer, OfferImage, UserProfile
+from apps.volontulo.models import Offer
+from apps.volontulo.models import UserProfile
 from apps.volontulo.utils import correct_slug, save_history
 from apps.volontulo.views import logged_as_admin
 
@@ -265,16 +265,11 @@ class OffersJoin(View):
                 return redirect('offers_list')
 
         offer = Offer.objects.get(id=id_)
-        try:
-            main_image = OfferImage.objects.get(offer=offer, is_main=True)
-        except OfferImage.DoesNotExist:
-            main_image = ''
 
         context = {
             'form': OfferApplyForm(),
             'offer': offer,
             'MEDIA_URL': settings.MEDIA_URL,
-            'main_image': main_image,
         }
 
         context['volunteer_user'] = UserProfile()
