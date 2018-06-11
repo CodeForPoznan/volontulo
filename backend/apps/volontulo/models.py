@@ -175,41 +175,11 @@ class Offer(models.Model):
             return 'ongoing'
         return 'ongoing'
 
-    def change_status(self, status):
-        """Change offer status.
-
-        :param status: string Offer status
-        """
-        if status in ('published', 'rejected', 'unpublished'):
-            self.offer_status = status
-            self.save()
-        return self
-
-    def unpublish(self):
-        """Unpublish offer."""
-        self.offer_status = 'unpublished'
-        self.save()
-        return self
-
     def publish(self):
         """Publish offer."""
         self.offer_status = 'published'
         Offer.objects.all().update(weight=F('weight') + 1)
         self.weight = 0
-        self.save()
-        return self
-
-    def reject(self):
-        """Reject offer."""
-        self.offer_status = 'rejected'
-        self.save()
-        return self
-
-    def close_offer(self):
-        """Change offer status to close."""
-        self.offer_status = 'unpublished'
-        self.action_status = 'finished'
-        self.recruitment_status = 'closed'
         self.save()
         return self
 
@@ -231,24 +201,9 @@ class UserProfile(models.Model):
     )
     uuid = models.UUIDField(default=uuid.uuid4, unique=True)
 
-    def is_admin(self):
-        """Return True if current user is administrator, else return False"""
-        return self.is_administrator
-
     def is_in_organization(self):
         """Return True if current user is in any organization"""
         return self.organizations.exists()
-
-    def is_volunteer(self):
-        """Return True if current user is volunteer, else return False"""
-        return not (self.is_administrator and self.organizations)
-
-    def can_edit_offer(self, offer=None, offer_id=None):
-        """Checks if the user can edit an offer based on its ID"""
-        if offer is None:
-            offer = Offer.objects.get(id=offer_id)
-        return self.is_administrator or self.organizations.filter(
-            id=offer.organization_id).exists()
 
     def __str__(self):
         return self.user.email

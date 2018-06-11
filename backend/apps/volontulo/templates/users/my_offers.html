@@ -1,11 +1,9 @@
-{% load main_image %}
-
 {% if offers %}
     <div class="row offer-thumbnails auto-clear">
         {% for offer in offers %}
             <div class="col-sm-6">
                 <div class="thumbnail">
-                    <a href="{{ ANGULAR_ROOT }}/offers/{{ offer.title | slugify }}/{{ offer.id }}" class="heading-image" style="background-image:url({{ MEDIA_URL }}{{ offer.images.all|main_image }})"></a>
+                    <a href="{{ ANGULAR_ROOT }}/offers/{{ offer.title | slugify }}/{{ offer.id }}" class="heading-image" style="background-image:url({{ MEDIA_URL }}{{ offer.image }})"></a>
                     <a href="{{ ANGULAR_ROOT }}/offers/{{ offer.title | slugify }}/{{ offer.id }}">
                         <div class="panels">
                             <div class="offer-title">

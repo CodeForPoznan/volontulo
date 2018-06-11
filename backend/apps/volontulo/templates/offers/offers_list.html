@@ -1,5 +1,4 @@
 {% extends "common/col1.html" %}
-{% load main_image %}
 
 {% block title %}Lista ofert Volontulo{% endblock %}
 
@@ -20,7 +19,7 @@
             <tr>
                 <td>
                     <a class="crop-circle" href="{{ ANGULAR_ROOT }}/offers/{{ offer.title | slugify }}/{{ offer.id }}">
-                        <img src="/media/{{ offer.images.all|main_image }}" alt="{{offer.images.all|slugify|default:''}}" />
+                        <img src="/media/{{ offer.image }}" alt="{{offer.image|slugify|default:''}}" />
                     </a>
                 </td>
                 <td>

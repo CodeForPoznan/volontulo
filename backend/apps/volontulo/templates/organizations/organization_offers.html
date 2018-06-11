@@ -1,5 +1,4 @@
 {% load staticfiles %}
-{% load main_image %}
 
 {% if offers %}
     <table class="table table-striped offer-table">
@@ -15,7 +14,7 @@
         <tr>
             <td>
                 <a class="crop-circle" href="{{ ANGULAR_ROOT }}/offers/{{ o.title | slugify }}/{{ o.id }}">
-                    <img src="/media/{{ o.images.all|main_image }}" alt="{{o.images.all|main_image|slugify|default:''}}" />
+                    <img src="/media/{{ o.image }}" alt="{{o.image|slugify|default:''}}" />
                 </a>
             </td>
             <td>
