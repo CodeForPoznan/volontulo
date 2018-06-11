@@ -18,12 +18,4 @@ export class OrganizationsComponent implements OnInit {
     this.organizations$ = this.organizationService.organizations$;
     this.organizationService.getOrganizations();
   }
-
-  getOrganizationViewUrl(organization: Organization): string {
-    return this.organizationService.getOrganizationViewUrl(organization);
-  }
-
-  getOrganizationCreateViewUrl(): string {
-    return this.organizationService.getOrganizationCreateViewUrl();
-  }
 }

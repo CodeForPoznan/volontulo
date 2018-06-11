@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-lg-12">
+    <h2>Lista organizacji</h2>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-12">
+    <table *ngIf="organizations?.length; else noOrganizations" class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">Nazwa</th>
+        <th scope="col">Adres</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let organization of organizations">
+        <td><a [routerLink]="['/organizations', organization.slug, organization.id]">{{ organization.name }}</a></td>
+        <td>{{ organization.address }}</td>
+      </tr>
+      </tbody>
+    </table>
+    <ng-template #noOrganizations>
+      <p>Brak zdefiniowanych organizacji.</p>
+    </ng-template>
+  </div>
+</div>

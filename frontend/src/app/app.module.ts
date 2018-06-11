@@ -13,6 +13,7 @@ import { environment } from '../environments/environment';
 import { OffersService } from './homepage-offer/offers.service';
 import { AppComponent } from './app.component';
 import { OrganizationCreateComponent } from './organization/organization-create/organization-create.component';
+import { OrganizationsListComponent } from './organizations/organizations-list/organizations-list.component';
 import { RedirectComponent } from './redirect.component';
 import { UserService } from './user.service';
 import { WindowFactory, WindowService } from './window.service';
@@ -167,6 +168,7 @@ registerLocaleData(localePl);
     MessagesComponent,
     OrganizationOffersListComponent,
     OrganizationCreateComponent,
+    OrganizationsListComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'volontulo' }),
