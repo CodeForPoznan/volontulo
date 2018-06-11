@@ -26,6 +26,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='usergallery',
             name='image',
-            field=models.ImageField(upload_to=apps.volontulo.models.upload_to_profiles),
+            field=models.ImageField(),
         ),
     ]

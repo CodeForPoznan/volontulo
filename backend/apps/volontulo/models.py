@@ -8,7 +8,6 @@ import logging
 import os
 import uuid
 
-from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import F
@@ -27,20 +26,6 @@ def upload_to_offers(_, filename):
     _, file_extension = os.path.splitext(filename)
     return os.path.join(
         'offers',
-        '{}{}'.format(uuid.uuid4(), file_extension),
-    )
-
-
-def upload_to_profiles(_, filename):
-    """
-    Upload to profiles path.
-
-    This needs to be a full-body func because
-    migrations requires it to be serializable.
-    """
-    _, file_extension = os.path.splitext(filename)
-    return os.path.join(
-        'profiles',
         '{}{}'.format(uuid.uuid4(), file_extension),
     )
 
@@ -265,34 +250,5 @@ class UserProfile(models.Model):
         return self.is_administrator or self.organizations.filter(
             id=offer.organization_id).exists()
 
-    def get_avatar(self):
-        """Return avatar for current user."""
-        return UserGallery.objects.filter(
-            userprofile=self,
-            is_avatar=True
-        )
-
-    def clean_images(self):
-        """Clean user images."""
-        images = UserGallery.objects.filter(userprofile=self)
-        for image in images:
-            try:
-                os.remove(os.path.join(settings.MEDIA_ROOT, str(image.image)))
-            except OSError as ex:
-                logger.error(ex)
-
-            image.delete()
-
     def __str__(self):
         return self.user.email
-
-
-class UserGallery(models.Model):
-    """Handling user images."""
-    userprofile = models.ForeignKey(UserProfile, related_name='images')
-    image = models.ImageField(upload_to=upload_to_profiles)
-    is_avatar = models.BooleanField(default=False)
-
-    def __str__(self):
-        """String representation of an image."""
-        return str(self.image)

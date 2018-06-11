@@ -11,7 +11,6 @@ from django.shortcuts import render
 
 from apps.volontulo.forms import AdministratorContactForm
 from apps.volontulo.forms import EditProfileForm
-from apps.volontulo.forms import UserGalleryForm
 from apps.volontulo.lib.email import send_mail
 from apps.volontulo.models import Offer
 from apps.volontulo.models import UserProfile
@@ -57,14 +56,6 @@ def logged_user_profile(request):
             organization__userprofiles__user=request.user
         )
 
-    def _is_saving_user_avatar():
-        """."""
-        return request.POST.get('submit') == 'save_image' and request.FILES
-
-    def _is_saving_profile():
-        """."""
-        return request.POST.get('submit') == 'save_profile'
-
     def _save_userprofile():
         """Save user profile."""
         form = EditProfileForm(request.POST)
@@ -95,38 +86,14 @@ def logged_user_profile(request):
             )
         return form
 
-    def _handle_user_avatar_upload():
-        """Handle image upload for user profile page."""
-        gallery_form = UserGalleryForm(request.POST, request.FILES)
-        if gallery_form.is_valid():
-            userprofile.clean_images()
-            gallery = gallery_form.save(commit=False)
-            gallery.userprofile = userprofile
-            # User can only change his avatar
-            gallery.is_avatar = True
-            gallery.save()
-            messages.success(request, 'Dodano grafikę')
-        else:
-            errors = '<br />'.join(gallery_form.errors)
-            messages.error(
-                request,
-                'Problem w trakcie dodawania grafiki: {errors}'.format(
-                    errors=errors
-                )
-            )
-
     profile_form = _init_edit_profile_form()
     userprofile = UserProfile.objects.get(user=request.user)
 
     if request.method == 'POST':
-        if _is_saving_user_avatar():
-            _handle_user_avatar_upload()
-        elif _is_saving_profile():
-            profile_form = _save_userprofile()
+        profile_form = _save_userprofile()
 
     ctx = dict(
         profile_form=profile_form,
-        user_avatar_form=UserGalleryForm(),
         userprofile=userprofile,
         MEDIA_URL=settings.MEDIA_URL
     )

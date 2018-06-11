@@ -51,9 +51,6 @@ class TestUsersProfile(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'users/user_profile.html')
-        # check if contain image upload form (all users)
-        self.assertIn('image', response.context)
-        self.assertContains(response, 'Wybierz grafikę')
 
     def test__logged_user_profile_empty_volunteer(self):
         """Testing user profile page for volunteers."""

@@ -8,23 +8,7 @@
 {% block content %}
 
     <div class="row">
-        <div class="col-xs-12 col-sm-6">
-            <div class="panel panel-default">
-                <h3 class="panel-heading lead">
-                    <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
-                    Zdjęcie profilowe
-                </h3>
-                <div class="panel-body">
-                  <div class="col-xs-8">
-                    {% include 'users/gallery.html' with image=image %}
-                  </div>
-                  <div class="col-xs-4 user-photo">
-                      <img src="{{ MEDIA_URL }}{{ userprofile.get_avatar.0.image }}">
-                  </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-xs-12">
             <div class="panel panel-default">
                 <h3 class="panel-heading lead">
                     <span class="glyphicon glyphicon-user" aria-hidden="true"></span>

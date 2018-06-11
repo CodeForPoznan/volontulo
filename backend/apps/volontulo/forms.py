@@ -7,7 +7,6 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from apps.volontulo.models import UserGallery
 from apps.volontulo.utils import get_administrators_emails
 
 ACCEPT_TERMS = """Wyrażam zgodę na przetwarzanie moich danych osobowych"""
@@ -81,18 +80,6 @@ class EditProfileForm(forms.Form):
                 raise ValidationError("Wprowadzone hasła różnią się")
 
         return True
-
-
-class UserGalleryForm(forms.ModelForm):
-
-    """Form used for changing user profile of user."""
-    image = forms.ImageField(label="Wybierz grafikę")
-
-    class Meta(object):
-        model = UserGallery
-        fields = [
-            'image',
-        ]
 
 
 class OfferApplyForm(forms.Form):
