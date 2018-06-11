@@ -67,11 +67,6 @@ urlpatterns = [
     # offers' namesapce:
     url(r'^o/offers$', offers_views.OffersList.as_view(), name='offers_list'),
     url(
-        r'^o/offers/delete/(?P<pk>[0-9]+)$',
-        offers_views.OffersDelete.as_view(),
-        name='offers_delete'
-    ),
-    url(
         r'^o/offers/accept/(?P<pk>[0-9]+)$',
         offers_views.OffersAccept.as_view(),
         name='offers_accept'

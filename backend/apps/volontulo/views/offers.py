@@ -105,28 +105,6 @@ class OffersReorder(View):
         return redirect('offers_list')
 
 
-class OffersDelete(View):
-    """ Class view responsible for deletion of offers """
-
-    @staticmethod
-    def get(request, pk):  # pylint: disable=invalid-name
-        """Method which allows to delete selected offer
-
-        :param request: WSGIRequest instance
-        :param pk: Offer id
-        """
-        offer = get_object_or_404(Offer, pk=pk)
-        if (
-                request.user.is_authenticated() and
-                request.user.userprofile.is_administrator
-        ):
-            offer.reject()
-            messages.info(request, "Oferta została odrzucona.")
-            return redirect(settings.ANGULAR_ROOT)
-
-        return HttpResponseForbidden()
-
-
 class OffersAccept(View):
     """ Class view responsible for acceptance of offers """
 
