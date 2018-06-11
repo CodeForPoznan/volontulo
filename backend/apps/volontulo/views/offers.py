@@ -253,17 +253,3 @@ class OffersJoin(View):
                     'volunteer_user': volunteer_user,
                 }
             )
-
-
-class OffersArchived(View):
-    """Class based view to list archived offers."""
-
-    @staticmethod
-    def get(request):
-        """GET request for offer archive page.
-
-        :param request: WSGIRequest instance
-        """
-        return render(request, 'offers/archived.html', {
-            'offers': Offer.objects.get_archived()
-        })

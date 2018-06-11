@@ -77,11 +77,6 @@ urlpatterns = [
         name='offers_reorder'
     ),
     url(
-        r'^o/offers/archived$',
-        offers_views.OffersArchived.as_view(),
-        name='offers_archived'
-    ),
-    url(
         r'^o/offers/(?P<slug>[\w-]+)/(?P<id_>[0-9]+)/join$',
         offers_views.OffersJoin.as_view(),
         name='offers_join'
