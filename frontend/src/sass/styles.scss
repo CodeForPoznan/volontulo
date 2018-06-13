@@ -18,6 +18,12 @@ html {
   font-size: $font-size-base;
 }
 
+/* Temporary hack. We need to raise bootstrap version.*/
+
+.form-check {
+  padding-left: $form-check-input-gutter;
+}
+
 input[type=file] {
   visibility: hidden;
 }

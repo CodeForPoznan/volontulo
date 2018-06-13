@@ -162,17 +162,12 @@ class TestOffersJoin(TestCase):
         response = self.client.post(
             '/o/offers/volontulo-offer/{}/join'.format(self.offer.id),
             post_data,
-            follow=True,
         )
         self.assertRedirects(
             response,
-            '/o/register',
+            '{}/register'.format(settings.ANGULAR_ROOT),
             302,
-            200,
-        )
-        self.assertContains(
-            response,
-            'Zarejestruj się, aby zapisać się do oferty.',
+            fetch_redirect_response=False,
         )
 
     def test_offers_join_valid_form_with_existing_email(self):

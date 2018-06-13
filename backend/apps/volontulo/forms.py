@@ -9,20 +9,6 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from apps.volontulo.utils import get_administrators_emails
 
-ACCEPT_TERMS = """Wyrażam zgodę na przetwarzanie moich danych osobowych"""
-
-
-class UserForm(forms.ModelForm):
-
-    """Form reposponsible for authorization."""
-    email = forms.EmailField()
-    password = forms.CharField(widget=forms.PasswordInput())
-    terms_acceptance = forms.BooleanField(label=ACCEPT_TERMS, required=True)
-
-    class Meta(object):
-        model = User
-        fields = ['email']
-
 
 class EditProfileForm(forms.Form):
 

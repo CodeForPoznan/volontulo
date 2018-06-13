@@ -194,7 +194,9 @@ class OffersJoin(View):
                     request,
                     "Zarejestruj się, aby zapisać się do oferty."
                 )
-                return redirect('register')
+                return redirect('{ANGULAR_ROOT}/register'.format(
+                    ANGULAR_ROOT=settings.ANGULAR_ROOT
+                ))
 
             has_applied = Offer.objects.filter(
                 volunteers=user,

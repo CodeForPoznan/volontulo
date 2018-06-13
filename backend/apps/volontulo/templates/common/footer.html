@@ -5,7 +5,7 @@
             <h3 class="nav-title">Informacje</h3>
             <ul class="nav-list list-unstyled">
                 <li><a href="{{ ANGULAR_ROOT }}">Strona główna</a></li>
-                <li><a href="{% url 'register' %}">Załóż konto</a></li>
+                <li><a href="{{ ANGULAR_ROOT }}/register">Załóż konto</a></li>
                 <li><a href="{% url 'contact_form' %}">Kontakt z administratorem</a></li>
                 <li><a href="{{ ANGULAR_ROOT }}/about-us">O nas</a></li>
                 <li><a href="{{ ANGULAR_ROOT }}/regulations">Regulamin</a></li>
@@ -14,7 +14,7 @@
         <div class="col-xs-12 col-sm-4">
             <h3 class="nav-title">Strefa organizacji i instytucji</h3>
             <ul class="nav-list list-unstyled">
-                <li><a href="{% url 'register' %}">Załóż konto</a></li>
+                <li><a href="{{ ANGULAR_ROOT }}/register">Załóż konto</a></li>
                 <li><a href="{{ ANGULAR_ROOT }}/offers/create">Dodaj nową ofertę</a></li>
                 <li><a href="{{ ANGULAR_ROOT }}/organizations">Lista organizacji i instytucji</a></li>
                 <li><a href="{{ ANGULAR_ROOT }}/faq-organizations">FAQ dla organizacji i instytucji</a></li>
@@ -24,7 +24,7 @@
         <div class="col-xs-12 col-sm-4">
             <h3 class="nav-title">Strefa wolontariusza</h3>
             <ul class="nav-list list-unstyled">
-                 <li><a href="{% url 'register' %}">Załóż konto</a></li>
+                 <li><a href="{{ ANGULAR_ROOT }}/register">Załóż konto</a></li>
                  <li><a href="{% url 'offers_list' %}">Lista aktualnych ofert</a></li>
                  <li><a href="{{ ANGULAR_ROOT }}/organizations">Lista organizacji i instytucji</a></li>
                  <li><a href="{{ ANGULAR_ROOT }}/faq-volunteers">FAQ dla wolontariuszy</a></li>

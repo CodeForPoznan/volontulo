@@ -25,7 +25,7 @@
         </ng-container>
         <ng-template #anonymousBlock>
           <li class="nav-item">
-            <a href="{{ djangoRoot }}/register" class="btn btn-primary my-2 my-sm-0">Załóż konto</a>
+            <a [routerLink]="['/register']" class="btn btn-primary my-2 my-sm-0">Załóż konto</a>
           </li>
           <li>
             <span class="nav-item navbar-text ml-2 mr-2">lub</span>

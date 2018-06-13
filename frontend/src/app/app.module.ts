@@ -44,6 +44,8 @@ import { CreateOfferComponent } from './offers/create-offer/create-offer.compone
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { PasswordResetConfirmComponent } from './password-reset/password-reset-confirm.component';
 import { OrganizationOffersListComponent } from './organization/organization-offers-list/organization-offers-list.component';
+import { RegisterComponent } from './register/register.component';
+import { ActivationComponent } from './activation/activation.component';
 import { LoggedInGuard } from './guards/loggedInGuard.service';
 import { LoggedOutGuard } from './guards/loggedOutGuard.service';
 
@@ -99,6 +101,14 @@ const appRoutes: Routes = [
     path: 'login',
     component: LoginComponent,
     canActivate: [LoggedOutGuard],
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+  },
+  {
+    path: 'activate/:token',
+    component: ActivationComponent
   },
   {
     path: 'regulations',
@@ -167,6 +177,8 @@ registerLocaleData(localePl);
     PasswordResetConfirmComponent,
     MessagesComponent,
     OrganizationOffersListComponent,
+    RegisterComponent,
+    ActivationComponent,
     OrganizationCreateComponent,
     OrganizationsListComponent
   ],

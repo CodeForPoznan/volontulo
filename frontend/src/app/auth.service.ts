@@ -17,11 +17,15 @@ export class AuthService {
   private loginUrl = `${environment.apiRoot}/login/`;
   private logoutUrl = `${environment.apiRoot}/logout/`;
   private resetPasswordUrl = `${environment.apiRoot}/password-reset/`;
+  private registerUrl = `${environment.apiRoot}/register/`;
+  private activationUrl = `${environment.apiRoot}/activate/`;
 
   private changeUserEvent = new ReplaySubject<User | null>(1);
   private loginEvent = new Subject<SuccessOrFailureAction>();
   private resetPasswordEvent = new Subject<SuccessOrFailureAction>();
   private confirmResetPasswordEvent = new Subject<SuccessOrFailureAction>();
+  private _currentUserUrl = `${environment.apiRoot}/current-user`;
+  private _currentUser: User;
 
   public user$: Observable<User | null> = this.changeUserEvent.asObservable();
   public login$: Observable<SuccessOrFailureAction> = this.loginEvent.asObservable();
@@ -102,6 +106,20 @@ export class AuthService {
         err => {
           this.confirmResetPasswordEvent.next({ success: false, message: err });
         });
+  }
+
+  register(email: string, password: string) {
+    return this.http.post(
+      this.registerUrl,
+      { password, email },
+      { observe: 'response' })
+  }
+
+  activateAccount(uuid: string) {
+    return this.http.post(
+      `${this.activationUrl}${uuid}/`,
+      null,
+      { observe: 'response' });
   }
 
   logout() {

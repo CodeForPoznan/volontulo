@@ -3,6 +3,7 @@
 """
 .. module:: api
 """
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth import login
@@ -11,7 +12,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.messages import get_messages
 from django.contrib.sites.shortcuts import get_current_site
+from django.core.exceptions import ValidationError
 from django.db.models import Q
+from django.db.utils import IntegrityError
 from django.shortcuts import get_object_or_404
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -31,6 +34,7 @@ from apps.volontulo import serializers
 from apps.volontulo.authentication import CsrfExemptSessionAuthentication
 from apps.volontulo.lib.email import send_mail
 from apps.volontulo.models import Organization
+from apps.volontulo.models import UserProfile
 from apps.volontulo.serializers import (
     OrganizationContactSerializer, UsernameSerializer, PasswordSerializer,
     ContactSerializer,
@@ -66,6 +70,53 @@ def login_view(request):
         }).data,
         status=status.HTTP_400_BAD_REQUEST,
     )
+
+
+@api_view(['POST'])
+@authentication_classes((CsrfExemptSessionAuthentication,))
+@permission_classes((AllowAny,))
+def register_view(request):
+    """REST API register view."""
+    if request.user.is_authenticated():
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    email = request.data.get('email')
+    password = request.data.get('password')
+
+    user = User.objects.create_user(
+        username=email,
+        email=email,
+        password=password,
+        is_active=False,
+    )
+    try:
+        user.save()
+    except IntegrityError:
+        return Response(status=status.HTTP_201_CREATED)
+
+    profile = UserProfile(user=user)
+    ctx = {'token': profile.uuid}
+    profile.save()
+    send_mail(request, 'registration', [user.email], context=ctx)
+
+    return Response(status=status.HTTP_201_CREATED)
+
+
+@api_view(['POST'])
+@authentication_classes((CsrfExemptSessionAuthentication,))
+@permission_classes((AllowAny,))
+def activate_view(_, uuid):
+    """View responsible for activating user account."""
+    try:
+        profile = UserProfile.objects.get(uuid=uuid)
+    except (UserProfile.DoesNotExist, ValidationError):
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if profile.user.is_active:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    profile.user.is_active = True
+    profile.user.save()
+    return Response(status=status.HTTP_201_CREATED)
 
 
 @api_view(['POST'])
