@@ -42,4 +42,8 @@ export class UserService {
       })
     );
   }
+
+  getFullName(user: User): string {
+    return `${user.firstName} ${user.lastName}`;
+  }
 }

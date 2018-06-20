@@ -48,6 +48,10 @@ import { RegisterComponent } from './register/register.component';
 import { ActivationComponent } from './activation/activation.component';
 import { LoggedInGuard } from './guards/loggedInGuard.service';
 import { LoggedOutGuard } from './guards/loggedOutGuard.service';
+import { ContactComponent } from './contact/contact.component';
+import { ContactResolver } from './resolvers';
+import { FormErrorComponent } from './form-error/form-error.component';
+import { ContactService } from './contact.service';
 
 Raven.config(environment.sentryDSN).install();
 
@@ -142,8 +146,15 @@ const appRoutes: Routes = [
     canActivate: [LoggedOutGuard],
   },
   {
+    path: 'contact',
+    component: ContactComponent,
+    resolve: {
+      contactData: ContactResolver,
+    },
+  },
+  {
     path: '**',
-    component: RedirectComponent
+    component: RedirectComponent,
   },
 ];
 
@@ -180,7 +191,9 @@ registerLocaleData(localePl);
     RegisterComponent,
     ActivationComponent,
     OrganizationCreateComponent,
-    OrganizationsListComponent
+    OrganizationsListComponent,
+    ContactComponent,
+    FormErrorComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'volontulo' }),
@@ -190,7 +203,8 @@ registerLocaleData(localePl);
     HttpClientXsrfModule.withOptions({ cookieName: 'csrftoken' }),
     NgbModule.forRoot(),
     RouterModule.forRoot(appRoutes),
-    CookieModule.forRoot()
+    CookieModule.forRoot(),
+    ReactiveFormsModule,
   ],
   providers: [
     AuthService,
@@ -199,6 +213,8 @@ registerLocaleData(localePl);
     UserService,
     LoggedInGuard,
     LoggedOutGuard,
+    ContactResolver,
+    ContactService,
     { provide: LOCALE_ID, useValue: 'pl' },
     { provide: WindowService, useFactory: WindowFactory, deps: [PLATFORM_ID] },
     { provide: ErrorHandler, useFactory: ErrorHandlerFactory },

@@ -95,9 +95,4 @@ urlpatterns = [
     # users/slug-id/contact
 
     # organizations/filter
-    url(
-        r'^o/contact$',
-        views.contact_form,
-        name='contact_form'
-    ),
 ]

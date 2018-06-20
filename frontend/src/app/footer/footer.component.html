@@ -7,7 +7,7 @@
         <ul class="nav list-unstyled flex-column">
           <li class="nav-item"><a class="nav-link" [routerLink]="['']">Strona główna</a></li>
           <li class="nav-item"><a class="nav-link" [routerLink]="['/register']">Załóż konto</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ djangoRoot }}/contact">Kontakt z administratorem</a></li>
+          <li class="nav-item"><a class="nav-link" [routerLink]="['/contact']">Kontakt z administratorem</a></li>
           <li class="nav-item"><a class="nav-link" [routerLink]="['/about-us']">O nas</a></li>
           <li class="nav-item"><a class="nav-link" [routerLink]="['/regulations']">Regulamin</a></li>
         </ul>

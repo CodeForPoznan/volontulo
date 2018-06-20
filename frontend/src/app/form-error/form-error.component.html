@@ -1,0 +1,16 @@
+<div *ngIf="fc.invalid && fc.touched" class="invalid-feedback">
+  <div *ngIf="fc.errors?.required">
+    To pole jest wymagane.
+  </div>
+  <ng-container *ngIf="!fc.errors?.required">
+    <div *ngIf="fc.errors?.email">
+      Niepoprawny e-mail.
+    </div>
+    <div *ngIf="fc.errors?.minlength">
+      Minimalna długość to {{ minLength }} znaków.
+    </div>
+    <div *ngIf="fc.errors?.maxlength">
+      Maksymalna długość to {{ maxLength }} znaków.
+    </div>
+  </ng-container>
+</div>

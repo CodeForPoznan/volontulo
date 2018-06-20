@@ -103,51 +103,6 @@ def logged_user_profile(request):
     return render(request, 'users/user_profile.html', ctx)
 
 
-def contact_form(request):
-    """View responsible for contact forms.
-
-    :param request: WSGIRequest instance
-    """
-    if request.method == 'POST':
-        form = AdministratorContactForm(request.POST)
-        if form.is_valid():
-            # get administrators by IDS
-            administrator_id = request.POST.get('administrator')
-            admin = User.objects.get(id=administrator_id)
-            send_mail(
-                request,
-                'contact_to_admin',
-                [
-                    admin.email,
-                    request.POST.get('email'),
-                ],
-                {k: v for k, v in request.POST.items()},
-            )
-            messages.success(request, 'Email został wysłany.')
-        else:
-            errors = '<br />'.join(form.errors)
-            messages.error(
-                request,
-                'Proszę poprawić błędy w formularzu: ' + errors
-            )
-            return render(
-                request,
-                'contact.html',
-                {
-                    'contact_form': form,
-                }
-            )
-
-    form = AdministratorContactForm()
-    return render(
-        request,
-        'contact.html',
-        {
-            'contact_form': form,
-        }
-    )
-
-
 def page_not_found(request):
     """Page not found - 404 error handler.
 
