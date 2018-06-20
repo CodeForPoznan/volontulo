@@ -242,10 +242,6 @@ class OfferFactoryTestCase(TestCase):
     def test_offer_if_choices_takes_proper_values(self):
         """Test if fields with choices takes proper values."""
         self.assertIn(
-            self.fake_offer1.status_old,
-            ["NEW", "ACTIVE", "SUSPENDED"]
-        )
-        self.assertIn(
             self.fake_offer1.offer_status,
             ["unpublished", "published", "rejected"]
         )

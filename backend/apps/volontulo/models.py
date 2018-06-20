@@ -89,12 +89,6 @@ class Offer(models.Model):
     started_at = models.DateTimeField(blank=True, null=True)
     finished_at = models.DateTimeField(blank=True, null=True)
     time_period = models.CharField(max_length=150, default='', blank=True)
-    status_old = models.CharField(
-        max_length=30,
-        default='NEW',
-        null=True,
-        unique=False
-    )
     offer_status = models.CharField(
         max_length=16,
         choices=OFFER_STATUSES,

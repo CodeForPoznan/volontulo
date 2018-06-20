@@ -9,7 +9,6 @@ from django.test import Client
 from django.test import TestCase
 
 from apps.volontulo.tests import common
-from apps.volontulo.models import Offer
 
 
 class TestUsersProfile(TestCase):
@@ -105,10 +104,6 @@ class TestUsersProfile(TestCase):
         response = self.client.get('/o/me')
 
         self.assertIn('offers', response.context)
-        self.assertEqual(
-            4,
-            Offer.objects.all().filter(status_old='ACTIVE').count()
-        )
         self.assertNotContains(
             response,
             'Ta organizacja nie utworzyła jeszcze żadnych ofert.'

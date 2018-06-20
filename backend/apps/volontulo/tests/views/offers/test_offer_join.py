@@ -36,7 +36,6 @@ class TestOffersJoin(TestCase):
             location='',
             title='volontulo offer',
             time_period='',
-            status_old='NEW',
             started_at='2015-10-10 21:22:23+00:00',
             finished_at='2015-12-12 11:12:13+00:00',
         )

@@ -17,13 +17,11 @@ class TestOffersCommons(object):
 
         cls.inactive_offer = OfferFactory(
             organization=cls.organization,
-            status_old='NEW',
             offer_status='unpublished',
             recruitment_status='open',
         )
         cls.active_offer = OfferFactory(
             organization=cls.organization,
-            status_old='ACTIVE',
             offer_status='published',
             recruitment_status='open',
         )
