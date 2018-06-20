@@ -7,6 +7,7 @@ from django.core import mail
 from django.test import Client
 from django.test import TestCase
 
+from apps.volontulo.factories import UserFactory
 from apps.volontulo.tests import common
 
 
@@ -19,9 +20,10 @@ class TestPages(TestCase):
     @classmethod
     def setUpTestData(cls):
         # admin user
-        cls.admin = common.initialize_administrator(
-            username=cls.test_admin_username, email=cls.test_admin_email,
-            password=cls.test_admin_password
+        cls.admin = UserFactory(
+            email=cls.test_admin_email,
+            password=cls.test_admin_password,
+            userprofile__is_administrator=True
         )
         # volunteer user - totally useless
         cls.volunteer = common.initialize_empty_volunteer()

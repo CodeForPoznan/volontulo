@@ -24,7 +24,6 @@ class TestOffersCommons(object):
         cls.active_offer = OfferFactory(
             organization=cls.organization,
             status_old='ACTIVE',
-            action_status='ongoing',
             offer_status='published',
             recruitment_status='open',
         )

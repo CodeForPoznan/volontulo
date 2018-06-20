@@ -11,6 +11,7 @@ import uuid
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import F
+from django.db.models import Q
 from django.utils import timezone
 
 logger = logging.getLogger('volontulo.models')
@@ -47,8 +48,9 @@ class OffersManager(models.Manager):
     def get_active(self):
         """Return active offers."""
         return self.filter(
+            # that covers action_status__in=('ongoing', 'future'):
+            Q(started_at__isnull=True) | Q(started_at__lte=timezone.now()),
             offer_status='published',
-            action_status__in=('ongoing', 'future'),
             recruitment_status__in=('open', 'supplemental'),
         ).all()
 
@@ -59,14 +61,6 @@ class OffersManager(models.Manager):
     def get_weightened(self):
         """Return all published offers ordered by weight."""
         return self.filter(offer_status='published').order_by('weight')
-
-    def get_archived(self):
-        """Return archived offers."""
-        return self.filter(
-            offer_status='published',
-            action_status__in=('ongoing', 'finished'),
-            recruitment_status='closed',
-        ).all()
 
 
 class Offer(models.Model):
@@ -81,11 +75,6 @@ class Offer(models.Model):
         ('open', 'Open'),
         ('supplemental', 'Supplemental'),
         ('closed', 'Closed'),
-    )
-    ACTION_STATUSES = (
-        ('future', 'Future'),
-        ('ongoing', 'Ongoing'),
-        ('finished', 'Finished'),
     )
 
     objects = OffersManager()
@@ -115,11 +104,6 @@ class Offer(models.Model):
         max_length=16,
         choices=RECRUITMENT_STATUSES,
         default='open',
-    )
-    action_status = models.CharField(
-        max_length=16,
-        choices=ACTION_STATUSES,
-        default='ongoing',
     )
     votes = models.BooleanField(default=0)
     recruitment_start_date = models.DateTimeField(blank=True, null=True)
@@ -156,23 +140,15 @@ class Offer(models.Model):
         self.offer_status = 'unpublished'
         self.recruitment_status = 'open'
 
-        if self.started_at or self.finished_at:
-            self.action_status = self.determine_action_status()
-
-    def determine_action_status(self):
+    @property
+    def action_status(self):
         """Determine action status by offer dates."""
-        if self.started_at:
-            if self.started_at > timezone.now():
-                return 'future'
-            elif not self.finished_at:
-                return 'ongoing'
-        if self.finished_at:
-            if self.finished_at < timezone.now():
-                return 'finished'
-            elif not self.started_at:
-                return 'ongoing'
-        if not self.started_at and not self.finished_at:
-            return 'ongoing'
+        now = timezone.now()
+
+        if self.started_at and self.started_at > now:
+            return 'future'
+        if self.finished_at and self.finished_at < now:
+            return 'finished'
         return 'ongoing'
 
     def publish(self):
