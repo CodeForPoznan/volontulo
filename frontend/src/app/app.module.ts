@@ -33,6 +33,7 @@ import { IconComponent } from './icon/icon.component';
 import { IconLabelComponent } from './icon-label/icon-label.component';
 import { BannerComponent } from './banner/banner.component';
 import { MessagesComponent } from './messages/messages.component';
+import { MessagesService } from './messages/messages.service';
 import { OrganizationsComponent } from './organizations/organizations.component';
 import { HttpWithCredentialsInterceptor, HttpXsrfInterceptor } from './http-interceptor';
 import { FaqOrganizationsComponent } from './static/faq-organizations.component';
@@ -222,6 +223,7 @@ registerLocaleData(localePl);
     AuthService,
     OffersService,
     OrganizationService,
+    MessagesService,
     UserService,
     LoggedInGuard,
     LoggedOutGuard,

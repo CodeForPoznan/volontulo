@@ -1,11 +1,6 @@
-<div *ngIf="showMessages">
-  <div *ngFor="let message of messages$ | async">
-    <ngb-alert
-      *ngIf="message.showMessage"
-      [type]="message.type ==='error' ? 'warning' : message.type"
-      [dismissible]="true"
-      (close)="closeMessage(message)">
-      <div [innerHTML]="message.message"></div>
-    </ngb-alert>
-  </div>
-</div>
+<ngb-alert *ngFor="let message of messages"
+  [type]="message.type"
+  [dismissible]="message.dismissible"
+  (close)="closeMessage(message)">
+  <div [innerHTML]="message.message"></div>
+</ngb-alert>

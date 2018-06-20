@@ -1,38 +1,47 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, Inject } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
+import { ISubscription } from 'rxjs/Subscription';
 
-import { environment } from '../../environments/environment';
+import { MessagesService, Message } from './messages.service';
 import { WindowService } from '../window.service';
-
-interface Message {
-  message: string;
-  showMessage: boolean;
-  type: string;
-}
 
 @Component({
   selector: 'volontulo-messages',
-  templateUrl: './messages.component.html',
+  templateUrl: './messages.component.html'
 })
-export class MessagesComponent {
-  messages$: Observable<Message[]>;
-  showMessages = true;
+export class MessagesComponent implements OnInit, OnDestroy {
+  private messageSubscription: ISubscription;
+  public messages: Message[] = [];
 
-  constructor(
-    private http: HttpClient,
-        @Inject(WindowService) private window: any) {
-    this.messages$ = this.http.get<Message[]>(
-      `${environment.apiRoot}/messages/`).map(response => {
-      window.setTimeout(() => this.showMessages = false, 25000);
-      return response.map(message => {
-        message.showMessage = true;
-        return message;
+  constructor(private messagesService: MessagesService,
+    @Inject(WindowService) private window: any) { }
+
+  ngOnInit() {
+    this.messageSubscription = this.messagesService.message$
+      .subscribe((message: Message) => {
+        if (!message) {
+          this.messages = [];
+          return;
+        }
+
+        this.addMessageTimeout(message);
+        this.messages.push(message);
       });
-    });
-   }
+    this.messagesService.fetchServerMessages();
+  }
 
-   closeMessage(message: Message): void {
-     message.showMessage = false;
-   }
+  private addMessageTimeout(message) {
+    if (message.timeout > 0) {
+      this.window.setTimeout(
+        () => this.closeMessage(message), message.timeout * 1000);
+    }
+  }
+
+  closeMessage(message: Message) {
+    // Closes the message by filtering it out of messages[]
+    this.messages = this.messages.filter(msg => msg !== message);
+  }
+
+  ngOnDestroy() {
+    this.messageSubscription.unsubscribe();
+  }
 }
