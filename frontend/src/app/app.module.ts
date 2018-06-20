@@ -48,6 +48,7 @@ import { RegisterComponent } from './register/register.component';
 import { ActivationComponent } from './activation/activation.component';
 import { LoggedInGuard } from './guards/loggedInGuard.service';
 import { LoggedOutGuard } from './guards/loggedOutGuard.service';
+import { AccountComponent} from './account/account.component';
 import { ContactComponent } from './contact/contact.component';
 import { ContactResolver } from './resolvers';
 import { FormErrorComponent } from './form-error/form-error.component';
@@ -146,11 +147,21 @@ const appRoutes: Routes = [
     canActivate: [LoggedOutGuard],
   },
   {
+    // change path from "/me-working-path" to "/me" when the whole user view is ready
+    path: 'me-working-path',
+    component: AccountComponent,
+    canActivate: [LoggedInGuard]
+  },
+  {
     path: 'contact',
     component: ContactComponent,
     resolve: {
       contactData: ContactResolver,
     },
+  },
+  {
+    path: '**',
+    component: RedirectComponent
   },
   {
     path: '**',
@@ -192,6 +203,7 @@ registerLocaleData(localePl);
     ActivationComponent,
     OrganizationCreateComponent,
     OrganizationsListComponent,
+    AccountComponent,
     ContactComponent,
     FormErrorComponent,
   ],
