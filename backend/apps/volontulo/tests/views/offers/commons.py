@@ -24,6 +24,7 @@ class TestOffersCommons(object):
             organization=cls.organization,
             offer_status='published',
             recruitment_status='open',
+            finished_at=None,
         )
 
         cls.volunteer = UserProfileFactory.create(

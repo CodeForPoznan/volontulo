@@ -49,7 +49,7 @@ class OffersManager(models.Manager):
         """Return active offers."""
         return self.filter(
             # that covers action_status__in=('ongoing', 'future'):
-            Q(started_at__isnull=True) | Q(started_at__lte=timezone.now()),
+            Q(finished_at__isnull=True) | Q(finished_at__gte=timezone.now()),
             offer_status='published',
             recruitment_status__in=('open', 'supplemental'),
         ).all()
