@@ -1,9 +1,9 @@
 <div class="row">
-  <div class="col-lg-12">
-    <h2>Lista organizacji</h2>
+  <div class="row">
+    <div class="col-lg-12 mb-2">
+      <a [routerLink]="['/organizations','create']" class="btn btn-primary">Dodaj organizację</a>
+    </div>
   </div>
-</div>
-<div class="row">
   <div class="col-lg-12">
     <table *ngIf="organizations?.length; else noOrganizations" class="table table-striped">
       <thead>
@@ -14,7 +14,7 @@
       </thead>
       <tbody>
       <tr *ngFor="let organization of organizations">
-        <td><a [routerLink]="['/organizations', organization.slug, organization.id]">{{ organization.name }}</a></td>
+        <td><a class="organization-detail" [routerLink]="['/organizations', organization.slug, organization.id]">{{ organization.name }}</a></td>
         <td>{{ organization.address }}</td>
       </tr>
       </tbody>

@@ -1,14 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-6">
-      <div class="card">
-        <h3 class="card-header">Pictures</h3>
-        <div class="card-body">
-          <p class="card-text">Panel do wstawiania zdjęć</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-6">
+    <div class="col-12">
       <div class="card">
         <h3 class="card-header">Profil</h3>
         <div class="card-body">
@@ -33,7 +25,7 @@
       <div class="card">
         <h3 class="card-header">Działania w organizacji</h3>
         <div class="card-body">
-          <p class="card-text">Organizuj ofertę</p>
+         <volontulo-organizations-list [organizations]="organizations$ | async"></volontulo-organizations-list>
         </div>
       </div>
     </div>
