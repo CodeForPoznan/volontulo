@@ -49,6 +49,11 @@ urlpatterns = [
         api_views.password_reset_confirm,
         name='password_reset_confirm'
     ),
+    url(
+        r'^api/password-change/',
+        api_views.PasswordChangeView.as_view(),
+        name='password_change',
+    ),
     url(r'^api/messages/$', api_views.messages_view, name='messages'),
     url(r'^api/contact/$', api_views.Contact.as_view(), name='contact'),
     url(

@@ -9,20 +9,30 @@ import io
 
 from dateutil import parser
 from django.contrib.auth.models import User
+from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.utils.text import slugify
 from rest_framework import serializers
 from rest_framework.exceptions import PermissionDenied
-from rest_framework.fields import CharField, EmailField, ChoiceField
+from rest_framework.fields import CharField, EmailField, ChoiceField, empty
 
 from apps.volontulo import models
 from apps.volontulo.validators import validate_admin_email
 
 
+class PasswordField(CharField):
+    """Password field."""
+    def __init__(self, **kwargs):
+        super().__init__(min_length=6, max_length=30, **kwargs)
+
+    def run_validation(self, data=empty):
+        data = super().run_validation(data)
+        validate_password(data)
+        return data
+
+
 class OrganizationSerializer(serializers.HyperlinkedModelSerializer):
-
     """REST API organizations serializer."""
-
     slug = serializers.SerializerMethodField()
 
     class Meta:
@@ -291,3 +301,15 @@ class ContactSerializer(serializers.Serializer):
     )
     message = CharField(required=True, min_length=10, max_length=2000)
     phone_no = CharField(max_length=20)
+
+
+class PasswordChangeSerializer(serializers.Serializer):
+    """Serializer for password reset when user is logged in."""
+    password_old = PasswordField(required=True)
+    password_new = PasswordField(required=True)
+
+    def validate_password_old(self, value):
+        """Checks that password_old matches user's password."""
+        if not self.context['user'].check_password(value):
+            raise ValidationError('Stare hasło jest niepoprawne.')
+        return value

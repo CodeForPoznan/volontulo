@@ -23,7 +23,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view, detail_route
 from rest_framework.decorators import authentication_classes
 from rest_framework.decorators import permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.views import APIView
@@ -38,7 +38,7 @@ from apps.volontulo.models import UserProfile
 from apps.volontulo.serializers import (
     OrganizationContactSerializer, UsernameSerializer, PasswordSerializer,
     ContactSerializer,
-)
+    PasswordChangeSerializer)
 from apps.volontulo.views import logged_as_admin
 
 
@@ -323,3 +323,24 @@ class Contact(APIView):
             send_copy_to_admin=False,
         )
         return Response({}, status.HTTP_201_CREATED)
+
+
+class PasswordChangeView(APIView):
+    """Password change view."""
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (CsrfExemptSessionAuthentication,)
+
+    @staticmethod
+    def post(request):  # pylint:disable=no-self-use,unused-argument
+        """Changes password of logged in user."""
+        user = request.user  # type: User
+        serializer = PasswordChangeSerializer(
+            data=request.data,
+            context={'user': request.user},
+        )
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+
+        user.set_password(data['password_new'])
+        user.save()
+        return Response({}, status.HTTP_200_OK)
