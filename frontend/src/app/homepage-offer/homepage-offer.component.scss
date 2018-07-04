@@ -1,5 +1,6 @@
 .offer {
-    border-radius: 5px;
+  border-radius: 5px;
+  border: 0;
 }
 
 .offer-title {
@@ -12,24 +13,6 @@
 
 .offer-link {
     color: black;
-}
-
-.offer-caption {
-    box-shadow: 0 0 10px rgba(67, 74, 84, 0.5);
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8) 0%, white 40%, white 100%);
-    padding: 10px;
-}
-
-.offer-glyphicon {
-    padding: 0px;
-    min-width: 28px;
-    line-height: 28px;
-    font-size: 16px;
-    text-align: center;
-    color: #434A54;
-    margin-right: 5px;
-    background-color: #E6E9ED;
-    border-bottom-color: #E6E9ED;
 }
 
 .offer-cover-image {
@@ -49,15 +32,9 @@
     background-size: cover;
 }
 
-.offer-row {
-    display: flex;
-    align-items: center;
-    border: 1px solid #E6E9ED;
-    margin: .5em 0;
-    border-radius: 3px;
-}
-
 .offer-organizer {
     text-align: right;
+    margin: 8px 0 0;
 }
+
 

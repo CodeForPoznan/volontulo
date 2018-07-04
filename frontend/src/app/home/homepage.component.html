@@ -1,6 +1,8 @@
 <volontulo-banner></volontulo-banner>
 <div class="homepage-offer-list">
-  <div class="row">
-    <volontulo-homepage-offer *ngFor="let offer of offers" [offer]="offer" class="col-sm-6 col-md-4"></volontulo-homepage-offer>
+  <div class="card-deck row">
+    <div class="col-12 col-sm-6 col-lg-4 pb-3" *ngFor="let offer of offers">
+      <volontulo-homepage-offer [offer]="offer" class="card mx-0 h-100"></volontulo-homepage-offer>
+    </div>
   </div>
 </div>

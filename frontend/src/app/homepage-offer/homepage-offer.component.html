@@ -1,27 +1,29 @@
-<article class="offer col-xs-12">
-  <div *ngIf="offer.image != null" class="offer-cover-image">
-    <a [routerLink]="['offers', offer.slug, offer.id]" class="offer-img"
-        [ngStyle]="{'background-image': 'url(' + offer.image + ')'}"></a>
+<div class="offer">
+  <div *ngIf="offer.image != null" class="card-img-top offer-cover-image">
+    <a [routerLink]="['offers', offer.slug, offer.id]" class="top offer-img"
+       [ngStyle]="{'background-image': 'url(' + offer.image + ')'}"></a>
   </div>
-  <h2 class="offer-title">
-    <a [routerLink]="['offers', offer.slug, offer.id]" class="offer_link">{{ offer.title }}</a>
-  </h2>
-  <div class="offer-caption">
-    <div class="offer-row">
-      <span aria-hidden="true" class="offer-glyphicon glyphicon glyphicon-map-marker"></span>
-      <span>{{ offer.location }}</span>
-    </div>
-    <section class="offer-row">
-      <span aria-hidden="true" class="offer-glyphicon glyphicon glyphicon-time"></span>
-      <span> Od {{ offer.startedAt ? (offer.startedAt | date: 'dd MMMM yyyy, hh:mm'): 'teraz' }} </span>
-      &nbsp;
-      <span> do {{ offer.finishedAt ? (offer.finishedAt | date: 'dd MMMM yyyy, hh:mm'): 'ustalenia' }}</span>
-    </section>
-    <div class="offer-organizer">
-      <span aria-hidden="true" class="offer-glyphicon"></span>
-      <span>Organizator:
+  <div class="card-body">
+    <h2 class="card-title offer-title">
+      <a [routerLink]="['offers', offer.slug, offer.id]" class="offer-link">{{ offer.title }}</a>
+    </h2>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        <div>
+          {{ offer.location }}
+        </div>
+      </li>
+      <li class="list-group-item">
+        <div>
+          Od {{ offer.startedAt ? (offer.startedAt | date: 'dd MMMM yyyy, hh:mm'): 'teraz' }}
+        </div>
+        <div>do {{ offer.finishedAt ? (offer.finishedAt | date: 'dd MMMM yyyy, hh:mm'): 'ustalenia' }}</div>
+      </li>
+      <div class="offer-organizer">
+        <span>Organizator:
         <a [routerLink]="['organizations', offer.organization.slug, offer.organization.id]">
         {{ offer.organization.name }}</a></span>
-    </div>
+      </div>
+    </ul>
   </div>
-</article>
+</div>
