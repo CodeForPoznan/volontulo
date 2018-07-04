@@ -36,7 +36,7 @@ urlpatterns = [
     ),
     url(
         r'^api/current-user/$',
-        api_views.current_user,
+        api_views.CurrentUser.as_view(),
         name='current_user'
     ),
     url(

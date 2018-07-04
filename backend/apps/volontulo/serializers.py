@@ -224,9 +224,23 @@ class UserSerializer(serializers.ModelSerializer):
 
     """REST API organizations serializer."""
 
-    is_administrator = serializers.SerializerMethodField()
+    is_administrator = serializers.BooleanField(
+        read_only=True, source='userprofile.is_administrator',
+    )
     organizations = serializers.SerializerMethodField()
-    phone_no = serializers.SerializerMethodField()
+    phone_no = serializers.CharField(
+        max_length=32, source='userprofile.phone_no', required=False,
+    )
+
+    first_name = serializers.CharField(
+        min_length=3, max_length=30, required=False,
+    )
+    last_name = serializers.CharField(
+        min_length=3, max_length=30, required=False,
+    )
+
+    email = serializers.EmailField(read_only=True)
+    username = serializers.CharField(read_only=True)
 
     class Meta:
         model = User
@@ -240,20 +254,28 @@ class UserSerializer(serializers.ModelSerializer):
             'username',
         )
 
-    @staticmethod
-    def get_is_administrator(obj):
-        """Returns information if user is an administrator."""
-        return obj.userprofile.is_administrator
-
-    def get_organizations(self, obj):
+    def get_organizations(self, obj):  # pylint:disable=no-self-use
         """Returns organizations that user belongs to."""
         qs = obj.userprofile.organizations.all()
-        return OrganizationSerializer(qs, many=True, context=self.context).data
+        return OrganizationSerializer(
+            qs, many=True, context={'user': obj},
+        ).data
 
-    @staticmethod
-    def get_phone_no(obj):
-        """Returns user's phone number."""
-        return obj.userprofile.phone_no
+    def update(self, instance, validated_data):
+        instance.first_name = validated_data.get(
+            'first_name', instance.first_name,
+        )
+        instance.last_name = validated_data.get(
+            'last_name', instance.last_name,
+        )
+        instance.userprofile.phone_no = validated_data.get(
+            'userprofile', {},
+        ).get(
+            'phone_no', instance.userprofile.phone_no,
+        )
+        instance.userprofile.save()
+        instance.save()
+        return instance
 
 
 # pylint: disable=abstract-method

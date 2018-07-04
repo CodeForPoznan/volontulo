@@ -54,6 +54,7 @@ import { ContactComponent } from './contact/contact.component';
 import { ContactResolver } from './resolvers';
 import { FormErrorComponent } from './form-error/form-error.component';
 import { ContactService } from './contact.service';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 Raven.config(environment.sentryDSN).install();
 
@@ -161,6 +162,11 @@ const appRoutes: Routes = [
     },
   },
   {
+    path: 'me',
+    component: UserProfileComponent,
+    canActivate: [LoggedInGuard],
+  },
+  {
     path: '**',
     component: RedirectComponent
   },
@@ -207,6 +213,8 @@ registerLocaleData(localePl);
     AccountComponent,
     ContactComponent,
     FormErrorComponent,
+    OrganizationsListComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'volontulo' }),

@@ -1,0 +1,35 @@
+<div class="container">
+  <h3 class="panel-heading lead">
+    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+    Profil
+  </h3>
+
+  <ngb-alert *ngIf="success === true" type="success" (close)="success = null">
+    Twój profil został zaktualizowany.
+  </ngb-alert>
+  <ngb-alert *ngIf="success === false" type="danger" (close)="success = null">
+    Przesłano niepoprawne dane.
+  </ngb-alert>
+
+  <form [formGroup]="fg">
+    <div class="form-group">
+      <label for="first_name">Imię</label>
+      <input type="text" class="form-control" id="first_name" placeholder="Imię" [formControl]="fg.controls.first_name">
+      <volontulo-form-error [fc]="fg.controls.first_name" [minLength]="3" [maxLength]="30"></volontulo-form-error>
+    </div>
+
+    <div class="form-group">
+      <label for="last_name">Nazwisko</label>
+      <input type="text" class="form-control" id="last_name" placeholder="Nazwisko" [formControl]="fg.controls.last_name">
+      <volontulo-form-error [fc]="fg.controls.last_name" [minLength]="3" [maxLength]="30"></volontulo-form-error>
+    </div>
+
+    <div class="form-group">
+      <label for="phone_no">Numer telefonu</label>
+      <input type="text" class="form-control" id="phone_no" placeholder="Numer telefonu" [formControl]="fg.controls.phone_no">
+      <volontulo-form-error [fc]="fg.controls.phone_no" [maxLength]="32"></volontulo-form-error>
+    </div>
+
+    <button [disabled]="fg.invalid && submitEnabled" type="submit" class="btn btn-primary" (click)="updateUser()">Submit</button>
+  </form>
+</div>

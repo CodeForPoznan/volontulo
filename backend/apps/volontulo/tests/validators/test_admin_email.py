@@ -1,4 +1,4 @@
-# pylint: disable=missing-docstring,no-self-use
+# pylint: disable=no-self-use
 from django.test import TransactionTestCase
 from rest_framework.exceptions import ValidationError
 

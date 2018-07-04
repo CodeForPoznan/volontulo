@@ -129,4 +129,9 @@ export class AuthService {
         this.router.navigate(['/']);
       });
   }
+
+  updateUser(data: Partial<User>) {
+    this.http.post<User>(`${environment.apiRoot}/current-user/`, data)
+      .subscribe(user => this.changeUserEvent.next(user));
+  }
 }
