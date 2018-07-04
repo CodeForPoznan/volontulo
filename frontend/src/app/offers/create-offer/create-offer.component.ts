@@ -43,9 +43,9 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
       title: ['', Validators.required],
       location: ['', Validators.required],
       organization: ['', Validators.required],
-      startedAt: ['', Validators.required],
+      startedAt: [],
       actionOngoing: [false],
-      finishedAt: ['', Validators.required],
+      finishedAt: [],
       constantCoop: [false],
       recruitmentStartDate: [null],
       recruitmentEndDate: [null],
@@ -58,7 +58,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
       benefits: ['', Validators.required],
       requirements: [''],
       image: [],
-    })
+    }, {validator: this.areDatesValid})
 
       this.userSubscription = this.authService.user$
       .subscribe(user => {
@@ -136,5 +136,22 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
   isFormInputInvalid(inputStringId: string): boolean {
     const input = this.form.get(inputStringId);
     return !input.valid && input.touched || (this.error && !input.valid);
+  }
+
+  areDatesValid(form: FormGroup): {[key: string]: boolean} | null {
+    const { startedAt, actionOngoing, finishedAt, constantCoop } = form.value;
+    const validationErrors = {};
+
+    if (startedAt && actionOngoing) {
+      validationErrors['startedAtError'] = true;
+    }
+
+    if (finishedAt && constantCoop) {
+      validationErrors['finishedAtError'] = true;
+    }
+
+    const hasAnyError = Object.keys(validationErrors).length > 0;
+
+    return hasAnyError ? validationErrors : null;
   }
 }

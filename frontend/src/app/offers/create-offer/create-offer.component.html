@@ -3,308 +3,214 @@
 </div>
 <ng-template #hasOrg>
   <ng-container *ngIf="!hasOrganization; else offerForm">
-  <p>Aby dodać ofertę musisz posiadać organizację.
-    <a [routerLink]="['/organizations/create']">Możesz ją założyć tutaj</a>
-  </p>
+    <p>Aby dodać ofertę musisz posiadać organizację.
+      <a [routerLink]="['/organizations/create']">Możesz ją założyć tutaj</a>
+    </p>
   </ng-container>
 </ng-template>
 <ng-template #offerForm>
-    <ngb-alert *ngIf="error" type="danger" [dismissible]="false">
-      {{ error }}
-    </ngb-alert>
-<h2>{{ inEditMode ? "Edycja" : "Tworzenie" }} oferty:</h2>
-<form (ngSubmit)="onSubmit(offer)" [formGroup]="form">
-  <div class="form-group row">
-    <label for="title" class="col-sm-3 col-form-label">*Tytuł oferty:</label>
-    <div class="col-sm-6">
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Tytuł oferty..."
-        id="title"
-        formControlName ="title"
-        required>
-      <span class="form-text text-muted"
-      *ngIf="isFormInputInvalid('title')">
-        To pole jest obowiązkowe.</span>
-    </div>
-    <div class="col-sm-3">Określ, jak oferta będzie nazywać się w systemie, staraj się być dokładnym.</div>
-  </div>
-<div class="form-group row">
-    <label for="location" class="col-sm-3 col-form-label">*Miejsce odbywania wolontariatu:</label>
-    <div class="col-sm-6">
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Miejsce odbywania wolontariatu..."
-        id="location"
-        formControlName="location"
-        required>
-        <span class="form-text text-muted"
-        *ngIf="isFormInputInvalid('location')">
+  <ngb-alert *ngIf="error" type="danger" [dismissible]="false">
+    {{ error }}
+  </ngb-alert>
+  <h2>{{ inEditMode ? "Edycja" : "Tworzenie" }} oferty:</h2>
+  <form (ngSubmit)="onSubmit(offer)" [formGroup]="form">
+    <div class="form-group row">
+      <label for="title" class="col-sm-3 col-form-label">*Tytuł oferty:</label>
+      <div class="col-sm-6">
+        <input type="text" class="form-control" placeholder="Tytuł oferty..." id="title" formControlName="title" required>
+        <span class="form-text text-muted" *ngIf="isFormInputInvalid('title')">
           To pole jest obowiązkowe.</span>
+      </div>
+      <div class="col-sm-3">Określ, jak oferta będzie nazywać się w systemie, staraj się być dokładnym.</div>
     </div>
-    <div class="col-sm-3">Określ, w jakim miejscu odbywać się będzie wolontariat.</div>
-  </div>
- <div class="form-group row">
-    <label for="organization" class="col-sm-3 col-form-label">*Z ramienia organizacji:</label>
-    <div class="col-sm-6">
-      <select
-        class="form-control"
-        id="organization"
-        formControlName="organization"
-        required>
-        <option  *ngFor="let organization of user?.organizations" [ngValue]="organization">
-          {{ organization?.name }}</option>
-      </select>
-      <span class="form-text text-muted"
-      *ngIf="isFormInputInvalid('organization')">
-        To pole jest obowiązkowe.</span>
-   </div>
-    <div class="col-sm-3">Określ organizację odpowiedzialną za wolontariat.</div>
-  </div>
-  <h3>Realizacja akcji:</h3>
-   <div class="form-group row">
-    <label for="startedAt" class="col-sm-3 col-form-label">*Dzień rozpoczęcia:</label>
-    <div class="col-sm-3">
-      <div class="form-check form-check-inline">
-        <div class="input-group">
-          <input
-            placeholder="RRRR-MM-DD"
-            type="datetime"
-            id="startedAt"
-            class="form-control"
-            min="2018-01-01"
-            formControlName="startedAt"
-            required>
+    <div class="form-group row">
+      <label for="location" class="col-sm-3 col-form-label">*Miejsce odbywania wolontariatu:</label>
+      <div class="col-sm-6">
+        <input type="text" class="form-control" placeholder="Miejsce odbywania wolontariatu..." id="location" formControlName="location"
+          required>
+        <span class="form-text text-muted" *ngIf="isFormInputInvalid('location')">
+          To pole jest obowiązkowe.</span>
+      </div>
+      <div class="col-sm-3">Określ, w jakim miejscu odbywać się będzie wolontariat.</div>
+    </div>
+    <div class="form-group row">
+      <label for="organization" class="col-sm-3 col-form-label">*Z ramienia organizacji:</label>
+      <div class="col-sm-6">
+        <select class="form-control" id="organization" formControlName="organization" required>
+          <option *ngFor="let organization of user?.organizations" [ngValue]="organization">
+            {{ organization?.name }}</option>
+        </select>
+        <span class="form-text text-muted" *ngIf="isFormInputInvalid('organization')">
+          To pole jest obowiązkowe.</span>
+      </div>
+      <div class="col-sm-3">Określ organizację odpowiedzialną za wolontariat.</div>
+    </div>
+    <h3>Realizacja akcji:</h3>
+    <div class="form-group row startedAt">
+      <label for="startedAt" class="col-sm-3 col-form-label">Dzień rozpoczęcia:</label>
+      <div class="col-sm-6">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-check form-check-inline">
+              <div class="input-group">
+                <input placeholder="RRRR-MM-DD" type="datetime" id="startedAt" class="form-control" formControlName="startedAt">
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-check form-check-inline">
+              <input type="checkbox" id="actionOngoing" formControlName="actionOngoing"> Akcja już trwa
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 errors">
+          <span class="form-text text-muted" *ngIf="form.errors?.startedAtError">Jeśli akcja już trwa, nie podawaj daty początkowej.</span>
         </div>
       </div>
-      <span class="form-text text-muted"
-      *ngIf="isFormInputInvalid('startedAt')">
-        To pole jest obowiązkowe.</span>
+      <div class="col-sm-3">Określ datę rozpoczęcia akcji w formacie RRRR-MM-DD.</div>
     </div>
-    <div class="col-sm-3">
-      <div class="form-check form-check-inline">
-          <input
-          type="radio"
-          id="actionOngoing"
-          value="true"
-          formControlName="actionOngoing">
-          Akcja już trwa
-      </div>
-    </div>
-    <div class="col-sm-3">Określ datę rozpoczęcia akcji w formacie RRRR-MM-DD.</div>
-  </div>
-   <div class="form-group row ">
-    <label for="finishedAt" class="col-sm-3 col-form-label">*Dzień zakończenia:</label>
-    <div class="col-sm-3">
-      <div class="form-check form-check-inline">
-        <div class="input-group">
-          <input
-            type="datetime"
-            placeholder="RRRR-MM-DD"
-            class="form-control"
-            id="finishedAt"
-            formControlName="finishedAt"
-            required>
+    <div class="form-group row finishedAt">
+      <label for="finishedAt" class="col-sm-3 col-form-label">Dzień zakończenia:</label>
+      <div class="col-sm-6">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-check form-check-inline">
+              <div class="input-group">
+                <input type="datetime" placeholder="RRRR-MM-DD" class="form-control" id="finishedAt" formControlName="finishedAt">
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-check">
+              <input type="checkbox" id="constantCoop" formControlName="constantCoop"> Akcja nie kończy się (ciągła współpraca)
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 errors">
+          <span class="form-text text-muted" *ngIf="form.errors?.finishedAtError">
+            Jeśli akcja nie kończy się, nie podawaj daty końcowej.
+          </span>
         </div>
       </div>
-      <span class="form-text text-muted"
-      *ngIf="isFormInputInvalid('finishedAt')">
-        To pole jest obowiązkowe.</span>
-      </div>
-      <div class="col-sm-3">
-      <div class="form-check">
-          <input
-          type="radio"
-          id="constantCoop"
-          value="true"
-          formControlName="constantCoop">
-          Akcja nie kończy się (ciągła współpraca)
-      </div>
+      <div class="col-sm-3">Określ datę zakończenia akcji w formacie RRRR-MM-DD.</div>
     </div>
-    <div class="col-sm-3">Określ datę zakończenia akcji w formacie RRRR-MM-DD.</div>
-  </div>
-  <div class="form-group row">
-    <label for="startedAt" class="col-sm-3 col-form-label">Rekrutacja:</label>
-    <div class="col-sm-6">
-      <div class="form-check form-check-inline">
-        <div class="card">
-          <h5 class="card-header">Rekrutacja podstawowa</h5>
-          <div class="card-body">
-            <div class="form-group row">
-              <label for="recruitmentStartDate" class="col-sm-3 col-form-label">Początek:</label>
-              <div class="col-sm-9">
-                <input
-                type="datetime"
-                placeholder="RRRR-MM-DD"
-                class="form-control"
-                id="recruitmentStartDate"
-                formControlName="recruitmentStartDate"
-                >
+    <div class="form-group row">
+      <label for="startedAt" class="col-sm-3 col-form-label">Rekrutacja:</label>
+      <div class="col-sm-6">
+        <div class="form-check form-check-inline">
+          <div class="card">
+            <h5 class="card-header">Rekrutacja podstawowa</h5>
+            <div class="card-body">
+              <div class="form-group row">
+                <label for="recruitmentStartDate" class="col-sm-3 col-form-label">Początek:</label>
+                <div class="col-sm-9">
+                  <input type="datetime" placeholder="RRRR-MM-DD" class="form-control" id="recruitmentStartDate" formControlName="recruitmentStartDate">
                 </div>
-            </div>
-            <div class="form-group row">
-              <label for="recruitmentEndDate" class="col-sm-3 col-form-label">Koniec:</label>
-              <div class="col-sm-9">
-                <input
-                type="datetime"
-                placeholder="RRRR-MM-DD"
-                class="form-control"
-                id="recruitmentEndDate"
-                formControlName="recruitmentEndDate"
-                >
+              </div>
+              <div class="form-group row">
+                <label for="recruitmentEndDate" class="col-sm-3 col-form-label">Koniec:</label>
+                <div class="col-sm-9">
+                  <input type="datetime" placeholder="RRRR-MM-DD" class="form-control" id="recruitmentEndDate" formControlName="recruitmentEndDate">
                 </div>
-            </div>
-            <div class="form-group row">
-              <label for="volunteersLimit" class="col-sm-3 col-form-label">Limit wolontariuszy:</label>
-              <div class="col-sm-6">
-                <input
-                  type="number"
-                  class="form-control"
-                  id="volunteersLimit"
-                  min=0
-                  formControlName="volunteersLimit">
+              </div>
+              <div class="form-group row">
+                <label for="volunteersLimit" class="col-sm-3 col-form-label">Limit wolontariuszy:</label>
+                <div class="col-sm-6">
+                  <input type="number" class="form-control" id="volunteersLimit" min=0 formControlName="volunteersLimit">
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="form-check form-check-inline">
-        <div class="card">
-          <h5 class="card-header">Rekrutacja rezerwowa</h5>
-          <div class="card-body">
-            <div class="form-group row">
-              <label for="reserveRecruitmentStartDate" class="col-sm-3 col-form-label">Początek:</label>
-              <div class="col-sm-9">
-                <input
-                type="datetime"
-                placeholder="RRRR-MM-DD"
-                class="form-control"
-                id="reserveRecruitmentStartDate"
-                formControlName="reserveRecruitmentStartDate">
+        <div class="form-check form-check-inline">
+          <div class="card">
+            <h5 class="card-header">Rekrutacja rezerwowa</h5>
+            <div class="card-body">
+              <div class="form-group row">
+                <label for="reserveRecruitmentStartDate" class="col-sm-3 col-form-label">Początek:</label>
+                <div class="col-sm-9">
+                  <input type="datetime" placeholder="RRRR-MM-DD" class="form-control" id="reserveRecruitmentStartDate" formControlName="reserveRecruitmentStartDate">
+                </div>
               </div>
-            </div>
-            <div class="form-group row">
-              <label for="reserveRecruitmentEndDate" class="col-sm-3 col-form-label">Koniec:</label>
-              <div class="col-sm-9">
-                <input
-                type="datetime"
-                placeholder="RRRR-MM-DD"
-                class="form-control"
-                id="reserveRecruitmentEndDate"
-                formControlName="reserveRecruitmentEndDate">
+              <div class="form-group row">
+                <label for="reserveRecruitmentEndDate" class="col-sm-3 col-form-label">Koniec:</label>
+                <div class="col-sm-9">
+                  <input type="datetime" placeholder="RRRR-MM-DD" class="form-control" id="reserveRecruitmentEndDate" formControlName="reserveRecruitmentEndDate">
+                </div>
               </div>
-            </div>
-            <div class="form-group row">
-              <label for="reserveVolunteersLimit" class="col-sm-3 col-form-label">Limit wolontariuszy:</label>
-              <div class="col-sm-6">
-                <input
-                  type="number"
-                  class="form-control"
-                  id="reserveVolunteersLimit"
-                  min=0
-                  formControlName="reserveVolunteersLimit"
-                  >
+              <div class="form-group row">
+                <label for="reserveVolunteersLimit" class="col-sm-3 col-form-label">Limit wolontariuszy:</label>
+                <div class="col-sm-6">
+                  <input type="number" class="form-control" id="reserveVolunteersLimit" min=0 formControlName="reserveVolunteersLimit">
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
       </div>
       <div class="col-sm-3">Określ ramy czasowe (w formacie RRRR-MM-DD) oraz liczbę wolontariuszy, odpowiednio dla rezerwacji podstawowej i rozerwowej.</div>
-  </div>
-  <div class="form-group row">
-    <label for="description" class="col-sm-3 col-form-label">*Opis oferty:</label>
-    <div class="col-sm-6">
-      <textarea
-        type="text"
-        class="form-control"
-        placeholder="Opis oferty..."
-        id="description"
-        formControlName="description"
-        required>
-      </textarea>
-      <span class="form-text text-muted"
-      *ngIf="isFormInputInvalid('description')">
-        To pole jest obowiązkowe.</span>
     </div>
-    <div class="col-sm-3">Postaraj się dokładnie opisać akcję.</div>
-  </div>
-  <div class="form-group row">
+    <div class="form-group row">
+      <label for="description" class="col-sm-3 col-form-label">*Opis oferty:</label>
+      <div class="col-sm-6">
+        <textarea type="text" class="form-control" placeholder="Opis oferty..." id="description" formControlName="description" required>
+      </textarea>
+        <span class="form-text text-muted" *ngIf="isFormInputInvalid('description')">
+          To pole jest obowiązkowe.</span>
+      </div>
+      <div class="col-sm-3">Postaraj się dokładnie opisać akcję.</div>
+    </div>
+    <div class="form-group row">
       <label for="timeCommitment" class="col-sm-3 col-form-label">*Wymagania czasowe:</label>
       <div class="col-sm-6">
-        <textarea
-          type="text"
-          class="form-control"
-          placeholder="Wymagania czasowe..."
-          id="timeCommitment"
-          formControlName="timeCommitment"
+        <textarea type="text" class="form-control" placeholder="Wymagania czasowe..." id="timeCommitment" formControlName="timeCommitment"
           required>
         </textarea>
-        <span class="form-text text-muted"
-        *ngIf="isFormInputInvalid('timeCommitment')">
+        <span class="form-text text-muted" *ngIf="isFormInputInvalid('timeCommitment')">
           To pole jest obowiązkowe.</span>
       </div>
       <div class="col-sm-3">Określ wymagania czasowe - ile godzin pracy w ciągu dnia wymaga dana akcja.</div>
     </div>
- <div class="form-group row">
-    <label for="benefits" class="col-sm-3 col-form-label">*Korzyści:</label>
-    <div class="col-sm-6">
-      <textarea
-        type="text"
-        class="form-control"
-        placeholder="Korzyści dla wolontariusza..."
-        id="benefits"
-        formControlName="benefits"
-        required>
-      </textarea>
-      <span class="form-text text-muted"
-      *ngIf="isFormInputInvalid('benefits')">
-        To pole jest obowiązkowe.</span>
-    </div>
-    <div class="col-sm-3">Określ korzyści płynące z udziału w akcji.</div>
-  </div>
-  <div class="form-group row">
-    <label for="requirements" class="col-sm-3 col-form-label">Wymagania:</label>
-    <div class="col-sm-6">
-      <textarea
-        type="text"
-        class="form-control"
-        placeholder="Wymagania wobec wolontariusza..."
-        id="requirements"
-        formControlName="requirements">
-        </textarea>
-    </div>
-    <div class="col-sm-3">Określ warunki, jakie musi spełnić kandydat, aby wziąć udział w akcji.</div>
-  </div>
     <div class="form-group row">
-    <label for="image" class="col-sm-3 col-form-label">Zdjęcie:</label>
-    <div class="col-sm-6">
-      <div *ngIf="offer?.image">
+      <label for="benefits" class="col-sm-3 col-form-label">*Korzyści:</label>
+      <div class="col-sm-6">
+        <textarea type="text" class="form-control" placeholder="Korzyści dla wolontariusza..." id="benefits" formControlName="benefits"
+          required>
+      </textarea>
+        <span class="form-text text-muted" *ngIf="isFormInputInvalid('benefits')">
+          To pole jest obowiązkowe.</span>
+      </div>
+      <div class="col-sm-3">Określ korzyści płynące z udziału w akcji.</div>
+    </div>
+    <div class="form-group row">
+      <label for="requirements" class="col-sm-3 col-form-label">Wymagania:</label>
+      <div class="col-sm-6">
+        <textarea type="text" class="form-control" placeholder="Wymagania wobec wolontariusza..." id="requirements" formControlName="requirements">
+        </textarea>
+      </div>
+      <div class="col-sm-3">Określ warunki, jakie musi spełnić kandydat, aby wziąć udział w akcji.</div>
+    </div>
+    <div class="form-group row">
+      <label for="image" class="col-sm-3 col-form-label">Zdjęcie:</label>
+      <div class="col-sm-6">
+        <div *ngIf="offer?.image">
           Podgląd:
           <img class="card-img" src="{{ offer.image }}">
-      </div>
-      <div class="input-group">
-        <div class="btn btn-secondary">
-            <label for="image">Wybierz plik z komputera</label>
         </div>
-        <input
-          type="file"
-          id="image"
-          (change)="onFileSelected($event)"
-          accept="image/x-png,image/jpeg"
-          >
-      </div>
-      <span class="form-text text-muted"
-          *ngIf="isFileToBig">
+        <div class="input-group">
+          <div class="btn btn-secondary">
+            <label for="image">Wybierz plik z komputera</label>
+          </div>
+          <input type="file" id="image" (change)="onFileSelected($event)" accept="image/x-png,image/jpeg">
+        </div>
+        <span class="form-text text-muted" *ngIf="isFileToBig">
           Rozmiar pliku nie może przekraczać 1MB.
-      </span>
+        </span>
+      </div>
+      <div class="col-sm-3">Dodaj zdjęcie, które będzie wyświetlane w ofercie. Rozmiar pliku nie może przekraczać 1MB.</div>
     </div>
-    <div class="col-sm-3">Dodaj zdjęcie, które będzie wyświetlane w ofercie. Rozmiar pliku nie może przekraczać 1MB.</div>
-  </div>
-  <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center">
       <button type="submit" name="submit" class="btn btn-primary" [disabled]="!form.valid">Zapisz {{ inEditMode ? "zmiany" : "ofertę" }}</button>
- </div>
-</form>
+    </div>
+  </form>
 </ng-template>
