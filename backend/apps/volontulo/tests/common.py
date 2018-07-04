@@ -88,15 +88,15 @@ def test_offer_list_fields(self, offer):
     self.assertIsInstance(offer.pop('recruitment_start_date'),
                           (str, type(None)))
     self.assertIsInstance(offer.pop('recruitment_end_date'), (str, type(None)))
-    self.assertIsInstance(offer.pop('reserve_recruitment'), (bool))
+    self.assertIsInstance(offer.pop('reserve_recruitment'), bool)
     self.assertIsInstance(offer.pop('reserve_recruitment_start_date'),
                           (str, type(None)))
     self.assertIsInstance(offer.pop('reserve_recruitment_end_date'),
                           (str, type(None)))
-    self.assertIsInstance(offer.pop('action_ongoing'), (bool))
-    self.assertIsInstance(offer.pop('constant_coop'), (bool))
-    self.assertIsInstance(offer.pop('volunteers_limit'), (int))
-    self.assertIsInstance(offer.pop('reserve_volunteers_limit'), (int))
+    self.assertIsInstance(offer.pop('action_ongoing'), bool)
+    self.assertIsInstance(offer.pop('constant_coop'), bool)
+    self.assertIsInstance(offer.pop('volunteers_limit'), int)
+    self.assertIsInstance(offer.pop('reserve_volunteers_limit'), int)
     self.assertIsInstance(offer['organization'].pop('address'), str)
     self.assertIsInstance(offer['organization'].pop('description'), str)
     self.assertIsInstance(offer['organization'].pop('id'), int)
@@ -104,4 +104,5 @@ def test_offer_list_fields(self, offer):
     self.assertIsInstance(offer['organization'].pop('slug'), str)
     self.assertIsInstance(offer['organization'].pop('url'), str)
     self.assertEqual(len(offer.pop('organization')), 0)
+    self.assertIsInstance(offer.pop('joined'), bool)
     self.assertEqual(len(offer), 0)

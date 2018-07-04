@@ -4,6 +4,7 @@
 
 from urllib.parse import urlparse
 
+from django.contrib.auth.models import AnonymousUser
 from django.test import TestCase
 from django.test.client import RequestFactory
 
@@ -18,9 +19,11 @@ class TestOfferSerializer(TestCase):
     def test_image(self):
         """Test image field."""
         offer = OfferFactory()
+        request = RequestFactory().get('/')
+        request.user = AnonymousUser()
         self.assertEqual(urlparse(OfferSerializer(
             offer,
-            context={'request': RequestFactory().get('/')},
+            context={'request': request},
         ).data['image']).path, offer.image.url)
 
     def test_slug(self):
