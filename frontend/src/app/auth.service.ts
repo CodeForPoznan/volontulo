@@ -37,13 +37,14 @@ export class AuthService {
     private router: Router,
   ) {
     this.getUser()
-      .subscribe(user => {
-        if (user) {
+      .subscribe(
+        user => {
           this.changeUserEvent.next(deepFreeze(user));
-        } else {
+        },
+        () => {
           this.changeUserEvent.next(null);
-        }
-      });
+        },
+      );
   }
 
   getUser(): Observable<User | null> {
