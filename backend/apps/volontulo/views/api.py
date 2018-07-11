@@ -79,14 +79,13 @@ def register_view(request):
 
     email = request.data.get('email')
     password = request.data.get('password')
-
-    user = User.objects.create_user(
-        username=email,
-        email=email,
-        password=password,
-        is_active=False,
-    )
     try:
+        user = User.objects.create_user(
+            username=email,
+            email=email,
+            password=password,
+            is_active=False,
+        )
         user.save()
     except IntegrityError:
         return Response(status=status.HTTP_201_CREATED)
