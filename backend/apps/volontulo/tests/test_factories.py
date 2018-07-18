@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
 .. module:: test_factories
 """
@@ -13,7 +15,8 @@ from apps.volontulo.factories import OrganizationFactory
 from apps.volontulo.factories import placeimg_com_download
 from apps.volontulo.factories import UserFactory
 from apps.volontulo.factories import UserProfileFactory
-from apps.volontulo.models import Organization, Offer
+from apps.volontulo.models import Offer
+from apps.volontulo.models import Organization
 
 
 class UserFactoryTestCase(TestCase):
@@ -123,142 +126,115 @@ class OrganizationFactoryTestCase(TestCase):
 
 class OfferFactoryTestCase(TestCase):
 
-    """Test for OfferFactory."""
+    """Tests for OfferFactory."""
 
     def setUp(self):
-        """Set up test for OfferFactory"""
+        self.offer = OfferFactory(volunteers=UserFactory.create_batch(10))
 
-        self.fake_user1 = UserFactory.create(
-            first_name="Fake user first_name1",
-            last_name="Fake user last_name1"
-        )
-        self.fake_user2 = UserFactory.create(
-            first_name="Fake user first_name2",
-            last_name="Fake user last_name2"
-        )
-        self.fake_offer1 = OfferFactory.create(volunteers=User.objects.all())
-        self.fake_offer2 = OfferFactory.create(
-            title="Jakiś tytuł",
-            description="Zwięzły opis",
-            organization__name="Nazwa odnośnej organizacji"
-        )
-        self.fake_offer3 = OfferFactory.create(
-            organization=Organization.objects.last()
-        )
-
-    def test_if_users_have_been_created(self):
-        """Test if fake users have been created."""
-        self.assertEqual(User.objects.count(), 2)
-
-    def test_if_fake_organization_has_been_created(self):
-        """Test fake organization created by SubFactory."""
-        self.assertEqual(Organization.objects.count(), 2)
+    def test_if_organization_has_been_created(self):
+        """Test if organization was created by SubFactory."""
+        self.assertEqual(Organization.objects.count(), 1)
 
     def test_if_offer_has_been_created(self):
-        """Test if offer has been created."""
-        created_offer = Offer.objects.get(title="Jakiś tytuł")
-        self.assertEqual(created_offer.description, "Zwięzły opis")
+        """Test if offer was created."""
+        self.assertEqual(Offer.objects.count(), 1)
 
     def test_if_offer_is_connected_with_some_organization(self):
         """Test if offer is connected with organization."""
-        fake_offer_with_organization = Offer.objects.filter(
-            title="Jakiś tytuł"
-        )[0]
-        self.assertTrue(
-            fake_offer_with_organization.organization.name,
-            "Nazwa odnośnej organizacji"
-        )
+        self.assertEqual(self.offer.organization, Organization.objects.get())
 
-    def test_if_offer_is_connected_with_some_volonteer(self):
-        """Test if offer is connected with volunteer."""
-        fake_offer = Offer.objects.all()[0]
-        fake_offer_volunteers1 = fake_offer.volunteers.filter(
-            first_name="Fake user first_name1"
-        )
-        connected_user1 = fake_offer_volunteers1[0]
-        fake_offer_volunteers2 = fake_offer.volunteers.filter(
-            first_name="Fake user first_name2"
-        )
-        connected_user2 = fake_offer_volunteers2[0]
-        self.assertTrue(connected_user1.last_name, "Fake user last_name1")
-        self.assertTrue(connected_user2.last_name, "Fake user last_name2")
+    def test_if_volunteers_were_added_to_offer(self):
+        """Test if offer contains created volunteers."""
+        self.assertEqual(self.offer.volunteers.count(), 10)
 
-    def test_offers_paragraph_is_str(self):
-        """Test if offers textFields are str and chr>0."""
-        description = self.fake_offer1.description
-        self.assertIsInstance(description, str)
-        self.assertTrue(len(description) > 0)
-        requirements = self.fake_offer1.requirements
-        self.assertIsInstance(requirements, str)
-        self.assertTrue(len(requirements) > 0)
-        time_commitment = self.fake_offer1.time_commitment
-        self.assertIsInstance(time_commitment, str)
-        self.assertTrue(len(time_commitment) > 0)
-        time_commitment = self.fake_offer1.time_commitment
-        self.assertIsInstance(time_commitment, str)
-        self.assertTrue(len(time_commitment) > 0)
-        title = self.fake_offer1.title
-        self.assertIsInstance(title, str)
-        self.assertTrue(len(title) > 0)
-        time_period = self.fake_offer1.time_period
-        self.assertIsInstance(time_period, str)
-        self.assertTrue(len(time_period) > 0)
-        location = self.fake_offer1.location
-        self.assertIsInstance(location, str)
-        self.assertTrue(len(location) > 0)
+    def test_offers_string_fields(self):
+        """Test if offers text fields are strings and not empty."""
+        self.assertIsInstance(self.offer.description, str)
+        self.assertGreater(len(self.offer.description), 0)
+
+        self.assertIsInstance(self.offer.requirements, str)
+        self.assertGreater(len(self.offer.requirements), 0)
+
+        self.assertIsInstance(self.offer.time_commitment, str)
+        self.assertGreater(len(self.offer.time_commitment), 0)
+
+        self.assertIsInstance(self.offer.title, str)
+        self.assertGreater(len(self.offer.title), 0)
+
+        self.assertIsInstance(self.offer.time_period, str)
+        self.assertGreater(len(self.offer.time_period), 0)
+
+        self.assertIsInstance(self.offer.location, str)
+        self.assertGreater(len(self.offer.location), 0)
 
     def test_offers_boolean_fields(self):
-        """Test if offers booleanFields are 0 or 1."""
-        self.assertIsInstance(self.fake_offer1.votes, bool)
-        self.assertIsInstance(self.fake_offer1.reserve_recruitment, bool)
-        self.assertIsInstance(self.fake_offer1.action_ongoing, bool)
-        self.assertIsInstance(self.fake_offer1.constant_coop, bool)
+        """Test if offers boolean fields contain boolean value."""
+        self.assertIsInstance(self.offer.votes, bool)
+        self.assertIsInstance(self.offer.reserve_recruitment, bool)
+        self.assertIsInstance(self.offer.action_ongoing, bool)
+        self.assertIsInstance(self.offer.constant_coop, bool)
 
     def test_offers_datatime_fields(self):
-        """Test if offers datatimeFields are proper type."""
-        self.assertIsInstance(self.fake_offer1.started_at, datetime.datetime)
-        self.assertIsInstance(self.fake_offer1.started_at, datetime.datetime)
+        """Test if offers date fields are proper type and in proper order."""
+        self.assertIsInstance(self.offer.started_at, datetime.datetime)
+        self.assertIsInstance(self.offer.started_at, datetime.datetime)
+        self.assertGreater(self.offer.finished_at, self.offer.started_at)
+
         self.assertIsInstance(
-            self.fake_offer1.recruitment_start_date,
+            self.offer.recruitment_start_date,
             datetime.datetime
         )
         self.assertIsInstance(
-            self.fake_offer1.reserve_recruitment_start_date,
+            self.offer.recruitment_end_date,
+            datetime.datetime
+        )
+        self.assertGreater(
+            self.offer.recruitment_end_date,
+            self.offer.recruitment_start_date,
+        )
+
+        self.assertIsInstance(
+            self.offer.reserve_recruitment_start_date,
             datetime.datetime
         )
         self.assertIsInstance(
-            self.fake_offer1.reserve_recruitment_end_date,
+            self.offer.reserve_recruitment_end_date,
+            datetime.datetime
+        )
+        self.assertGreater(
+            self.offer.reserve_recruitment_end_date,
+            self.offer.reserve_recruitment_start_date,
+        )
+
+        self.assertIsInstance(
+            self.offer.action_start_date,
             datetime.datetime
         )
         self.assertIsInstance(
-            self.fake_offer1.action_start_date,
+            self.offer.action_end_date,
             datetime.datetime
         )
-        self.assertIsInstance(
-            self.fake_offer1.action_end_date,
-            datetime.datetime
+        self.assertGreater(
+            self.offer.action_end_date,
+            self.offer.action_start_date,
         )
 
     def test_offer_if_choices_takes_proper_values(self):
         """Test if fields with choices takes proper values."""
         self.assertIn(
-            self.fake_offer1.offer_status,
-            ["unpublished", "published", "rejected"]
+            self.offer.offer_status,
+            ("unpublished", "published", "rejected")
         )
         self.assertIn(
-            self.fake_offer1.recruitment_status,
-            ["open", "supplemental", "closed"]
-        )
-        self.assertIn(
-            self.fake_offer1.action_status,
-            ["future", "ongoing", "finished"]
+            self.offer.recruitment_status,
+            ("open", "supplemental", "closed")
         )
 
-    def test_offer_if_integerField_are_proper_type(self):
-        """Test if integerField is int type."""
-        self.assertIsInstance(self.fake_offer1.volunteers_limit, int)
-        self.assertIsInstance(self.fake_offer1.reserve_volunteers_limit, int)
-        self.assertIsInstance(self.fake_offer1.weight, int)
+    def test_offer_integer_fields(self):
+        """Test if integer fields contain integer value."""
+        self.assertIsInstance(self.offer.volunteers_limit, int)
+        self.assertIsInstance(self.offer.reserve_volunteers_limit, int)
+        self.assertIsInstance(self.offer.weight, int)
 
 
 class PlaceimComDownloadTestCase(TestCase):

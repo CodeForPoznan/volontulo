@@ -154,11 +154,13 @@ def placeimg_com_download(width, height, category):
     return wrapped_func
 
 
+_now = timezone.now()
+_offer_start_date_min = _now - datetime.timedelta(days=365)
+_offer_start_date_max = _now + datetime.timedelta(days=364)
+
+
 class OfferFactory(factory.DjangoModelFactory):
     """Factory for Offer"""
-
-    _end_date = timezone.now()
-    _start_date = _end_date + datetime.timedelta(days=-100)
 
     class Meta:  # pylint: disable=C0111
         model = Offer
@@ -178,14 +180,61 @@ class OfferFactory(factory.DjangoModelFactory):
             for user in extracted:
                 self.volunteers.add(user)
 
+    @factory.lazy_attribute
+    def finished_at(self):
+        """Returns finished_at attribute based on started_at value.
+
+        Value will be between started_at and one year in future.
+        """
+        return factory.fuzzy.FuzzyDateTime(
+            self.started_at,
+            _offer_start_date_max,
+        ).fuzz() + datetime.timedelta(days=1)
+
+    @factory.lazy_attribute
+    def recruitment_end_date(self):
+        """Returns recruitment_end_date attribute.
+
+        Value will be between recruitment_start_date and one year in future.
+        """
+        return factory.fuzzy.FuzzyDateTime(
+            self.recruitment_start_date,
+            _offer_start_date_max,
+        ).fuzz() + datetime.timedelta(days=1)
+
+    @factory.lazy_attribute
+    def reserve_recruitment_end_date(self):
+        """Returns reserve_recruitment_end_date attribute.
+
+        Value will be between reserve_recruitment_start_date and one year
+        in future.
+        """
+        return factory.fuzzy.FuzzyDateTime(
+            self.reserve_recruitment_start_date,
+            _offer_start_date_max,
+        ).fuzz() + datetime.timedelta(days=1)
+
+    @factory.lazy_attribute
+    def action_end_date(self):
+        """Returns action_end_date attribute based on action_start_date value.
+
+        Value will be between action_start_date and one year in future.
+        """
+        return factory.fuzzy.FuzzyDateTime(
+            self.action_start_date,
+            _offer_start_date_max,
+        ).fuzz() + datetime.timedelta(days=1)
+
     description = factory.Faker("paragraph")
     requirements = factory.Faker("paragraph")
     time_commitment = factory.Faker("paragraph")
     benefits = factory.Faker("paragraph")
     location = factory.Faker("address", locale="pl_PL")
     title = factory.Faker("text", max_nb_chars=150)
-    started_at = factory.fuzzy.FuzzyDateTime(_start_date, _end_date)
-    finished_at = factory.fuzzy.FuzzyDateTime(_start_date, _end_date)
+    started_at = factory.fuzzy.FuzzyDateTime(
+        _offer_start_date_min,
+        _offer_start_date_max,
+    )
     time_period = factory.Faker("text", max_nb_chars=150)
     offer_status = factory.fuzzy.FuzzyChoice(
         choices=("unpublished", "published", "rejected")
@@ -195,28 +244,20 @@ class OfferFactory(factory.DjangoModelFactory):
     )
     votes = factory.fuzzy.FuzzyChoice(choices=(True, False))
     recruitment_start_date = factory.fuzzy.FuzzyDateTime(
-        _start_date,
-        _end_date
+        _offer_start_date_min,
+        _offer_start_date_max,
     )
-    recruitment_end_date = factory.fuzzy.FuzzyDateTime(
-        _start_date,
-        _end_date)
     reserve_recruitment = factory.fuzzy.FuzzyChoice(choices=(True, False))
     reserve_recruitment_start_date = factory.fuzzy.FuzzyDateTime(
-        _start_date,
-        _end_date
-    )
-    reserve_recruitment_end_date = factory.fuzzy.FuzzyDateTime(
-        _start_date,
-        _end_date
+        _offer_start_date_min,
+        _offer_start_date_max,
     )
     action_ongoing = factory.fuzzy.FuzzyChoice(choices=(True, False))
     constant_coop = factory.fuzzy.FuzzyChoice(choices=(True, False))
     action_start_date = factory.fuzzy.FuzzyDateTime(
-        _start_date,
-        _end_date
+        _offer_start_date_min,
+        _offer_start_date_max,
     )
-    action_end_date = factory.fuzzy.FuzzyDateTime(_start_date, _end_date)
     volunteers_limit = factory.fuzzy.FuzzyInteger(0, 1000)
     reserve_volunteers_limit = factory.fuzzy.FuzzyInteger(0, 1000)
     weight = factory.fuzzy.FuzzyInteger(0, 1000)
