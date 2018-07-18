@@ -15,6 +15,7 @@ export class RegisterComponent {
     email: '',
     password: '',
   };
+  honeyBunny = '';
   ACCEPT_TERMS = 'Wyrażam zgodę na przetwarzanie moich danych osobowych';
   registrationSuccessful = false;
   userIsAuthenticated = false;
@@ -26,25 +27,20 @@ export class RegisterComponent {
   }
 
   register(): void {
-    this.checkboxTA.control.markAsDirty();
-    if (!this.checkboxTA.control.value) {
-      return;
-    }
-
-    this.registrationSuccessful = false;
-    this.userIsAuthenticated = false;
-    this.authService.register(this.registerModel.email, this.registerModel.password)
-      .subscribe(rsp => {
-        if (rsp.status === 201) {
-          this.registrationSuccessful = true;
-        }
-        return Observable.of(null);
-      },
-      err => {
-        if (err.status === 400) {
-          this.userIsAuthenticated = true;
-        }
+    if (this.honeyBunny === '') {
+      this.checkboxTA.control.markAsDirty();
+      if (!this.checkboxTA.control.value) {
+        return;
       }
-      );
+
+      this.registrationSuccessful = false;
+      this.userIsAuthenticated = false;
+      this.authService.register(this.registerModel.email, this.registerModel.password)
+        .subscribe(rsp => {
+          if (rsp.status === 201) {
+            this.registrationSuccessful = true;
+        }
+        );
+    }
   }
 }
