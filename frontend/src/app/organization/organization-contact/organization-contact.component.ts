@@ -3,6 +3,11 @@ import { NgForm } from '@angular/forms';
 
 import { OrganizationContactPayload } from '../organization.model';
 import { ContactStatus } from '../organization.interfaces';
+import {AuthService} from '../../auth.service';
+import {Observable} from 'rxjs/Observable';
+import {User} from '../../user';
+import {UserService} from '../../user.service';
+
 
 @Component({
   selector: 'volontulo-organization-contact',
@@ -16,6 +21,11 @@ export class OrganizationContactComponent implements OnChanges {
   submitDisabled = false;
   alertSuccessClosed = true;
   alertErrorClosed = true;
+  user$: Observable<User> = this.authService.user$;
+  getFullName = this.userService.getFullName;
+
+  constructor(private authService: AuthService, private userService: UserService) {
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.contactStatus.currentValue && changes.contactStatus.currentValue.status === 'success') {

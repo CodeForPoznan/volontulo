@@ -12,26 +12,26 @@
   </div>
   <form (ngSubmit)="onSubmit()" #contactForm="ngForm">
     <div class="form-group row">
-      <label for="id_name" class="col-md-3 col-form-label">Twoje imię i nazwisko</label>
-      <div class="col-md-9">
+      <label for="id_name" class="col-md-2 col-form-label">Twoje imię i nazwisko</label>
+      <div class="col-md-4">
         <input
           type="text"
           name="name"
           class="form-control form-control-lg"
           [ngClass]="{'is-invalid': name.invalid && name.touched}"
           id="id_name"
-          ngModel
+          [ngModel]="getFullName(user$ | async)"
           required
           minlength="2"
           maxlength="150"
           #name="ngModel" />
         <div
           class="invalid-feedback"
-          *ngIf="name.invalid && name.touched">Proszę podać imię i nazwisko.</div>
+          *ngIf="name.invalid && name.touched">Proszę podać imię i nazwisko</div>
       </div>
     </div>
     <div class="form-group row">
-      <label class="col-md-3 col-form-label" for="id_email">Twój email</label>
+      <label class="col-md-2 col-form-label" for="id_email">Twój email</label>
       <div class="col-md-4">
         <input
           type="email"
@@ -39,7 +39,7 @@
           class="form-control form-control-lg"
           [ngClass]="{'is-invalid': email.invalid && email.touched}"
           id="id_email"
-          ngModel
+          [ngModel]="(user$ | async).email"
           required
           maxlength="150"
           email
@@ -50,14 +50,14 @@
           *ngIf="email.invalid && email.touched">Proszę podać adres email w poprawnym formacie.</div>
       </div>
       <label class="col-md-2 col-form-label" for="id_phone_no">Telefon</label>
-      <div class="col-md-3">
+      <div class="col-md-4">
         <input
           type="tel"
           name="phone_no"
           class="form-control form-control-lg"
           [ngClass]="{'is-invalid': phoneNo.invalid && phoneNo.touched}"
           id="id_phone_no"
-          ngModel
+          [ngModel]="(user$ | async).phoneNo"
           required
           minlength="9"
           maxlength="15"
@@ -68,8 +68,8 @@
       </div>
     </div>
       <div class="form-group row">
-        <label class="col-md-3 col-form-label" for="id_message">Opis</label>
-        <div class="col-md-9">
+        <label class="col-md-2 col-form-label" for="id_message">Opis</label>
+        <div class="col-md-10">
           <textarea
             name="message"
             class="form-control"
