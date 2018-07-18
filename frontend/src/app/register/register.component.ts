@@ -39,8 +39,8 @@ export class RegisterComponent {
         .subscribe(rsp => {
           if (rsp.status === 201) {
             this.registrationSuccessful = true;
-        }
-        );
+          }
+        });
     }
   }
 }
