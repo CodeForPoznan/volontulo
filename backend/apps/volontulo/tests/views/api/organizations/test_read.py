@@ -22,7 +22,6 @@ class _TestOrganizationsReadAPIView(TestOffersCommons, APITestCase):
         self.assertIsInstance(organization.pop('id'), int)
         self.assertIsInstance(organization.pop('name'), str)
         self.assertIsInstance(organization.pop('slug'), str)
-        self.assertIsInstance(organization.pop('url'), str)
         self.assertEqual(len(organization), 0)
 
 

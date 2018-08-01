@@ -102,7 +102,6 @@ def test_offer_list_fields(self, offer):
     self.assertIsInstance(offer['organization'].pop('id'), int)
     self.assertIsInstance(offer['organization'].pop('name'), str)
     self.assertIsInstance(offer['organization'].pop('slug'), str)
-    self.assertIsInstance(offer['organization'].pop('url'), str)
     self.assertEqual(len(offer.pop('organization')), 0)
     self.assertIsInstance(offer.pop('joined'), bool)
     self.assertEqual(len(offer), 0)

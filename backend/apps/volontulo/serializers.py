@@ -43,7 +43,6 @@ class OrganizationSerializer(serializers.HyperlinkedModelSerializer):
             'id',
             'name',
             'slug',
-            'url',
         )
 
     @staticmethod
