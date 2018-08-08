@@ -43,6 +43,7 @@ class OrganizationSerializer(serializers.HyperlinkedModelSerializer):
             'id',
             'name',
             'slug',
+            'url',
         )
 
     @staticmethod
@@ -259,12 +260,12 @@ class UserSerializer(serializers.ModelSerializer):
             'username',
         )
 
-    def get_organizations(self, obj):  # pylint:disable=no-self-use
+    def get_organizations(self, obj):
         """Returns organizations that user belongs to."""
         qs = obj.userprofile.organizations.all()
-        return OrganizationSerializer(
-            qs, many=True, context={'user': obj},
-        ).data
+        return OrganizationSerializer(qs, many=True, context={
+            'request': self.context['request'],
+        }).data
 
     def update(self, instance, validated_data):
         instance.first_name = validated_data.get(

@@ -1,6 +1,12 @@
-# pylint:disable=missing-docstring
+# -*- coding: utf-8 -*-
+
+"""
+.. module:: test_current_user
+"""
+
 from django.contrib.auth.models import User
 from django.test import TestCase
+from django.test.client import RequestFactory
 from django.urls import reverse
 from rest_framework.test import APITestCase
 
@@ -32,8 +38,10 @@ class TestCurrentUserViewGET(APITestCase, TestCase):
     def test_get(self):
         self.client.force_login(self.user)
         res = self.client.get(ENDPOINT_URL, {}, format='json')
-
-        self.assertDictEqual(res.data, UserSerializer(self.user).data)
+        self.assertDictEqual(
+            res.data,
+            UserSerializer(self.user, context={'request': res.request}).data,
+        )
 
 
 class TestCurrentUserViewPOST(APITestCase, TestCase):
@@ -86,7 +94,11 @@ class TestCurrentUserViewPOST(APITestCase, TestCase):
 
     def test_post_read_only(self):
         self.client.force_login(self.user)
-        user_before = UserSerializer(self.user).data
+        user_before = UserSerializer(
+            self.user,
+            context={'request': RequestFactory().get('/')},
+        ).data
+
         res = self.client.post(
             ENDPOINT_URL,
             {
@@ -103,7 +115,10 @@ class TestCurrentUserViewPOST(APITestCase, TestCase):
 
     def test_post(self):
         self.client.force_login(self.user)
-        user_before = UserSerializer(self.user).data
+        user_before = UserSerializer(
+            self.user,
+            context={'request': RequestFactory().get('/')},
+        ).data
 
         res = self.client.post(
             ENDPOINT_URL,
@@ -118,7 +133,10 @@ class TestCurrentUserViewPOST(APITestCase, TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertDictEqual(
             res.data,
-            UserSerializer(User.objects.get(id=self.user.id)).data,
+            UserSerializer(
+                User.objects.get(id=self.user.id),
+                context={'request': RequestFactory().get('/')},
+            ).data,
         )
         self.assertNotEqual(res.data['first_name'], user_before['first_name'])
         self.assertNotEqual(res.data['last_name'], user_before['last_name'])
