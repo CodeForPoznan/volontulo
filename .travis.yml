@@ -8,7 +8,6 @@ install:
   - pip install -r backend/requirements/dev.txt
 
   - nvm install 9.3.0
-  - npm install -g @angular/cli
   - cd frontend && npm install && cd -
 script:
   - cd backend
@@ -21,8 +20,8 @@ script:
   - cd ..
 
   - cd frontend
-  - ng lint
-  - ng test --single-run --code-coverage --browsers HeadlessChrome
+  - $(npm bin)/ng lint
+  - $(npm bin)/ng test --single-run --code-coverage --browsers HeadlessChrome
   - cd ..
 after_success:
   - codecov --file backend/coverage.xml

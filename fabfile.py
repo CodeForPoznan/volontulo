@@ -69,8 +69,8 @@ def update():
         cd('/var/www/volontulo/frontend'),
     ):
         run('npm install .')
-        run('./node_modules/.bin/ng build --prod --env={}'.format(env.host_string))
-        run('./node_modules/.bin/ng build --prod --env={} --app 1 --output-hashing=false'.format(env.host_string))
+        run('$(npm bin)/ng build --prod --env={}'.format(env.host_string))
+        run('$(npm bin)/ng build --prod --env={} --app 1 --output-hashing=false'.format(env.host_string))
         run('./node_modules/.bin/webpack --config webpack.server.config.js --progress --colors')
 
     run('systemctl restart uwsgi.service')
@@ -194,8 +194,8 @@ Socket                  inet:12301@localhost
         cd('/var/www/volontulo/frontend'),
     ):
         run('npm install .')
-        run('./node_modules/.bin/ng build --prod --env={}'.format(env.host_string))
-        run('./node_modules/.bin/ng build --prod --env={} --app 1 --output-hashing=false'.format(env.host_string))
+        run('$(npm bin)/ng build --prod --env={}'.format(env.host_string))
+        run('$(npm bin)/ng build --prod --env={} --app 1 --output-hashing=false'.format(env.host_string))
         run('./node_modules/.bin/webpack --config webpack.server.config.js --progress --colors')
         run("sudo -u www-data bash -c 'export PATH=/var/www/.nvm/versions/node/v{}/bin:$PATH && export HOME=/var/www  && export VOLONTULO_PM2_HOST=127.0.0.1 && pm2 start dist/server && pm2 save'".format(NODE_VERSION))
         run("env PATH=$PATH:/var/www/.nvm/versions/node/v{}/bin /var/www/.nvm/versions/node/v{}/lib/node_modules/pm2/bin/pm2 startup ubuntu -u www-data --hp /var/www".format(NODE_VERSION, NODE_VERSION))
