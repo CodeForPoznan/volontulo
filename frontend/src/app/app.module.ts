@@ -29,8 +29,6 @@ import { RegulationsComponent } from './static/regulations.component';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './auth.service';
 import { OfferDetailComponent } from './offers/offer-detail/offer-detail.component';
-import { IconComponent } from './icon/icon.component';
-import { IconLabelComponent } from './icon-label/icon-label.component';
 import { BannerComponent } from './banner/banner.component';
 import { MessagesComponent } from './messages/messages.component';
 import { MessagesService } from './messages/messages.service';
@@ -55,6 +53,7 @@ import { ContactResolver } from './resolvers';
 import { FormErrorComponent } from './form-error/form-error.component';
 import { ContactService } from './contact.service';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 Raven.config(environment.sentryDSN).install();
 
@@ -192,8 +191,6 @@ registerLocaleData(localePl);
     RegulationsComponent,
     LoginComponent,
     OfferDetailComponent,
-    IconComponent,
-    IconLabelComponent,
     BannerComponent,
     OrganizationsComponent,
     FaqOrganizationsComponent,
@@ -226,6 +223,7 @@ registerLocaleData(localePl);
     RouterModule.forRoot(appRoutes),
     CookieModule.forRoot(),
     ReactiveFormsModule,
+    FontAwesomeModule,
   ],
   providers: [
     AuthService,

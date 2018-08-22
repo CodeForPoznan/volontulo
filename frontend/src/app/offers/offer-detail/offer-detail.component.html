@@ -7,13 +7,18 @@
                     <div class="header-panel">{{ offer.title }}</div>
                     <div class="clearfix"></div>
                     <div class="header-labels">
-                        <volontulo-icon-label icon="place">{{ offer.location }}</volontulo-icon-label>
-                        <volontulo-icon-label icon="access_time">{{ offer.startedAt | date:'shortDate' }} - {{ offer.finishedAt | date:'shortDate' }}</volontulo-icon-label>
-                        <volontulo-icon-label icon="edit" *ngIf="(isUserOrgMember$ | async)">
-                            <a [routerLink]="['edit']" class="btn btn-sm">
-                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                            Edytuj ofertę</a>
-                        </volontulo-icon-label>
+                        <div class="box">
+                            <div class="icon"><fa-icon [icon]="faMapMarkerAlt"></fa-icon></div>
+                            <div class="content">{{ offer.location }}</div>
+                        </div>
+                        <div class="box">
+                            <div class="icon"><fa-icon [icon]="faClock"></fa-icon></div>
+                            <div class="content">{{ offer.startedAt | date:'shortDate' }} - {{ offer.finishedAt | date:'shortDate' }}</div>
+                        </div>
+                        <div class="box" *ngIf="(isUserOrgMember$ | async)">
+                            <div class="icon"><fa-icon [icon]="faEdit"></fa-icon></div>
+                            <div class="content"><a [routerLink]="['edit']" class="btn btn-sm">Edytuj ofertę</a></div>
+                        </div>
                     </div>
                 </div>
             </div>

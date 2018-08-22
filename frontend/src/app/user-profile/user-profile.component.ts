@@ -4,6 +4,7 @@ import { User } from '../user';
 import { AuthService } from '../auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { skip, take } from 'rxjs/operators';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'volontulo-user-profile',
@@ -11,6 +12,7 @@ import { skip, take } from 'rxjs/operators';
 })
 export class UserProfileComponent implements OnInit {
   public user$: Observable<User>;
+  private faUser = faUser;
 
   public fg: FormGroup = this.fb.group({
     first_name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],

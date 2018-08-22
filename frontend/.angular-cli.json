@@ -19,7 +19,6 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "volontulo",
       "styles": [
-        "assets/css/bootstrap-glyphicons.css",
         "sass/styles.scss"
       ],
       "scripts": [],
@@ -47,7 +46,6 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "volontulo",
       "styles": [
-        "assets/css/bootstrap-glyphicons.css",
         "sass/styles.scss"
       ],
       "scripts": [],

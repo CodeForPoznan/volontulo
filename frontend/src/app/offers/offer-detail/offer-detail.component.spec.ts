@@ -1,11 +1,10 @@
 import { ActivatedRoute } from '@angular/router';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Subject } from 'rxjs/Subject';
 
 import { AuthService } from '../../auth.service';
-import { IconComponent } from '../../icon/icon.component';
-import { IconLabelComponent } from '../../icon-label/icon-label.component';
 import { OfferDetailComponent } from './offer-detail.component';
 import { OffersService } from '../../homepage-offer/offers.service';
 
@@ -20,8 +19,9 @@ describe('OfferDetailComponent', () => {
       ],
       declarations: [
         OfferDetailComponent,
-        IconLabelComponent,
-        IconComponent,
+      ],
+      schemas: [
+        CUSTOM_ELEMENTS_SCHEMA
       ],
       providers: [
         {

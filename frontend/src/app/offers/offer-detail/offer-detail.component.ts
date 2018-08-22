@@ -2,7 +2,7 @@ import 'rxjs/add/operator/switchMap';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-
+import { faMapMarkerAlt, faClock, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { environment } from '../../../environments/environment';
 import { Offer } from '../../homepage-offer/offers.model';
 import { OffersService } from '../../homepage-offer/offers.service';
@@ -20,6 +20,9 @@ export class OfferDetailComponent implements OnInit {
   public getJoinViewUrl = this.offersService.getJoinViewUrl;
   isUserOrgMember$: Observable<boolean>;
   user$: Observable<User | null>;
+  private faMapMarkerAlt = faMapMarkerAlt;
+  private faClock = faClock;
+  private faEdit = faEdit;
 
   constructor(
     private activatedRoute: ActivatedRoute,

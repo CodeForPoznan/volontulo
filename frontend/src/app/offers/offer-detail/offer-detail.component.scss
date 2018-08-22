@@ -25,18 +25,41 @@
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.2), 0 0px 1px rgba(0, 0, 0, 0.6), 0 1px 0 rgba(0, 0, 0, 0.6);
 }
 
-.header-labels volontulo-icon-label /deep/ {
-    font-size: 16px;
-}
-
 .header-labels {
     display: flex;
     flex-wrap: nowrap;
 }
 .card {
     margin: 15px;
-  }
+}
   
-volontulo-icon-label {
-    margin: 10px;
+.box {
+    color: #434A54;
+    display: flex;
+    flex-wrap: nowrap;
+    height: 45px;
+    opacity: .92;
+    margin: 20px;
+}
+
+.icon {
+    align-items: center;
+    background-color: #E6E9ED;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 0px;
+    display: flex;
+    justify-content: center;
+    width: 54px;
+}
+
+.content {
+    background: #fff;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 3px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 3px;
+    line-height: 45px;
+    padding: 0 10px;
 }
