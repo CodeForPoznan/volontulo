@@ -47,6 +47,7 @@ import { RegisterComponent } from './register/register.component';
 import { ActivationComponent } from './activation/activation.component';
 import { LoggedInGuard } from './guards/loggedInGuard.service';
 import { LoggedOutGuard } from './guards/loggedOutGuard.service';
+import { MetatagsService } from './metatags.service';
 import { AccountComponent} from './account/account.component';
 import { ContactComponent } from './contact/contact.component';
 import { ContactResolver } from './resolvers';
@@ -226,6 +227,7 @@ registerLocaleData(localePl);
     FontAwesomeModule,
   ],
   providers: [
+    MetatagsService,
     AuthService,
     OffersService,
     OrganizationService,
