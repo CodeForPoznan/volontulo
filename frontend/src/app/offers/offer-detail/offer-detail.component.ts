@@ -20,9 +20,9 @@ export class OfferDetailComponent implements OnInit {
   public getJoinViewUrl = this.offersService.getJoinViewUrl;
   isUserOrgMember$: Observable<boolean>;
   user$: Observable<User | null>;
-  private faMapMarkerAlt = faMapMarkerAlt;
-  private faClock = faClock;
-  private faEdit = faEdit;
+  faMapMarkerAlt = faMapMarkerAlt;
+  faClock = faClock;
+  faEdit = faEdit;
 
   constructor(
     private activatedRoute: ActivatedRoute,

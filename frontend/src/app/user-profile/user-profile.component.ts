@@ -12,7 +12,7 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 })
 export class UserProfileComponent implements OnInit {
   public user$: Observable<User>;
-  private faUser = faUser;
+  faUser = faUser;
 
   public fg: FormGroup = this.fb.group({
     first_name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
