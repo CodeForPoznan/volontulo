@@ -23,6 +23,7 @@ export class ContactComponent implements OnInit {
     administrator_email: ['', [Validators.required, Validators.email]],
     message: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(2000)]],
     phone_no: ['', [Validators.maxLength(20)]],
+    honey_value: ['']
   });
 
   public submitEnabled = true;
@@ -59,8 +60,9 @@ export class ContactComponent implements OnInit {
   }
 
   submitForm() {
-    if (this.fg.valid) {
+    if (this.fg.valid && !this.fg.value.honey_value) {
       this.submitEnabled = false;
+      delete this.fg.value.honey_value;
 
       this.contactService.contactAdmin(this.fg.value)
         .pipe(finalize(() => this.submitEnabled = true))

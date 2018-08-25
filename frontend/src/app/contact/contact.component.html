@@ -32,7 +32,6 @@
           </select>
         </div>
       </div>
-
       <div class="form-group row">
         <label class="col-md-3 col-form-label">Twoje imię i nazwisko:</label>
         <div class="col-md-9">
@@ -61,7 +60,12 @@
           <volontulo-form-error [fc]="fg.controls.message" [minLength]="10" [maxLength]="2000"></volontulo-form-error>
         </div>
       </div>
-
+      <div class="form-group row d-none">
+        <label class="col-md-3 col-form-label">Bot trap</label>
+        <div class="col-md-9">
+          <input type="text" class="form-control" formControlName="honey_value" />
+        </div>
+      </div>
       <div class="form-group row">
         <div class="col-md-offset-3 col-md-9">
           <button [disabled]="fg.invalid && submitEnabled" type="submit" name="submit" class="btn btn-primary" (click)="submitForm()">
