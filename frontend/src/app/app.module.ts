@@ -2,7 +2,7 @@ import { ErrorHandler, NgModule, PLATFORM_ID, LOCALE_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
-import { registerLocaleData } from '@angular/common';
+import { registerLocaleData, Location } from '@angular/common';
 import localePl from '@angular/common/locales/pl';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CookieModule } from 'ngx-cookie';
@@ -237,6 +237,7 @@ registerLocaleData(localePl);
     LoggedOutGuard,
     ContactResolver,
     ContactService,
+    Location,
     { provide: LOCALE_ID, useValue: 'pl' },
     { provide: WindowService, useFactory: WindowFactory, deps: [PLATFORM_ID] },
     { provide: ErrorHandler, useFactory: ErrorHandlerFactory },

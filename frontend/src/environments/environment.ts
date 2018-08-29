@@ -4,9 +4,11 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
+  angularRoot: 'http://localhost:4200',
   apiRoot: 'http://localhost:4200/api',
   djangoRoot: 'http://localhost:8000/o',
   production: false,
   sentryDSN: null,
   googleAnalyticsAppID: null,
+  fbAppID: null,
 };

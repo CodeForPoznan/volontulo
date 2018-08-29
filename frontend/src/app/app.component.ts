@@ -3,7 +3,7 @@ import { Router, NavigationEnd } from '@angular/router';
 
 import { environment } from '../environments/environment';
 import { WindowService } from './window.service';
-
+import { MetatagsService } from './metatags.service';
 
 @Component({
   selector: 'volontulo-root',
@@ -14,6 +14,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     @Inject(WindowService) private window: any,
+    private metatagsService: MetatagsService,
     private router: Router
   ) { }
 
@@ -21,6 +22,8 @@ export class AppComponent implements OnInit {
     this.window.ga('create', environment.googleAnalyticsAppID, 'auto');
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
+        this.metatagsService.setMeta();
+
         this.window.ga('set', 'page', event.urlAfterRedirects);
         this.window.ga('send', 'pageview');
       }
