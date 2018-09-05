@@ -42,6 +42,8 @@ from apps.volontulo.serializers import (
 )
 from apps.volontulo.views import logged_as_admin
 
+from apps.volontulo.serializers import OfferSerializer
+
 
 @api_view(['POST'])
 @authentication_classes((CsrfExemptSessionAuthentication,))
@@ -361,3 +363,18 @@ class PasswordChangeView(APIView):
         user.set_password(data['password_new'])
         user.save()
         return Response({}, status.HTTP_200_OK)
+
+
+class JoinedOffers(APIView):
+    """Get info about all offers that user joined."""
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (CsrfExemptSessionAuthentication,)
+
+    def get(self, request):
+        offers = request.user.offer_set.all()
+        return Response(
+            OfferSerializer(
+                offers, many=True, context={'request': request}
+            ).data,
+            status.HTTP_200_OK
+        )

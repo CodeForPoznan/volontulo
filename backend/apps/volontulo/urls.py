@@ -66,6 +66,11 @@ urlpatterns = [
         api_views.activate_view,
         name='activate'
     ),
+    url(
+        r'^api/joined-offers/',
+        api_views.JoinedOffers.as_view(),
+        name='joined_offers',
+    ),
 
 
     # login and loggged user space:
