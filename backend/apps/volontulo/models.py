@@ -47,11 +47,15 @@ class OffersManager(models.Manager):
 
     def get_active(self):
         """Return active offers."""
+        now = timezone.now()
+
         return self.filter(
             # that covers action_status__in=('ongoing', 'future'):
-            Q(finished_at__isnull=True) | Q(finished_at__gte=timezone.now()),
+            Q(finished_at__isnull=True) | Q(finished_at__gte=now),
+            # that covers recruitment_status__in=('ongoing', 'future'):
+            Q(recruitment_end_date__isnull=True) |
+            Q(recruitment_end_date__gte=now),
             offer_status='published',
-            recruitment_status__in=('open', 'supplemental'),
         ).all()
 
     def get_for_administrator(self):
@@ -71,11 +75,6 @@ class Offer(models.Model):
         ('published', 'Published'),
         ('rejected', 'Rejected'),
     )
-    RECRUITMENT_STATUSES = (
-        ('open', 'Open'),
-        ('supplemental', 'Supplemental'),
-        ('closed', 'Closed'),
-    )
 
     objects = OffersManager()
     organization = models.ForeignKey(Organization)
@@ -93,11 +92,6 @@ class Offer(models.Model):
         max_length=16,
         choices=OFFER_STATUSES,
         default='unpublished',
-    )
-    recruitment_status = models.CharField(
-        max_length=16,
-        choices=RECRUITMENT_STATUSES,
-        default='open',
     )
     votes = models.BooleanField(default=0)
     recruitment_start_date = models.DateTimeField(blank=True, null=True)
@@ -132,7 +126,6 @@ class Offer(models.Model):
     def create_new(self):
         """Set status while creating new offer."""
         self.offer_status = 'unpublished'
-        self.recruitment_status = 'open'
 
     @property
     def action_status(self):
@@ -142,6 +135,17 @@ class Offer(models.Model):
         if self.started_at and self.started_at > now:
             return 'future'
         if self.finished_at and self.finished_at < now:
+            return 'finished'
+        return 'ongoing'
+
+    @property
+    def recruitment_status(self):
+        """Determine recruitment status by recruitment dates."""
+        now = timezone.now()
+
+        if self.recruitment_start_date and self.recruitment_start_date > now:
+            return 'future'
+        if self.recruitment_end_date and self.recruitment_end_date < now:
             return 'finished'
         return 'ongoing'
 

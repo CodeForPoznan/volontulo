@@ -93,6 +93,7 @@ def test_offer_list_fields(self, offer):
                           (str, type(None)))
     self.assertIsInstance(offer.pop('reserve_recruitment_end_date'),
                           (str, type(None)))
+    self.assertIsInstance(offer.pop('recruitment_status'), str)
     self.assertIsInstance(offer.pop('action_ongoing'), bool)
     self.assertIsInstance(offer.pop('constant_coop'), bool)
     self.assertIsInstance(offer.pop('volunteers_limit'), int)

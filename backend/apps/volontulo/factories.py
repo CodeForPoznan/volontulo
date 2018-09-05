@@ -239,9 +239,6 @@ class OfferFactory(factory.DjangoModelFactory):
     offer_status = factory.fuzzy.FuzzyChoice(
         choices=("unpublished", "published", "rejected")
     )
-    recruitment_status = factory.fuzzy.FuzzyChoice(
-        choices=("open", "supplemental", "closed")
-    )
     votes = factory.fuzzy.FuzzyChoice(choices=(True, False))
     recruitment_start_date = factory.fuzzy.FuzzyDateTime(
         _offer_start_date_min,

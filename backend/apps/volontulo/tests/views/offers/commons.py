@@ -18,13 +18,12 @@ class TestOffersCommons(object):
         cls.inactive_offer = OfferFactory(
             organization=cls.organization,
             offer_status='unpublished',
-            recruitment_status='open',
         )
         cls.active_offer = OfferFactory(
             organization=cls.organization,
             offer_status='published',
-            recruitment_status='open',
             finished_at=None,
+            recruitment_end_date=None,
         )
 
         cls.volunteer = UserProfileFactory.create(

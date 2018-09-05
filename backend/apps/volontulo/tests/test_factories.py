@@ -225,10 +225,6 @@ class OfferFactoryTestCase(TestCase):
             self.offer.offer_status,
             ("unpublished", "published", "rejected")
         )
-        self.assertIn(
-            self.offer.recruitment_status,
-            ("open", "supplemental", "closed")
-        )
 
     def test_offer_integer_fields(self):
         """Test if integer fields contain integer value."""
