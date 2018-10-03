@@ -261,4 +261,24 @@ describe('Auth service', () => {
       expect(subscribeExecuted).toBe(true);
     });
   });
+
+  describe('update user', () => {
+    it('should successfully update current user', () => {
+      const testUser = {
+        firstName: 'Jon',
+        lastName: 'Doe',
+        phoneNo: '444555666'
+      };
+      service.user$
+      .subscribe(
+        user => {
+          subscribeExecuted = true;
+          expect(user).toEqual(testUser as User);
+      });
+      service.updateUser(testUser as User);
+      httpTestingController.expectOne(`${environment.apiRoot}/current-user/`)
+        .flush(testUser);
+      expect(subscribeExecuted).toBe(true);
+    });
+  });
 });

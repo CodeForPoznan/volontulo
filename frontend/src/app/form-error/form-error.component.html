@@ -12,5 +12,8 @@
     <div *ngIf="fc.errors?.maxlength">
       Maksymalna długość to {{ maxLength }} znaków.
     </div>
+    <div *ngIf="customError">
+      {{ customError }}.
+    </div>
   </ng-container>
 </div>

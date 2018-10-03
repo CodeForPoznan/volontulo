@@ -61,7 +61,9 @@
           required
           minlength="9"
           maxlength="15"
-          #phoneNo="ngModel" />
+          #phoneNo="ngModel"
+          [imask]="{mask: '+48 000-000-000'}"
+          [unmask]="true"/>
         <div
           class="invalid-feedback"
           *ngIf="phoneNo.invalid && phoneNo.touched">Proszę podać numer telefonu.</div>

@@ -17,7 +17,7 @@ export class UserProfileComponent implements OnInit {
   public fg: FormGroup = this.fb.group({
     first_name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
     last_name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
-    phone_no: ['', [Validators.maxLength(32)]],
+    phone_no: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9), Validators.pattern(/^[0-9]{9}$/)]],
   });
   public submitEnabled = true;
   public success: null | boolean = null;

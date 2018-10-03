@@ -10,4 +10,5 @@ export class FormErrorComponent {
   @Input() fc: FormControl;
   @Input() minLength: number;
   @Input() maxLength: number;
+  @Input() customError: string;
 }

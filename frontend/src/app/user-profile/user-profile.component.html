@@ -26,8 +26,11 @@
 
     <div class="form-group">
       <label for="phone_no">Numer telefonu</label>
-      <input type="text" class="form-control" id="phone_no" placeholder="Numer telefonu" [formControl]="fg.controls.phone_no">
-      <volontulo-form-error [fc]="fg.controls.phone_no" [maxLength]="32"></volontulo-form-error>
+      <input type="text" class="form-control" id="phone_no" placeholder="Numer telefonu"
+      [formControl]="fg.controls.phone_no"
+      [imask]="{mask: '+48 000-000-000'}"
+      [unmask]="true">
+      <volontulo-form-error [fc]="fg.controls.phone_no" [minLength]="9" [maxLength]="9" [customError]="'Wprowadź poprawny numer np. +48 111-222-333'"></volontulo-form-error>
     </div>
 
     <button [disabled]="fg.invalid && submitEnabled" type="submit" class="btn btn-primary" (click)="updateUser()">Zapisz</button>
