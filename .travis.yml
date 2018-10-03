@@ -20,6 +20,7 @@ script:
   - cd ..
 
   - cd frontend
+  - $(npm bin)/ng build --prod --env=dev
   - $(npm bin)/ng lint
   - $(npm bin)/ng test --single-run --code-coverage --browsers HeadlessChrome
   - cd ..
