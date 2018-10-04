@@ -31,6 +31,8 @@ backend:
 
 db:
   image: postgres
+  # ports:
+  #   - 5432:5432
   environment:
     POSTGRES_DB: volontulo
     POSTGRES_USER: volontulo
