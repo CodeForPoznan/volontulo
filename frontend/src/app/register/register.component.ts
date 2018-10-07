@@ -14,6 +14,7 @@ export class RegisterComponent {
   registerModel: RegisterRequestModel = {
     email: '',
     password: '',
+    confirmPassword: '',
   };
   honeyBunny = '';
   ACCEPT_TERMS = 'Wyrażam zgodę na przetwarzanie moich danych osobowych';
@@ -22,12 +23,18 @@ export class RegisterComponent {
 
   @ViewChild('checkboxTA') public checkboxTA: NgControl;
 
+  checkPasswords(): boolean {
+    const password = this.registerModel.password;
+    const confirmPassword = this.registerModel.confirmPassword;
+    return password === confirmPassword;
+  }
+
   constructor(private authService: AuthService,
   ) {
   }
 
   register(): void {
-    if (this.honeyBunny === '') {
+    if (this.honeyBunny === '' && this.checkPasswords()) {
       this.checkboxTA.control.markAsDirty();
       if (!this.checkboxTA.control.value) {
         return;

@@ -35,6 +35,25 @@
       Pole 'Hasło' jest wymagane.
     </div>
   </div>
+  <div class="form-group">
+    <p>Powtórz hasło:</p>
+    <input
+      type="password"
+      name="confirm-password"
+      class="form-control form-control-lg"
+      [(ngModel)]="registerModel.confirmPassword"
+      [ngClass]="{'is-invalid': confirmPassword.invalid && confirmPassword.touched}"
+      required
+      #confirmPassword="ngModel" />
+    <div *ngIf="confirmPassword.invalid && confirmPassword.touched" class="invalid-feedback">
+      Pole 'Powtórz hasło' jest wymagane.
+    </div>
+  </div>
+  <div *ngIf="confirmPassword.touched && password.touched && !checkPasswords()">
+    <ngb-alert type="danger" [dismissible]="false">
+      <strong>Hasła muszą być takie same.</strong>
+    </ngb-alert>
+  </div>
   <div class="form-group d-none">
     <div class="col-md-9 offset-md-3">
       <label class="col-md-3 col-form-label" for="id_honey">Are you a bot?</label>
@@ -70,7 +89,7 @@
     type="submit"
     name="submit"
     class="btn btn-primary"
-    [disabled]="password.errors || email.errors">
+    [disabled]="password.errors || email.errors || !checkPasswords()">
     Zarejestruj się
   </button>
 </form>

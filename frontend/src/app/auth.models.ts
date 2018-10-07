@@ -6,5 +6,5 @@ export interface LoginRequestModel {
 export interface RegisterRequestModel {
     email: string;
     password: string;
+    confirmPassword: string;
 }
-
