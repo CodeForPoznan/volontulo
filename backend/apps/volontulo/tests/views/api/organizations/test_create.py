@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 .. module:: test_create
 """
@@ -7,17 +5,19 @@
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from apps.volontulo.tests.views.offers.commons import TestOffersCommons
+from apps.volontulo.factories import OrganizationFactory
+from apps.volontulo.factories import UserFactory
 
 
-class _TestOrganizationsCreateAPIView(TestOffersCommons, APITestCase):
+class _TestOrganizationsCreateAPIView(APITestCase):
 
     """Tests for REST API's create organization view."""
 
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         """Set up each test."""
-        super(_TestOrganizationsCreateAPIView, self).setUp()
-        self.organization_payload = b"""{
+        super().setUpClass()
+        cls.organization_payload = b"""{
             "name": "TM",
             "description": "Opis",
             "address": "ul. Koperkowa 7"
@@ -30,8 +30,10 @@ class TestAdminUserOrganizationsCreateAPIView(_TestOrganizationsCreateAPIView):
 
     def setUp(self):
         """Set up each test."""
-        super(TestAdminUserOrganizationsCreateAPIView, self).setUp()
-        self.client.login(username='admin@example.com', password='123admin')
+        super().setUp()
+        self.client.force_login(UserFactory(
+            userprofile__is_administrator=True
+        ))
 
     def test_organization_create_status(self):
         """Test organization's create status for admin user.
@@ -54,11 +56,10 @@ class TestOrganizationUserOrganizationsCreateAPIView(
 
     def setUp(self):
         """Set up each test."""
-        super(TestOrganizationUserOrganizationsCreateAPIView, self).setUp()
-        self.client.login(
-            username='cls.organization@example.com',
-            password='123org'
-        )
+        super().setUp()
+        self.client.force_login(UserFactory(
+            userprofile__organizations=[OrganizationFactory()]
+        ))
 
     def test_organization_create_status(self):
         """Test organization create status for user with organization.
@@ -81,11 +82,8 @@ class TestRegularUserOrganizationsCreateAPIView(
 
     def setUp(self):
         """Set up each test."""
-        super(TestRegularUserOrganizationsCreateAPIView, self).setUp()
-        self.client.login(
-            username='volunteer@example.com',
-            password='123volunteer'
-        )
+        super().setUp()
+        self.client.force_login(UserFactory())
 
     def test_organization_create_status(self):
         """Test organization create status for regular user.

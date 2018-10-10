@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 .. module:: test_list
 """
@@ -7,17 +5,22 @@
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from apps.volontulo.tests.views.offers.commons import TestOffersCommons
+from apps.volontulo.factories import OfferFactory
+from apps.volontulo.factories import OrganizationFactory
+from apps.volontulo.factories import UserFactory
 from apps.volontulo.tests import common
 
 
-class _TestOffersListAPIView(TestOffersCommons, APITestCase):
+class _TestOffersListAPIView(APITestCase):
 
     """Tests for REST API's list offers view."""
 
     def test_offer_list_fields(self):
         """Test list's fields of offers REST API endpoint."""
+        OfferFactory.create_batch(42)
+
         response = self.client.get('/api/offers/')
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         for offer in response.data:
             common.test_offer_list_fields(self, offer)
@@ -29,18 +32,22 @@ class TestAdminUserOffersListAPIView(_TestOffersListAPIView):
 
     def setUp(self):
         """Set up each test."""
-        super(TestAdminUserOffersListAPIView, self).setUp()
-        self.client.login(username='admin@example.com', password='123admin')
+        super().setUp()
+        self.client.force_login(UserFactory(
+            userprofile__is_administrator=True
+        ))
 
     def test_offer_list_length(self):
         """Test offers list length for admin user.
 
         All existing offers are visible for admin user.
         """
+        OfferFactory.create_batch(42)
+
         response = self.client.get('/api/offers/')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 2)
+        self.assertEqual(len(response.data), 42)
 
 
 class TestOrganizationUserOffersListAPIView(_TestOffersListAPIView):
@@ -49,22 +56,27 @@ class TestOrganizationUserOffersListAPIView(_TestOffersListAPIView):
 
     def setUp(self):
         """Set up each test."""
-        super(TestOrganizationUserOffersListAPIView, self).setUp()
-        self.client.login(
-            username='cls.organization@example.com',
-            password='123org'
-        )
+        super().setUp()
+        self.organization = OrganizationFactory()
+        self.client.force_login(UserFactory(
+            userprofile__organizations=[self.organization]
+        ))
 
     def test_offer_list_length(self):
         """Test offers list length for user with organization.
 
-        Because we set up only 1 unpublished offer create for user's
-        organization and 1 published, user with organization will see 2 offers.
+        Because we set up 74 unpublished offer create for user's organization
+        and 21 published, user with organization will see 95 offers.
         """
+        OfferFactory.create_batch(21, offer_status='published')
+        OfferFactory.create_batch(37, offer_status='unpublished')
+        OfferFactory.create_batch(42, offer_status='rejected')
+        OfferFactory.create_batch(74, organization=self.organization)
+
         response = self.client.get('/api/offers/')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 2)
+        self.assertEqual(len(response.data), 95)
 
 
 class TestRegularUserOffersListAPIView(_TestOffersListAPIView):
@@ -73,22 +85,23 @@ class TestRegularUserOffersListAPIView(_TestOffersListAPIView):
 
     def setUp(self):
         """Set up each test."""
-        super(TestRegularUserOffersListAPIView, self).setUp()
-        self.client.login(
-            username='volunteer@example.com',
-            password='123volunteer'
-        )
+        super().setUp()
+        self.client.force_login(UserFactory())
 
     def test_offer_list_length(self):
         """Test offers list length for regular user.
 
-        Because we set up only 1 unpublished offer and 1 published, only one
-        will be visible for regular user.
+        Because we set up 34 published offers, only them  will be visible for
+        regular user.
         """
+        OfferFactory.create_batch(34, offer_status='published')
+        OfferFactory.create_batch(73, offer_status='unpublished')
+        OfferFactory.create_batch(37, offer_status='rejected')
+
         response = self.client.get('/api/offers/')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
+        self.assertEqual(len(response.data), 34)
 
 
 class TestAnonymousUserOffersListAPIView(_TestOffersListAPIView):
@@ -98,10 +111,14 @@ class TestAnonymousUserOffersListAPIView(_TestOffersListAPIView):
     def test_offer_list_length(self):
         """Test offers list length for anonymous user.
 
-        Because we set up only 1 unpublished offer and 1 published, only one
-        will be visible for anonymous user.
+        Because we set up 13 published offers, only them will be visible for
+        anonymous user.
         """
+        OfferFactory.create_batch(13, offer_status='published')
+        OfferFactory.create_batch(54, offer_status='unpublished')
+        OfferFactory.create_batch(47, offer_status='rejected')
+
         response = self.client.get('/api/offers/')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
+        self.assertEqual(len(response.data), 13)

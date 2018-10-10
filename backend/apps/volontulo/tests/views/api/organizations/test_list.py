@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 .. module:: test_list
 """
@@ -7,15 +5,18 @@
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from apps.volontulo.tests.views.offers.commons import TestOffersCommons
+from apps.volontulo.factories import OrganizationFactory
+from apps.volontulo.factories import UserFactory
 
 
-class _TestOrganizationsListAPIView(TestOffersCommons, APITestCase):
+class _TestOrganizationsListAPIView(APITestCase):
 
     """Tests for REST API's list organizations view."""
 
     def test_organization_list_fields(self):
         """Test list's fields of organization REST API endpoint."""
+        OrganizationFactory.create_batch(56)
+
         response = self.client.get('/api/organizations/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         for organization in response.data:
@@ -34,18 +35,22 @@ class TestAdminUserOrganizationsListAPIView(_TestOrganizationsListAPIView):
 
     def setUp(self):
         """Set up each test."""
-        super(TestAdminUserOrganizationsListAPIView, self).setUp()
-        self.client.login(username='admin@example.com', password='123admin')
+        super().setUp()
+        self.client.force_login(UserFactory(
+            userprofile__is_administrator=True
+        ))
 
     def test_organization_list_length(self):
         """Test organizations list length for admin user.
 
         Organizations are readable for everyone.
         """
+        OrganizationFactory.create_batch(61)
+
         response = self.client.get('/api/organizations/')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
+        self.assertEqual(len(response.data), 61)
 
 
 class TestOrganizationUserOrganizationsListAPIView(
@@ -55,21 +60,24 @@ class TestOrganizationUserOrganizationsListAPIView(
 
     def setUp(self):
         """Set up each test."""
-        super(TestOrganizationUserOrganizationsListAPIView, self).setUp()
-        self.client.login(
-            username='cls.organization@example.com',
-            password='123org'
-        )
+        super().setUp()
+        self.client.force_login(UserFactory(
+            userprofile__organizations=[OrganizationFactory()]
+        ))
 
     def test_organization_list_length(self):
         """Test organizations list length for user with organization.
 
         Organizations are readable for everyone.
         """
+        OrganizationFactory.create_batch(75)
+
         response = self.client.get('/api/organizations/')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
+
+        # it's 76 here, as one organization is created when user is created:
+        self.assertEqual(len(response.data), 76)
 
 
 class TestRegularUserOrganizationsListAPIView(_TestOrganizationsListAPIView):
@@ -78,21 +86,20 @@ class TestRegularUserOrganizationsListAPIView(_TestOrganizationsListAPIView):
 
     def setUp(self):
         """Set up each test."""
-        super(TestRegularUserOrganizationsListAPIView, self).setUp()
-        self.client.login(
-            username='volunteer@example.com',
-            password='123volunteer'
-        )
+        super().setUp()
+        self.client.force_login(UserFactory())
 
     def test_organization_list_length(self):
         """Test organizations list length for regular user.
 
         Organizations are readable for everyone.
         """
+        OrganizationFactory.create_batch(80)
+
         response = self.client.get('/api/organizations/')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
+        self.assertEqual(len(response.data), 80)
 
 
 class TestAnonymousUserOrganizationsListAPIView(_TestOrganizationsListAPIView):
@@ -104,7 +111,9 @@ class TestAnonymousUserOrganizationsListAPIView(_TestOrganizationsListAPIView):
 
         Organizations are readable for everyone.
         """
+        OrganizationFactory.create_batch(93)
+
         response = self.client.get('/api/organizations/')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
+        self.assertEqual(len(response.data), 93)

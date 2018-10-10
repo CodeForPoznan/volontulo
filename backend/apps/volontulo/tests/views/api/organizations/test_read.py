@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 .. module:: test_read
 """
@@ -7,11 +5,11 @@
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from apps.volontulo.models import Organization
-from apps.volontulo.tests.views.offers.commons import TestOffersCommons
+from apps.volontulo.factories import OrganizationFactory
+from apps.volontulo.factories import UserFactory
 
 
-class _TestOrganizationsReadAPIView(TestOffersCommons, APITestCase):
+class _TestOrganizationsReadAPIView(APITestCase):
 
     """Tests for REST API's read organization view."""
 
@@ -32,17 +30,19 @@ class TestAdminUserOrganizationsReadAPIView(_TestOrganizationsReadAPIView):
 
     def setUp(self):
         """Set up each test."""
-        super(TestAdminUserOrganizationsReadAPIView, self).setUp()
-        self.client.login(username='admin@example.com', password='123admin')
+        super().setUp()
+        self.client.force_login(UserFactory(
+            userprofile__is_administrator=True
+        ))
 
     def test_organization_read_status(self):
         """Test organization's read status for admin user.
 
         Organizations are readable for everyone.
         """
-        organization = Organization.objects.first()
         response = self.client.get(
-            '/api/organizations/{id}/'.format(id=organization.id))
+            '/api/organizations/{id}/'.format(id=OrganizationFactory().id))
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self._test_organization_read_fields(response.data)
 
@@ -54,20 +54,19 @@ class TestOrganizationUserOrganizationsReadAPIView(
 
     def setUp(self):
         """Set up each test."""
-        super(TestOrganizationUserOrganizationsReadAPIView, self).setUp()
-        self.client.login(
-            username='cls.organization@example.com',
-            password='123org'
-        )
+        super().setUp()
+        self.client.force_login(UserFactory(
+            userprofile__organizations=[OrganizationFactory()]
+        ))
 
     def test_organization_read_status(self):
         """Test organization's read status for user with organization.
 
         Organizations are readable for everyone.
         """
-        organization = Organization.objects.first()
         response = self.client.get(
-            '/api/organizations/{id}/'.format(id=organization.id))
+            '/api/organizations/{id}/'.format(id=OrganizationFactory().id))
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self._test_organization_read_fields(response.data)
 
@@ -78,20 +77,19 @@ class TestRegularUserOrganizationsReadAPIView(_TestOrganizationsReadAPIView):
 
     def setUp(self):
         """Set up each test."""
-        super(TestRegularUserOrganizationsReadAPIView, self).setUp()
-        self.client.login(
-            username='volunteer@example.com',
-            password='123volunteer'
-        )
+        super().setUp()
+        self.client.force_login(UserFactory())
 
     def test_organization_read_status(self):
         """Test organization's read status for regular user.
 
         Organizations are readable for everyone.
         """
-        organization = Organization.objects.first()
+        self.client.force_login(UserFactory())
+
         response = self.client.get(
-            '/api/organizations/{id}/'.format(id=organization.id))
+            '/api/organizations/{id}/'.format(id=OrganizationFactory().id))
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self._test_organization_read_fields(response.data)
 
@@ -105,8 +103,8 @@ class TestAnonymousUserOrganizationsReadAPIView(_TestOrganizationsReadAPIView):
 
         Organizations are readable for everyone.
         """
-        organization = Organization.objects.first()
         response = self.client.get(
-            '/api/organizations/{id}/'.format(id=organization.id))
+            '/api/organizations/{id}/'.format(id=OrganizationFactory().id))
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self._test_organization_read_fields(response.data)

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 .. module:: test_update
 """
@@ -7,17 +5,19 @@
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from apps.volontulo.tests.views.offers.commons import TestOffersCommons
+from apps.volontulo.factories import OrganizationFactory
+from apps.volontulo.factories import UserFactory
 
 
-class _TestOrganizationsUpdateAPIView(TestOffersCommons, APITestCase):
+class _TestOrganizationsUpdateAPIView(APITestCase):
 
     """Tests for REST API's update organization view."""
 
-    def setUp(self):
-        """Set up each test."""
-        super(_TestOrganizationsUpdateAPIView, self).setUp()
-        self.organization_payload = b"""{
+    @classmethod
+    def setUpClass(cls):
+        """Set up test case."""
+        super().setUpClass()
+        cls.organization_payload = b"""{
             "name": "TM",
             "description": "Opis",
             "address": "ul. Koperkowa 7"
@@ -30,8 +30,10 @@ class TestAdminUserOrganizationsUpdateAPIView(_TestOrganizationsUpdateAPIView):
 
     def setUp(self):
         """Set up each test."""
-        super(TestAdminUserOrganizationsUpdateAPIView, self).setUp()
-        self.client.login(username='admin@example.com', password='123admin')
+        super().setUp()
+        self.client.force_login(UserFactory(
+            userprofile__is_administrator=True
+        ))
 
     def test_organization_update_status(self):
         """Test organization's update status for admin user.
@@ -39,7 +41,7 @@ class TestAdminUserOrganizationsUpdateAPIView(_TestOrganizationsUpdateAPIView):
         API for now is read-only.
         """
         response = self.client.put(
-            '/api/organizations/{}/'.format(self.organization.id),
+            '/api/organizations/{}/'.format(OrganizationFactory().id),
             self.organization_payload,
             content_type='application/json',
         )
@@ -54,11 +56,11 @@ class TestOrganizationUserOrganizationsUpdateAPIView(
 
     def setUp(self):
         """Set up each test."""
-        super(TestOrganizationUserOrganizationsUpdateAPIView, self).setUp()
-        self.client.login(
-            username='cls.organization@example.com',
-            password='123org'
-        )
+        super().setUp()
+        self.organization = OrganizationFactory()
+        self.client.force_login(UserFactory(
+            userprofile__organizations=[self.organization]
+        ))
 
     def test_organization_update_status(self):
         """Test organization's update status for user with organization.
@@ -70,6 +72,7 @@ class TestOrganizationUserOrganizationsUpdateAPIView(
             self.organization_payload,
             content_type='application/json',
         )
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
@@ -80,19 +83,18 @@ class TestRegularUserOrganizationsUpdateAPIView(
 
     def setUp(self):
         """Set up each test."""
-        super(TestRegularUserOrganizationsUpdateAPIView, self).setUp()
-        self.client.login(
-            username='volunteer@example.com',
-            password='123volunteer'
-        )
+        super().setUp()
+        self.client.force_login(UserFactory())
 
     def test_organization_update_status(self):
         """Test organization's update status for regular user.
 
         API for now is read-only.
         """
+        self.client.force_login(UserFactory())
+
         response = self.client.put(
-            '/api/organizations/{}/'.format(self.organization.id),
+            '/api/organizations/{}/'.format(OrganizationFactory().id),
             self.organization_payload,
             content_type='application/json',
         )
@@ -110,7 +112,7 @@ class TestAnonymousUserOrganizationsUpdateAPIView(
         API for now is read-only.
         """
         response = self.client.put(
-            '/api/organizations/{}/'.format(self.organization.id),
+            '/api/organizations/{}/'.format(OrganizationFactory().id),
             self.organization_payload,
             content_type='application/json',
         )

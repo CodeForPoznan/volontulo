@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 .. module:: test_delete
 """
@@ -7,79 +5,78 @@
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from apps.volontulo.tests.views.offers.commons import TestOffersCommons
+from apps.volontulo.factories import OrganizationFactory
+from apps.volontulo.factories import UserFactory
 
 
-class TestAdminUserOrganizationsDeleteAPIView(TestOffersCommons, APITestCase):
+class TestAdminUserOrganizationsDeleteAPIView(APITestCase):
 
     """Tests for REST API's delete organization view for admin user."""
 
     def setUp(self):
         """Set up each test."""
-        super(TestAdminUserOrganizationsDeleteAPIView, self).setUp()
-        self.client.login(username='admin@example.com', password='123admin')
+        super().setUp()
+        self.client.force_login(UserFactory(
+            userprofile__is_administrator=True
+        ))
 
     def test_organization_delete_status(self):
         """Test organization's delete status for admin user.
 
         API for now is read-only.
         """
-        response = self.client.delete('/api/organizations/1/')
+        response = self.client.delete(
+            '/api/organizations/{}/'.format(OrganizationFactory())
+        )
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
 
-class TestOrganizationUserOrganizationsDeleteAPIView(
-        TestOffersCommons,
-        APITestCase):
+class TestOrganizationUserOrganizationsDeleteAPIView(APITestCase):
 
     """Tests for API's delete organization view for user with organization."""
 
     def setUp(self):
         """Set up each test."""
-        super(TestOrganizationUserOrganizationsDeleteAPIView, self).setUp()
-        self.client.login(
-            username='cls.organization@example.com',
-            password='123org'
-        )
+        super().setUp()
+        self.client.force_login(UserFactory(
+            userprofile__organizations=[OrganizationFactory()]
+        ))
 
     def test_organization_delete_status(self):
         """Test organization's delete status for user with organization.
 
         API for now is read-only.
         """
-        response = self.client.delete('/api/organizations/1/')
+        response = self.client.delete(
+            '/api/organizations/{}/'.format(OrganizationFactory())
+        )
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
 
-class TestRegularUserOrganizationsDeleteAPIView(
-        TestOffersCommons,
-        APITestCase):
+class TestRegularUserOrganizationsDeleteAPIView(APITestCase):
 
     """Tests for REST API's delete organization view for regular user."""
 
     def setUp(self):
         """Set up each test."""
-        super(TestRegularUserOrganizationsDeleteAPIView, self).setUp()
-        self.client.login(
-            username='volunteer@example.com',
-            password='123volunteer'
-        )
+        super().setUp()
+        self.client.force_login(UserFactory())
 
     def test_organization_delete_status(self):
         """Test organization's delete status for regular user.
 
         API for now is read-only.
         """
-        response = self.client.delete('/api/organizations/1/')
+        response = self.client.delete(
+            '/api/organizations/{}/'.format(OrganizationFactory())
+        )
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
 
-class TestAnonymousUserOrganizationsDeleteAPIView(
-        TestOffersCommons,
-        APITestCase):
+class TestAnonymousUserOrganizationsDeleteAPIView(APITestCase):
 
     """Tests for REST API's delete organization view for anonymous user."""
 
@@ -88,6 +85,8 @@ class TestAnonymousUserOrganizationsDeleteAPIView(
 
         API for now is read-only.
         """
-        response = self.client.delete('/api/organizations/1/')
+        response = self.client.delete(
+            '/api/organizations/{}/'.format(OrganizationFactory())
+        )
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)

@@ -1,6 +1,7 @@
 """
 .. module:: test_join
 """
+
 from django.urls import reverse
 
 from rest_framework import status
@@ -11,6 +12,7 @@ from apps.volontulo.factories import OfferFactory
 
 
 class TestAuthenticatedUserJoinOffer(APITestCase):
+
     """Tests for REST API's join offer view for authenticated user."""
 
     def setUp(self):
@@ -28,7 +30,7 @@ class TestAuthenticatedUserJoinOffer(APITestCase):
         response = self.client.post(reverse(
             'offer-join', kwargs={'pk': self.offer.id}))
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        post = self.client.get('/api/offers/1/')
+        post = self.client.get('/api/offers/{}/'.format(self.offer.id))
         self.assertEqual(post.data['joined'], True)
 
     def test_user_join_not_existing_offer(self):
@@ -38,6 +40,7 @@ class TestAuthenticatedUserJoinOffer(APITestCase):
 
 
 class TestNotAuthenticatedUserJoinOffer(APITestCase):
+
     """Tests for REST API's join offer view for not authenitcated user."""
 
     def test_user_join_offer_not_authenticated(self):

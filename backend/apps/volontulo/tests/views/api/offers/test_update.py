@@ -5,24 +5,28 @@
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from apps.volontulo.tests.views.offers.commons import TestOffersCommons
+from apps.volontulo.factories import OfferFactory
+from apps.volontulo.factories import OrganizationFactory
+from apps.volontulo.factories import UserFactory
 
 
-class _TestOffersUpdateAPIView(TestOffersCommons, APITestCase):
+class _TestOffersUpdateAPIView(APITestCase):
 
     """Tests for REST API's update offer view."""
 
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         """Set up each test."""
-        super(_TestOffersUpdateAPIView, self).setUp()
-        self.offer_payload = b"""{
+        super().setUpClass()
+        cls.organization = OrganizationFactory()
+        cls.offer_payload = b"""{
             "benefits": "offer benefits",
             "description": "offer description",
             "location": "offer location",
             "organization": {"id": %d},
             "timeCommitment": "offer time commitment",
             "title": "offer title"
-        }""" % self.organization.id
+        }""" % cls.organization.id
 
 
 class TestAdminUserOffersUpdateAPIView(_TestOffersUpdateAPIView):
@@ -31,8 +35,10 @@ class TestAdminUserOffersUpdateAPIView(_TestOffersUpdateAPIView):
 
     def setUp(self):
         """Set up each test."""
-        super(TestAdminUserOffersUpdateAPIView, self).setUp()
-        self.client.login(username='admin@example.com', password='123admin')
+        super().setUp()
+        self.client.force_login(UserFactory(
+            userprofile__is_administrator=True
+        ))
 
     def test_offer_update_status(self):
         """Test offer's update status for admin user.
@@ -40,7 +46,7 @@ class TestAdminUserOffersUpdateAPIView(_TestOffersUpdateAPIView):
         Admin user without connected organization is allowed to edit any offer.
         """
         response = self.client.put(
-            '/api/offers/{}/'.format(self.active_offer.id),
+            '/api/offers/{}/'.format(OfferFactory().id),
             self.offer_payload,
             content_type='application/json',
         )
@@ -54,21 +60,26 @@ class TestOrganizationUserOffersUpdateAPIView(_TestOffersUpdateAPIView):
 
     def setUp(self):
         """Set up each test."""
-        super(TestOrganizationUserOffersUpdateAPIView, self).setUp()
-        self.client.login(
-            username='cls.organization@example.com',
-            password='123org'
-        )
+        super().setUp()
+        self.client.force_login(UserFactory(
+            userprofile__organizations=[self.organization]
+        ))
 
     def test_offer_update_status(self):
         """Test offer's update status for user with organization.
 
         Regular user with connected organization is allowed to edit its offer.
         """
+        self.client.force_login(UserFactory(
+            userprofile__organizations=[self.organization]
+        ))
+
         response = self.client.put(
-            '/api/offers/{}/'.format(self.active_offer.id),
+            '/api/offers/{}/'.format(
+                OfferFactory(organization=self.organization).id
+            ),
             self.offer_payload,
-            content_type='application/json',
+            content_type='application/json'
         )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -80,11 +91,8 @@ class TestRegularUserOffersUpdateAPIView(_TestOffersUpdateAPIView):
 
     def setUp(self):
         """Set up each test."""
-        super(TestRegularUserOffersUpdateAPIView, self).setUp()
-        self.client.login(
-            username='volunteer@example.com',
-            password='123volunteer'
-        )
+        super().setUp()
+        self.client.force_login(UserFactory())
 
     def test_offer_update_status(self):
         """Test offer's update status for regular user.
@@ -92,11 +100,11 @@ class TestRegularUserOffersUpdateAPIView(_TestOffersUpdateAPIView):
         Regular user without connected organization is not allowed to edit
         offer.
         """
-        response = self.client.put(
-            '/api/offers/{}/'.format(self.active_offer.id),
-            self.offer_payload,
-            content_type='application/json',
-        )
+        self.client.force_login(UserFactory())
+
+        response = self.client.put('/api/offers/{}/'.format(
+            OfferFactory(offer_status='published').id
+        ), self.offer_payload, content_type='application/json')
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
@@ -110,10 +118,8 @@ class TestAnonymousUserOffersUpdateAPIView(_TestOffersUpdateAPIView):
 
         Anonymous user is not allowed to edit offer.
         """
-        response = self.client.put(
-            '/api/offers/{}/'.format(self.active_offer.id),
-            self.offer_payload,
-            content_type='application/json',
-        )
+        response = self.client.put('/api/offers/{}/'.format(
+            OfferFactory(offer_status='published').id
+        ), self.offer_payload, content_type='application/json',)
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)

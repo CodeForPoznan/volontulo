@@ -5,24 +5,26 @@
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from apps.volontulo.tests.views.offers.commons import TestOffersCommons
+from apps.volontulo.factories import OrganizationFactory
+from apps.volontulo.factories import UserFactory
 
 
-class _TestOffersCreateAPIView(TestOffersCommons, APITestCase):
+class _TestOffersCreateAPIView(APITestCase):
 
     """Tests for REST API's create offer view."""
 
-    def setUp(self):
-        """Set up each test."""
-        super(_TestOffersCreateAPIView, self).setUp()
-        self.offer_payload = b"""{
+    @classmethod
+    def setUpTestData(cls):
+        """Set up data for all tests."""
+        cls.organization = OrganizationFactory()
+        cls.offer_payload = b"""{
             "benefits": "offer benefits",
             "description": "offer description",
             "location": "offer location",
             "organization": {"id": %d},
             "timeCommitment": "offer time commitment",
             "title": "offer title"
-        }""" % self.organization.id
+        }""" % cls.organization.id
 
 
 class TestAdminUserOffersCreateAPIView(_TestOffersCreateAPIView):
@@ -31,8 +33,10 @@ class TestAdminUserOffersCreateAPIView(_TestOffersCreateAPIView):
 
     def setUp(self):
         """Set up each test."""
-        super(TestAdminUserOffersCreateAPIView, self).setUp()
-        self.client.login(username='admin@example.com', password='123admin')
+        super().setUp()
+        self.client.force_login(UserFactory(
+            userprofile__is_administrator=True
+        ))
 
     def test_offer_create_status(self):
         """Test offer's create status for admin user.
@@ -55,11 +59,10 @@ class TestOrganizationUserOffersCreateAPIView(_TestOffersCreateAPIView):
 
     def setUp(self):
         """Set up each test."""
-        super(TestOrganizationUserOffersCreateAPIView, self).setUp()
-        self.client.login(
-            username='cls.organization@example.com',
-            password='123org'
-        )
+        super().setUp()
+        self.client.force_login(UserFactory(
+            userprofile__organizations=[self.organization]
+        ))
 
     def test_offer_create_status(self):
         """Test offer's create status for user with organization.
@@ -82,11 +85,8 @@ class TestRegularUserOffersCreateAPIView(_TestOffersCreateAPIView):
 
     def setUp(self):
         """Set up each test."""
-        super(TestRegularUserOffersCreateAPIView, self).setUp()
-        self.client.login(
-            username='volunteer@example.com',
-            password='123volunteer'
-        )
+        super().setUp()
+        self.client.force_login(UserFactory())
 
     def test_offer_create_status(self):
         """Test offer's create status for regular user.
