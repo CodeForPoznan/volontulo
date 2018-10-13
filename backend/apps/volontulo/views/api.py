@@ -33,6 +33,7 @@ from apps.volontulo import models
 from apps.volontulo import permissions
 from apps.volontulo import serializers
 from apps.volontulo.authentication import CsrfExemptSessionAuthentication
+from apps.volontulo.filters import IsOfferJoinedFilter
 from apps.volontulo.lib.email import send_mail
 from apps.volontulo.models import Organization
 from apps.volontulo.models import UserProfile
@@ -201,7 +202,7 @@ class OfferViewSet(viewsets.ModelViewSet):
     queryset = models.Offer.objects.order_by('weight')
     serializer_class = serializers.OfferSerializer
     permission_classes = (permissions.OfferPermission,)
-    filter_backends = (DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend, IsOfferJoinedFilter)
     filter_fields = (
         'finished_at',
         'location',
