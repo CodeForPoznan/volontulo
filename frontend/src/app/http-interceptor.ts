@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
 import { HttpRequest, HttpInterceptor, HttpHandler, HttpEvent, HttpXsrfTokenExtractor } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { environment } from '../environments/environment';
+
+import { environment } from 'environments/environment';
 
 
 @Injectable()

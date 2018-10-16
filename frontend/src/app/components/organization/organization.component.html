@@ -1,0 +1,20 @@
+<div *ngIf="organization$ | async; else noOrganization">
+  <volontulo-organization-details *ngIf="organization$ | async as organization"
+  [organization]="organization"
+  [isUserOrgMember]="isUserOrgMember$ | async">
+</volontulo-organization-details>
+<volontulo-organization-contact
+  *ngIf="!(isUserOrgMember$ | async)"
+  (contact)="onContact($event)"
+  [contactStatus]="contactStatus$ | async">
+</volontulo-organization-contact>
+<volontulo-organization-offers-list
+  [offers]="offers$ | async"
+  [isUserOrgMember]="isUserOrgMember$ | async">
+</volontulo-organization-offers-list>
+</div>
+<ng-template #noOrganization>
+  <div class="container mt-3">
+    <h3>Nie znaleziono organizacji.</h3>
+  </div>
+</ng-template>

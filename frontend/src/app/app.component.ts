@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
-import { environment } from '../environments/environment';
-import { WindowService } from './window.service';
-import { MetatagsService } from './metatags.service';
+import { MetatagsService } from 'app/services/metatags.service';
+import { WindowService } from 'app/services/window.service';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'volontulo-root',

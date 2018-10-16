@@ -1,6 +1,7 @@
-import { HttpWithCredentialsInterceptor } from './http-interceptor';
 import { HttpRequest } from '@angular/common/http';
-import { environment } from '../environments/environment';
+
+import { HttpWithCredentialsInterceptor } from 'app/http-interceptor';
+import { environment } from 'environments/environment';
 
 class Handler {
   handle = jasmine.createSpy('handle');
