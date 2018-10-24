@@ -21,7 +21,7 @@ export class MetatagsService {
   public setMeta(title = 'Volontulo. Portal dla wolontariuszy', metatags = {}): void {
     this.titleService.setTitle(title);
 
-    // set default tags, that will be orverwritten below:
+// set default tags, that will be orverwritten below:
     this.metaService.updateTag({ property: 'og:url', content: this.getCanonicalUrl(this.locationService.path()) });
     this.metaService.updateTag({ property: 'og:title', content: 'Volontulo. Portal dla wolontariuszy' });
     this.metaService.updateTag({ property: 'og:description', content: 'Volontulo. Portal dla wolontariuszy'});
@@ -32,5 +32,4 @@ export class MetatagsService {
       .map((key) => ({ property: key, content: metatags[key] }))
       .forEach((metatag) => this.metaService.updateTag(metatag));
   }
-
 }
