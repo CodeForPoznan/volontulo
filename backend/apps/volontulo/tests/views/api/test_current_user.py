@@ -30,10 +30,7 @@ class TestCurrentUserViewGET(APITestCase, TestCase):
             ENDPOINT_URL, {}, format='json',
         )
 
-        # Authentication classes are messed up
-        # we have to rely on permission classes instead
-        # so here we get 403 instead of 401
-        self.assertEqual(res.status_code, 403)
+        self.assertEqual(res.status_code, 200)
 
     def test_get(self):
         self.client.force_login(self.user)
@@ -58,10 +55,7 @@ class TestCurrentUserViewPOST(APITestCase, TestCase):
             ENDPOINT_URL, {}, format='json',
         )
 
-        # Authentication classes are messed up
-        # we have to rely on permission classes instead
-        # so here we get 403 instead of 401
-        self.assertEqual(res.status_code, 403)
+        self.assertEqual(res.status_code, 200)
 
     def test_post_malformed(self):
         self.client.force_login(self.user)

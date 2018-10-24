@@ -38,11 +38,11 @@ export class AuthService {
     this.getUser()
       .subscribe(
         user => {
-          this.changeUserEvent.next(deepFreeze(user));
-        },
-        () => {
-          this.changeUserEvent.next(null);
-        },
+          if (user !== null) {
+            user = deepFreeze(user);
+          }
+          this.changeUserEvent.next(user);
+        }
       );
   }
 
